@@ -8,7 +8,7 @@
 #define NUM_PRIMATIVES NUM_TERMINALS+NUM_FUNCTIONS
 #define MAX_ARITY 3
 
-#define POPULATION_SIZE 50
+#define POPULATION_SIZE 10
 
 typedef enum primatives {
     INDEX,
@@ -25,18 +25,19 @@ typedef enum primatives {
 typedef struct {
     Primative primative;
     int arity;
+    char* name;
 } TableEntry;
 
-TableEntry arityTable[NUM_PRIMATIVES] = {
-    {INDEX,    0},
-    {LENGTH,   0},
-    {ITERATE,  3},
-    {SWAP,     2},
-    {SMALLEST, 2},
-    {LARGEST,  2},
-    {SUB,      2},
-    {INC,      1},
-    {DEC,      1}
+TableEntry primativeTable[NUM_PRIMATIVES] = {
+    {INDEX,    0, "INDEX"},
+    {LENGTH,   0, "LENGTH"},
+    {ITERATE,  3, "ITERATE"},
+    {SWAP,     2, "SWAP"},
+    {SMALLEST, 2, "SMALLEST"},
+    {LARGEST,  2, "LARGEST"},
+    {SUB,      2, "SUB"},
+    {INC,      1, "INC"},
+    {DEC,      1, "DEC"}
 };
 
 typedef struct {
@@ -49,12 +50,12 @@ typedef struct {
 
 Node population[POPULATION_SIZE];
 
-void printArityTable(){
+void printPrimativeTable(){
     
     for(int i = 0; i < NUM_PRIMATIVES; i++){
         
-        TableEntry entry = arityTable[i];
-        printf("i: %d, p: %d, a: %d\n", i, entry.primative, entry.arity);
+        TableEntry entry = primativeTable[i];
+        printf("i: %d, e: %d, a: %d n: %s\n", i, entry.primative, entry.arity, entry.name);
         
     }
     
@@ -76,28 +77,40 @@ void initialisePopulation(){
     for(int i = 0; i < NUM_TERMINALS; i++){
         
         population[i].primative = i;
-        
+        for(int j = 0; j < MAX_ARITY; j++){
+            
+             population[i].operands[i] = -1;
+            
+        }
     }
     
     for(int i = NUM_TERMINALS; i < POPULATION_SIZE; i++){
         
         Node* node = &population[i];
         
-        Primative primative = randRange(NUM_TERMINALS,POPULATION_SIZE-1);
+        Primative primative = randRange(NUM_TERMINALS,NUM_PRIMATIVES-1);
         
         node->primative = primative;
         node->fitness = -1;
         node->oldFitness = -1;
         
-        for(int j = 0; j < arityTable[primative].arity; j++){
+        for(int j = 0; j < MAX_ARITY; j++){
             
-            node->operands[i] = randRange(0,i-1);
+            if(j<primativeTable[primative].arity){
+                
+                node->operands[i] = randRange(0,i-1);
+                
+            } else{
+                
+                node->operands[i] = -1;
+                
+            }
             
         }
         
-        for(int j = 0; j < arityTable[primative].arity; j++){
+        for(int j = 0; j < POPULATION_SIZE; j++){
             
-            node->operands[i] = randRange(0,i-1);
+            node->predecessors[i] = -1;
             
         }
         
@@ -105,13 +118,40 @@ void initialisePopulation(){
     
 }
 
+void printPopulation(){
+    
+    
+    for(int i = 0; i < POPULATION_SIZE; i++){
+        Node node = population[i];
+        printf(
+            "Index: %d primative: %s Arity: %d\nFitness: %d OldFitness: %d\nOperands:", 
+            i,
+            primativeTable[node.primative].name,
+            primativeTable[node.primative].arity,
+            node.fitness,
+            node.oldFitness
+        );
+        
+        for(int j = 0; j < MAX_ARITY; j++){
+            printf("%d ",node.operands[i]);
+        }
+        
+        printf("\n");
+    }
+    
+    printf("\n");
+    
+}
+
 int main(){
     
     printf("Start\n\n");
     
-    printArityTable();
+    printPrimativeTable();
     
+    initialisePopulation();
     
+    printPopulation();
     
     return 0;
 }
