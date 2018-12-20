@@ -4,6 +4,6 @@ if not defined DevEnvDir (
     "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
 )
 pushd build
-cl -Zi ..\src\SNGPSort.c /EHsc
+cl -Zi ..\src\SNGPSort.c
 REM gcc -o SNGPSort ..\src\SNGPSort.c
 popd

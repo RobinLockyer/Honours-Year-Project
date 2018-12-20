@@ -11,9 +11,11 @@
 
 #define POPULATION_SIZE 10
 
+#define NUM_TESTS 5
+
 //TODO: Seperate generic SNGP code
 
-typedef enum primatives {
+typedef enum {
     INDEX,
     LENGTH,
     ITERATE, 
@@ -49,6 +51,8 @@ typedef struct {
     int oldFitness;
     int operands[MAX_ARITY];
     bool predecessors[POPULATION_SIZE];
+    int* results[NUM_TESTS];
+    int* oldResults[NUM_TESTS];
 } Node;
 
 Node population[POPULATION_SIZE];
@@ -79,19 +83,19 @@ void initialisePopulation(){
     
     
     //TODO: Merge this loop into next loop
-    for(int i = 0; i < NUM_TERMINALS; i++){
+    for(int tIndex = 0; tIndex < NUM_TERMINALS; tIndex++){
         
-        population[i].primative = i;
-        for(int j = 0; j < MAX_ARITY; j++){
+        population[tIndex].primative = tIndex;
+        for(int oIndex = 0; oIndex < MAX_ARITY; oIndex++){
             
-             population[i].operands[j] = -1;
+             population[tIndex].operands[oIndex] = -1;
             
         }
     }
     
-    for(int i = NUM_TERMINALS; i < POPULATION_SIZE; i++){
+    for(int fIndex = NUM_TERMINALS; fIndex < POPULATION_SIZE; fIndex++){
         
-        Node* node = &population[i];
+        Node* node = &population[fIndex];
         
         Primative primative = randRange(NUM_TERMINALS,NUM_PRIMATIVES-1);
         
@@ -99,19 +103,19 @@ void initialisePopulation(){
         node->fitness = -1;
         node->oldFitness = -1;
         
-        for(int j = 0; j < MAX_ARITY; j++){
+        for(int oIndex = 0; oIndex < MAX_ARITY; oIndex++){
             
-            if(j<primativeTable[primative].arity){
+            if(oIndex<primativeTable[primative].arity){
                 
-                int operandIndex = randRange(0,i-1);
+                int operandIndex = randRange(0,fIndex-1);
                 
-                node->operands[j] = operandIndex;
+                node->operands[oIndex] = operandIndex;
                 
-                population[operandIndex].predecessors[i] = true;
+                population[operandIndex].predecessors[fIndex] = true;
                 
             } else{
                 
-                node->operands[j] = -1;
+                node->operands[oIndex] = -1;
                 
             }
             
@@ -121,14 +125,31 @@ void initialisePopulation(){
     
 }
 
+int initialiseTestData(char* path){
+    
+    FILE* file = fopen(path,"r");
+    if(!file) return 1;
+    
+    
+    fclose(file);
+    return 0;
+}
+
+void init(){
+    
+    initialisePopulation();
+    return initialiseTestData("..\data\tests.dat");
+    
+}
+
 void printPopulation(){
     
     
-    for(int i = 0; i < POPULATION_SIZE; i++){
-        Node node = population[i];
+    for(int popIndex = 0; popIndex < POPULATION_SIZE; popIndex++){
+        Node node = population[popIndex];
         printf(
             "Index: %d primative: %s Arity: %d\nFitness: %d OldFitness: %d\nOperands:", 
-            i,
+            popIndex,
             primativeTable[node.primative].name,
             primativeTable[node.primative].arity,
             node.fitness,
@@ -154,13 +175,51 @@ void printPopulation(){
     
 }
 
+int* test(Node* node, int testNum){
+    
+    node->oldResults[testNum] = node->results[testNum];
+    
+    return node->results[testNum];
+    
+}
+
+int evaluateFitness(Node* node){
+    
+    return 0;
+    
+}
+
+int evaluatePopulationSNGP_A(int testSet){
+    
+    int totalFitness = 0;
+    
+    for(int popIndex = 0; popIndex < POPULATION_SIZE; popIndex++){
+        
+        Node* node = &population[popIndex];
+        
+        for(int testNum = 0; testNum < NUM_TESTS; testNum++){
+            
+            test(node,testNum);
+            
+        }
+        
+        totalFitness += evaluateFitness(node);
+        
+    }
+    
+    return totalFitness/POPULATION_SIZE;
+    
+}
+
 int main(){
     
     printf("Start\n\n");
     
     printPrimativeTable();
     
-    initialisePopulation();
+    init();
+    
+    evaluatePopulationSNGP_A();
     
     printPopulation();
     
