@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
-#define RANDOM_SEED 4
+#define RANDOM_SEED 1892
 
 #define NUM_TERMINALS 2
 #define NUM_FUNCTIONS 7
@@ -9,6 +10,8 @@
 #define MAX_ARITY 3
 
 #define POPULATION_SIZE 10
+
+//TODO: Seperate generic SNGP code
 
 typedef enum primatives {
     INDEX,
@@ -45,7 +48,7 @@ typedef struct {
     int fitness;
     int oldFitness;
     int operands[MAX_ARITY];
-    int predecessors[POPULATION_SIZE];
+    bool predecessors[POPULATION_SIZE];
 } Node;
 
 Node population[POPULATION_SIZE];
@@ -74,12 +77,14 @@ void initialisePopulation(){
     
     srand(RANDOM_SEED);
     
+    
+    //TODO: Merge this loop into next loop
     for(int i = 0; i < NUM_TERMINALS; i++){
         
         population[i].primative = i;
         for(int j = 0; j < MAX_ARITY; j++){
             
-             population[i].operands[i] = -1;
+             population[i].operands[j] = -1;
             
         }
     }
@@ -98,19 +103,17 @@ void initialisePopulation(){
             
             if(j<primativeTable[primative].arity){
                 
-                node->operands[i] = randRange(0,i-1);
+                int operandIndex = randRange(0,i-1);
+                
+                node->operands[j] = operandIndex;
+                
+                population[operandIndex].predecessors[i] = true;
                 
             } else{
                 
-                node->operands[i] = -1;
+                node->operands[j] = -1;
                 
             }
-            
-        }
-        
-        for(int j = 0; j < POPULATION_SIZE; j++){
-            
-            node->predecessors[i] = -1;
             
         }
         
@@ -133,10 +136,18 @@ void printPopulation(){
         );
         
         for(int j = 0; j < MAX_ARITY; j++){
-            printf("%d ",node.operands[i]);
+            printf("%d ",node.operands[j]);
         }
         
-        printf("\n");
+        printf("\nPredecessors: ");
+        
+        for(int j = 0; j < POPULATION_SIZE; j++){
+            
+            if(node.predecessors[j]) printf("%d ",j);
+            
+        }
+        
+        printf("\n\n");
     }
     
     printf("\n");
