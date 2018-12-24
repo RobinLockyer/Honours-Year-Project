@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 #define RANDOM_SEED 1892
 
@@ -9,11 +10,14 @@
 #define NUM_PRIMATIVES NUM_TERMINALS+NUM_FUNCTIONS
 #define MAX_ARITY 3
 
+#define MAX_OPS 2
+
 #define POPULATION_SIZE 10
 
+//Every set has 5 tests
 #define NUM_TESTS 5
 
-//TODO: Seperate generic SNGP code
+
 
 typedef enum {
     INDEX,
@@ -130,6 +134,21 @@ int initialiseTestData(char* path){
     FILE* file = fopen(path,"r");
     if(!file) return 1;
     
+	char stringBuffer[3*255]; //Max 255 8 bit numbers, represented by max 3 characters
+	int intBuffer[255];
+	
+	fgets(stringBuffer, 255, file);
+	
+	char* nextNum = stringBuffer;
+	
+	for(int testNum = 0; testNum < NUM_TESTS && *nextNum != EOF; testNum++){
+		
+		int intCounter = 0;
+		strtoI(nextNum, " ", &nextNum);
+		
+	}
+	
+	
     
     fclose(file);
     return 0;
@@ -138,7 +157,7 @@ int initialiseTestData(char* path){
 void init(){
     
     initialisePopulation();
-    return initialiseTestData("..\data\tests.dat");
+    initialiseTestData("..\\data\\tests.dat");
     
 }
 
@@ -189,7 +208,7 @@ int evaluateFitness(Node* node){
     
 }
 
-int evaluatePopulationSNGP_A(int testSet){
+int evaluatePopulationSNGP_A(){
     
     int totalFitness = 0;
     
