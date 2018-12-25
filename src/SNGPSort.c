@@ -14,10 +14,16 @@
 
 #define POPULATION_SIZE 10
 
-//Every set has 5 tests
+#define TEST_DATA_PATH "..\\data\\tests.dat"
 #define NUM_TESTS 5
+#define LINE_LENGTH 255
 
+typedef struct{
+    int size;
+    int arr[];
+} Test;
 
+Test* tests[MAX_OPS][NUM_TESTS];
 
 typedef enum {
     INDEX,
@@ -55,8 +61,6 @@ typedef struct {
     int oldFitness;
     int operands[MAX_ARITY];
     bool predecessors[POPULATION_SIZE];
-    int* results[NUM_TESTS];
-    int* oldResults[NUM_TESTS];
 } Node;
 
 Node population[POPULATION_SIZE];
@@ -134,30 +138,83 @@ int initialiseTestData(char* path){
     FILE* file = fopen(path,"r");
     if(!file) return 1;
     
-	char stringBuffer[3*255]; //Max 255 8 bit numbers, represented by max 3 characters
-	int intBuffer[255];
-	
-	fgets(stringBuffer, 255, file);
-	
-	char* nextNum = stringBuffer;
-	
-	for(int testNum = 0; testNum < NUM_TESTS && *nextNum != EOF; testNum++){
-		
-		int intCounter = 0;
-		strtoI(nextNum, " ", &nextNum);
-		
-	}
-	
-	
+    int setNum = 0;
+    int testNum = 0;
+    
+    //Iterate through test data file until we have a test set for each generation or EOF is reached 
+    while(setNum < MAX_OPS){
+        
+        char firstC = getc(file);
+        
+        //If this line is blank, then we have reached the end of this test set
+        if(firstC == '\n'){
+            ++setNum;
+            testNum = 0;
+            continue;
+        }
+        
+        ungetc(firstC,file);
+        
+        int arrSize = 0;
+        
+        fscanf(file, "%d", &arrSize);
+        
+        tests[setNum][testNum] = malloc( sizeof(Test) + arrSize *sizeof(int) );
+        
+        Test* test = tests[setNum][testNum];
+        test->size = arrSize;
+        
+        for(int i = 0; i < arrSize; i++){
+            
+            int n;
+            
+            fscanf(file, "%d", &n);
+            
+            test->arr[i] = n;
+        }        
+        getc(file);
+        ++testNum;
+        
+    }
     
     fclose(file);
     return 0;
 }
 
+void printTestData(){
+    
+    for(int i = 0; i < MAX_OPS; i++){
+        
+        printf("Set %d\n\n", i);
+        
+        for(int j = 0; j < NUM_TESTS; j++){
+            
+            Test* test = tests[i][j];
+            
+            printf("Test %d-%d Size %d\n", i, j, test->size);
+            
+            for(int k = 0; k < test->size; k++){
+                
+                printf("%d " , test->arr[k]);
+                
+            }
+            
+            printf("\n");
+            
+        }
+        
+        printf("\n");
+        
+    }
+    
+    printf("\n");
+    
+}
+
 void init(){
     
     initialisePopulation();
-    initialiseTestData("..\\data\\tests.dat");
+    initialiseTestData(TEST_DATA_PATH);
     
 }
 
@@ -196,9 +253,7 @@ void printPopulation(){
 
 int* test(Node* node, int testNum){
     
-    node->oldResults[testNum] = node->results[testNum];
-    
-    return node->results[testNum];
+    return NULL;
     
 }
 
@@ -237,6 +292,8 @@ int main(){
     printPrimativeTable();
     
     init();
+    
+    printTestData();
     
     evaluatePopulationSNGP_A();
     
