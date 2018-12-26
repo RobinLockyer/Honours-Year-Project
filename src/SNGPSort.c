@@ -20,11 +20,13 @@
 
 typedef struct{
     int size;
+    int unsortedness;
     int arr[];
-} Test;
+} Array;
 
-Test* tests[MAX_OPS][NUM_TESTS];
-int* results[MAX_OPS][NUM_TESTS];
+Array* tests[MAX_OPS][NUM_TESTS];
+Array* results;
+int index;
 
 int generation = 0;
 
@@ -143,6 +145,7 @@ int initialiseTestData(char* path){
     
     int setNum = 0;
     int testNum = 0;
+    int maxTestSize = 0;
     
     //Iterate through test data file until we have a test set for each generation or EOF has been reached
     while(setNum < MAX_OPS){
@@ -168,10 +171,11 @@ int initialiseTestData(char* path){
         
         fscanf(file, "%d", &arrSize);
         
-        tests[setNum][testNum] = malloc( sizeof(Test) + arrSize *sizeof(int) );
-        results[setNum][testNum] = malloc(arrSize * sizeof(int));
+        tests[setNum][testNum] = malloc( sizeof(Array) + arrSize *sizeof(int) );
         
-        Test* test = tests[setNum][testNum];
+        if(arrSize > maxTestSize) maxTestSize = arrSize;
+        
+        Array* test = tests[setNum][testNum];
         test->size = arrSize;
         
         for(int i = 0; i < arrSize; i++){
@@ -187,6 +191,8 @@ int initialiseTestData(char* path){
         
     }
     
+    results = malloc(sizeof(Array) + sizeof(int) *  maxTestSize);
+    
     fclose(file);
     return 0;
 }
@@ -199,7 +205,7 @@ void printTestData(){
         
         for(int j = 0; j < NUM_TESTS; j++){
             
-            Test* test = tests[i][j];
+            Array* test = tests[i][j];
             
             printf("Test %d-%d Size %d\n", i, j, test->size);
             
@@ -262,13 +268,137 @@ void printPopulation(){
     
 }
 
+int execute(Node* node){
+    
+    switch(node->primative){
+        
+        case INDEX:{
+            
+            return index;
+            
+        }break;
+            
+        case LENGTH:{
+            
+            return results->size;
+        
+        }break;
+            
+        case ITERATE:{
+                
+            int len = results->size;
+            int start = execute(&population(node->operands[0]));
+            int end = execute(&population(node->operands[1]));
+            Node* function = &population[&population(node->operands[2])]
+            
+            for(index = start; index < end || index < len; index++){
+                execute(function);
+            }
+            
+            return (end < len) ? end : len ;
+                
+        }break;
+            
+        case SWAP:{
+            
+            int x = node->operands[0];
+            int y = node->operands[1];
+            int t = results->arr[x];
+            results->arr[x] = results->arr[y];
+            results->arr[y] = t;
+            
+            return x;
+            
+        }break;
+            
+        case SMALLEST:{
+            
+            int x = node->operands[0];
+            int y = node->operands[1];
+            
+            if(results[x] < results[y]){
+                return x;
+            }
+            else{
+                
+                return y;
+                
+            }
+            
+        }break;
+            
+        case LARGEST:{
+            
+            int x = node->operands[0];
+            int y = node->operands[1];
+            
+            if(results[x] > results[y]){
+                return x;
+            }
+            else{
+                
+                return y;
+                
+            }
+            
+        }break;
+            
+        case SUB:{
+            
+            int x = node->operands[0];
+            int y = node->operands[1];
+            
+            return x-y;
+            
+        }break;
+            
+        case INC:{
+            
+            int x = node->operands[0];
+            
+            return x+1;
+            
+        }break;
+            
+        case DEC:{
+            
+            int x = node->operands[0];
+            
+            return x-1;
+            
+        }break;
+            
+        default:
+            printf("\nINVALID PRIMATIVE\n");
+    }
+    
+}
+
+Array* measureUnsortedness(Array* arr){
+    
+    if(arr->size <= 1){
+        
+        Array* retVal = malloc(sizeof(Array) + sizeof(int) * arr->size);
+        
+        retVal->unsortedness = 0;
+        
+        return retVal;
+        
+    }
+    
+    Array* A = malloc();
+    
+}
+
 int test(Node* node, int testSet, int testNum){
     
-    Test* test = tests[testSet][testNum];
+    Array* test = tests[testSet][testNum];
+    results->size = test->size;
+    memcpy(results->arr, test->arr, sizeof(int) * test->size);
     
-    memcpy(results[testSet][testNum], test->arr, sizeof(int) * test->size);
+    execute(node);
     
-    Node* nodes[POPULATION_SIZE];
+    
     
     
     
