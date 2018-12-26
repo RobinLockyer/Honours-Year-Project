@@ -10,11 +10,11 @@
 #define NUM_PRIMATIVES NUM_TERMINALS+NUM_FUNCTIONS
 #define MAX_ARITY 3
 
-#define MAX_OPS 2
+#define MAX_OPS 3
 
 #define POPULATION_SIZE 10
 
-#define TEST_DATA_PATH "..\\data\\tests.dat"
+#define TEST_DATA_PATH "data\\tests.dat"
 #define NUM_TESTS 5
 #define LINE_LENGTH 255
 
@@ -141,7 +141,7 @@ int initialiseTestData(char* path){
     int setNum = 0;
     int testNum = 0;
     
-    //Iterate through test data file until we have a test set for each generation or EOF is reached 
+    //Iterate through test data file until we have a test set for each generation or EOF has been reached
     while(setNum < MAX_OPS){
         
         char firstC = getc(file);
@@ -151,6 +151,12 @@ int initialiseTestData(char* path){
             ++setNum;
             testNum = 0;
             continue;
+        }
+        //If end of file has been reached, exit loop
+        else if(firstC == EOF){
+            
+            break;
+            
         }
         
         ungetc(firstC,file);
@@ -211,10 +217,10 @@ void printTestData(){
     
 }
 
-void init(){
+int init(){
     
     initialisePopulation();
-    initialiseTestData(TEST_DATA_PATH);
+    return initialiseTestData(TEST_DATA_PATH);
     
 }
 
@@ -291,7 +297,10 @@ int main(){
     
     printPrimativeTable();
     
-    init();
+    if(init()) {
+        printf("File Not Found");
+        return 1;
+    }
     
     printTestData();
     
