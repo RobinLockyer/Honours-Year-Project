@@ -24,6 +24,9 @@ typedef struct{
 } Test;
 
 Test* tests[MAX_OPS][NUM_TESTS];
+int* results[MAX_OPS][NUM_TESTS];
+
+int generation = 0;
 
 typedef enum {
     INDEX,
@@ -87,7 +90,7 @@ int randRange(int min, int max){
 
 void initialisePopulation(){
     
-    srand(RANDOM_SEED);
+    
     
     
     //TODO: Merge this loop into next loop
@@ -166,6 +169,7 @@ int initialiseTestData(char* path){
         fscanf(file, "%d", &arrSize);
         
         tests[setNum][testNum] = malloc( sizeof(Test) + arrSize *sizeof(int) );
+        results[setNum][testNum] = malloc(arrSize * sizeof(int));
         
         Test* test = tests[setNum][testNum];
         test->size = arrSize;
@@ -219,6 +223,7 @@ void printTestData(){
 
 int init(){
     
+    srand(RANDOM_SEED);
     initialisePopulation();
     return initialiseTestData(TEST_DATA_PATH);
     
@@ -257,13 +262,15 @@ void printPopulation(){
     
 }
 
-int* test(Node* node, int testNum){
+int test(Node* node, int testSet, int testNum){
     
-    return NULL;
+    Test* test = tests[testSet][testNum];
     
-}
-
-int evaluateFitness(Node* node){
+    memcpy(results[testSet][testNum], test->arr, sizeof(int) * test->size);
+    
+    Node* nodes[POPULATION_SIZE];
+    
+    
     
     return 0;
     
@@ -277,13 +284,12 @@ int evaluatePopulationSNGP_A(){
         
         Node* node = &population[popIndex];
         
+        
         for(int testNum = 0; testNum < NUM_TESTS; testNum++){
             
-            test(node,testNum);
+            totalFitness += test(node, generation, testNum);
             
         }
-        
-        totalFitness += evaluateFitness(node);
         
     }
     
