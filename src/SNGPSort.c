@@ -20,9 +20,11 @@
 
 typedef struct{
     int size;
-    int unsortedness;
+    int inversions;
     int arr[];
 } Array;
+
+#define arrayMem(x) (sizeof(Array) + sizeof(int) * (x))
 
 Array* tests[MAX_OPS][NUM_TESTS];
 Array* results;
@@ -171,7 +173,7 @@ int initialiseTestData(char* path){
         
         fscanf(file, "%d", &arrSize);
         
-        tests[setNum][testNum] = malloc( sizeof(Array) + arrSize *sizeof(int) );
+        tests[setNum][testNum] = malloc( arrayMem(arrSize) );
         
         if(arrSize > maxTestSize) maxTestSize = arrSize;
         
@@ -191,7 +193,7 @@ int initialiseTestData(char* path){
         
     }
     
-    results = malloc(sizeof(Array) + sizeof(int) *  maxTestSize);
+    results = malloc( arrayMen(maxTestSize) );
     
     fclose(file);
     return 0;
@@ -287,9 +289,9 @@ int execute(Node* node){
         case ITERATE:{
                 
             int len = results->size;
-            int start = execute(&population(node->operands[0]));
-            int end = execute(&population(node->operands[1]));
-            Node* function = &population[&population(node->operands[2])]
+            int start = execute(&population[node->operands[0]]);
+            int end = execute(&population[node->operands[1]]);
+            Node* function = &population[node->operands[2]];
             
             for(index = start; index < end || index < len; index++){
                 execute(function);
@@ -316,7 +318,7 @@ int execute(Node* node){
             int x = node->operands[0];
             int y = node->operands[1];
             
-            if(results[x] < results[y]){
+            if(results->arr[x] < results->arr[y]){
                 return x;
             }
             else{
@@ -332,7 +334,7 @@ int execute(Node* node){
             int x = node->operands[0];
             int y = node->operands[1];
             
-            if(results[x] > results[y]){
+            if(results->arr[x] > results->arr[y]){
                 return x;
             }
             else{
@@ -374,19 +376,39 @@ int execute(Node* node){
     
 }
 
-Array* measureUnsortedness(Array* arr){
+Array* countInversions(Array* arr){
     
     if(arr->size <= 1){
         
         Array* retVal = malloc(sizeof(Array) + sizeof(int) * arr->size);
         
-        retVal->unsortedness = 0;
+        retVal->inversions = 0;
         
         return retVal;
         
     }
     
-    Array* A = malloc();
+    int sizeA = arr->size / 2;
+    int sizeB = arr->size - (arr->size / 2);
+    
+    Array* A = malloc( arrayMem(sizeA) );
+    Array* B = malloc( arrayMem(sizeB) );
+    
+    A->size = sizeA;
+    B->size = sizeB;
+    
+    //Use result->arr to pass arrays?
+    
+    memcpy(A->arr, arr->arr, arr->size/2);
+    memcpy(B->arr, &arr->arr[sizeA], sizeB);
+    
+    measureUnsortedness(A);
+    measureUnsortedness(B);
+    
+    int inversions = A->inversions + B->inversions;
+    
+    
+    
     
 }
 
