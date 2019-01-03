@@ -28,7 +28,8 @@ typedef struct{
 
 Array* tests[MAX_OPS][NUM_TESTS];
 Array* results;
-Array* mergeSpace;
+int* mergeSpace1;
+int* mergeSpace2;
 int index;
 
 int generation = 0;
@@ -195,9 +196,8 @@ int initialiseTestData(char* path){
     }
     
     results = malloc( arrayMem(maxTestSize) );
-    mergeSpace = malloc( arrayMem(maxTestSize) );
-    
-    mergeSpace->size = maxTestSize;
+    mergeSpace1 = malloc( arrayMem(maxTestSize) );
+    mergeSpace2 = malloc( arrayMem(maxTestSize) );
     
     fclose(file);
     return 0;
@@ -391,12 +391,15 @@ int countInversions(int* arr, int size){
     int sizeA = size / 2;
     int sizeB = size - (size / 2);
     
-    int A[sizeA];
-    int B[sizeB];
-    int C[size];
+    int* A = mergeSpace2;
+    int* B = &mergeSpace2[sizeA];
+    int* C = mergeSpace1;
     
     memcpy(A, arr, sizeA);
     memcpy(B, &arr[sizeA], sizeB);
+    
+    mergeSpace1 = mergeSpace2;
+    mergeSpace2 = C;
     
     int inversions = countInversions(A,sizeA) + countInversions(B,sizeB);
     
