@@ -96,10 +96,6 @@ int randRange(int min, int max){
 
 void initialisePopulation(){
     
-    
-    
-    
-    //TODO: Merge this loop into next loop
     for(int tIndex = 0; tIndex < NUM_TERMINALS; tIndex++){
         
         population[tIndex].primative = tIndex;
@@ -181,6 +177,7 @@ int initialiseTestData(char* path){
         
         Array* test = tests[setNum][testNum];
         test->size = arrSize;
+        test->inversions = -1;
         
         for(int i = 0; i < arrSize; i++){
             
@@ -375,27 +372,13 @@ int execute(Node* node){
         }break;
             
         default:
-            printf("\nINVALID PRIMATIVE\n");
+            printf("\nINVALID PRIMATIVE (%d)\n", node->primative);
+            return -1;
     }
     
 }
-#define indent(x) for(int i = 0; i<(x); i++)printf("    ")
+
 int countInversions(int* arr, int size, int offset){
-    static int x;
-    indent(x);
-    printf("Arr: ");
-    
-    
-    
-    
-    
-    for(int i = 0; i <size ; i++){
-        
-        printf("%d ",arr[i]);
-        
-    }
-    
-    printf("\n");
     
     if(size <= 1){
         
@@ -411,37 +394,15 @@ int countInversions(int* arr, int size, int offset){
     
     memcpy(A, arr, sizeA*sizeof(int));
     memcpy(B, &arr[sizeA], sizeB*sizeof(int));
-    x++;
-    indent(x);
-    printf("A: ");
     
     
-    
-    for(int i = 0; i <sizeA ; i++){
-        
-        printf("%d ",A[i]);
-        
-    }
-    
-    printf("\n");
-    
-    indent(x);
-    printf("B: ");
-    
-    for(int i = 0; i <sizeB ; i++){
-        
-        printf("%d ",B[i]);
-        
-    }
-    
-    printf("\n");
     
     int* temp = arrBuffer;
     arrBuffer = mergeBuffer;
     mergeBuffer = temp;
-    x++;
+    
     int inversions = countInversions(A,sizeA,offset) + countInversions(B,sizeB,sizeA+offset);
-    x--;
+    
     int aCounter = 0;
     int bCounter = 0;
     int cCounter = 0;
@@ -475,44 +436,6 @@ int countInversions(int* arr, int size, int offset){
         memcpy( &arr[cCounter], &B[bCounter], (sizeB - bCounter) * sizeof(int));
         
     }
-    x--;
-    
-    indent(x);
-    printf("NA: ");
-    
-    
-    
-    for(int i = 0; i <sizeA ; i++){
-        
-        printf("%d ",A[i]);
-        
-    }
-    
-    printf("\n");
-    
-    indent(x);
-    printf("NB: ");
-    
-    for(int i = 0; i <sizeB ; i++){
-        
-        printf("%d ",B[i]);
-        
-    }
-    
-    printf("\n");
-    
-    indent(x);
-    printf("C: ");
-    
-    for(int i = 0; i <size ; i++){
-        
-        printf("%d ",arr[i]);
-        
-    }
-    
-    printf("\n");
-    
-    
     
     return inversions;
     
@@ -521,16 +444,21 @@ int countInversions(int* arr, int size, int offset){
 int test(Node* node, int testSet, int testNum){
     
     Array* test = tests[testSet][testNum];
-    results->size = test->size;
-    memcpy(results->arr, test->arr, sizeof(int) * test->size);
+    
+    if(test->inversions == -1){
+        
+        memcpy(arrBuffer, test->arr, test->size);
+        test->inversions = countInversions(arrBuffer, test->size, 0);
+        
+    }
+    
+    memcpy(results, test, arrayMem(test->size));
     
     execute(node);
     
     
     
-    
-    
-    return 0;
+    return countInversions(results->arr, test->size, 0);
     
 }
 
