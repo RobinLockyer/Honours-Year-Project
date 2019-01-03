@@ -380,56 +380,42 @@ int execute(Node* node){
     
 }
 
-Array* countInversions(Array* arr){
+int countInversions(int* arr, int size){
     
-    if(arr->size <= 1){
+    if(size <= 1){
         
-        Array* retVal = malloc(sizeof(Array) + sizeof(int) * arr->size);
-        
-        retVal->inversions = 0;
-        
-        return retVal;
+        return 0;
         
     }
     
-    int sizeA = arr->size / 2;
-    int sizeB = arr->size - (arr->size / 2);
+    int sizeA = size / 2;
+    int sizeB = size - (size / 2);
     
-    Array* A = malloc( arrayMem(sizeA) );
-    Array* B = malloc( arrayMem(sizeB) );
+    int A[sizeA];
+    int B[sizeB];
+    int C[size];
     
-    A->size = sizeA;
-    B->size = sizeB;
+    memcpy(A, arr, sizeA);
+    memcpy(B, &arr[sizeA], sizeB);
     
-    //Use mergeSpace->arr to pass arrays?
-    
-    memcpy(A->arr, arr->arr, arr->size/2);
-    memcpy(B->arr, &arr->arr[sizeA], sizeB);
-    
-    countInversions(A);
-    countInversions(B);
-    
-    arr->inversions = A->inversions + B->inversions;
-    
-    Array* C = malloc( arrayMem(A->size + B->size) );
-    C->inversions = 0;
+    int inversions = countInversions(A,sizeA) + countInversions(B,sizeB);
     
     int aCounter = 0;
     int bCounter = 0;
     int cCounter = 0;
     
     
-    while( aCounter < A->size && bCounter < B->size ){
+    while( aCounter < sizeA && bCounter < sizeB ){
         
-        if( A->arr[aCounter] < B->arr[aCounter] ){
+        if( A[aCounter] < B[aCounter] ){
             
-            C->arr[cCounter] = A->arr[aCounter];
+            C[cCounter] = A[aCounter];
             aCounter++;
             
         }else{
             
-            C->arr[cCounter] = B->arr[bCounter];
-            arr->inversions += (A->size - aCounter);
+            C[cCounter] = B[bCounter];
+            inversions += (sizeA - aCounter);
             bCounter++;
             
         }
@@ -438,20 +424,17 @@ Array* countInversions(Array* arr){
         
     }
     
-    if(aCounter < A->size){
+    if(aCounter < sizeA){
         
-        memcpy( &C->arr[cCounter], &A->arr[bCounter], A->size - aCounter);
+        memcpy( &C[cCounter], &A[aCounter], sizeA - aCounter);
         
-    } else if(bCounter < B->size){
+    } else if(bCounter < sizeB){
         
-        memcpy( &C->arr[cCounter], &B->arr[bCounter], B->size - bCounter);
+        memcpy( &C[cCounter], &B[bCounter], sizeB - bCounter);
         
     }
     
-    free(A);
-    free(B);
-    
-    return C;
+    return inversions;
     
 }
 
