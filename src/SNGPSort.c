@@ -28,8 +28,8 @@ typedef struct{
 
 Array* tests[MAX_OPS][NUM_TESTS];
 Array* results;
-int* mergeSpace1;
-int* mergeSpace2;
+int* arrBuffer;
+int* mergeBuffer;
 int index;
 
 int generation = 0;
@@ -196,8 +196,8 @@ int initialiseTestData(char* path){
     }
     
     results = malloc( arrayMem(maxTestSize) );
-    mergeSpace1 = malloc( arrayMem(maxTestSize) );
-    mergeSpace2 = malloc( arrayMem(maxTestSize) );
+    arrBuffer = malloc( arrayMem(maxTestSize) );
+    mergeBuffer = malloc( arrayMem(maxTestSize) );
     
     fclose(file);
     return 0;
@@ -379,8 +379,23 @@ int execute(Node* node){
     }
     
 }
-
+#define indent(x) for(int i = 0; i<(x); i++)printf("    ")
 int countInversions(int* arr, int size){
+    static int x;
+    indent(x);
+    printf("Arr: ");
+    
+    
+    
+    
+    
+    for(int i = 0; i <size ; i++){
+        
+        printf("%d ",arr[i]);
+        
+    }
+    
+    printf("\n");
     
     if(size <= 1){
         
@@ -391,18 +406,42 @@ int countInversions(int* arr, int size){
     int sizeA = size / 2;
     int sizeB = size - (size / 2);
     
-    int* A = mergeSpace2;
-    int* B = &mergeSpace2[sizeA];
-    int* C = mergeSpace1;
+    int* A = mergeBuffer;
+    int* B = &mergeBuffer[sizeA];
     
-    memcpy(A, arr, sizeA);
-    memcpy(B, &arr[sizeA], sizeB);
+    memcpy(A, arr, sizeA*sizeof(int));
+    memcpy(B, &arr[sizeA], sizeB*sizeof(int));
+    x++;
+    indent(x);
+    printf("A: ");
     
-    mergeSpace1 = mergeSpace2;
-    mergeSpace2 = C;
     
+    
+    for(int i = 0; i <sizeA ; i++){
+        
+        printf("%d ",A[i]);
+        
+    }
+    
+    printf("\n");
+    
+    indent(x);
+    printf("B: ");
+    
+    for(int i = 0; i <sizeB ; i++){
+        
+        printf("%d ",B[i]);
+        
+    }
+    
+    printf("\n");
+    
+    int* temp = arrBuffer;
+    arrBuffer = mergeBuffer;
+    mergeBuffer = temp;
+    x++;
     int inversions = countInversions(A,sizeA) + countInversions(B,sizeB);
-    
+    x--;
     int aCounter = 0;
     int bCounter = 0;
     int cCounter = 0;
@@ -412,12 +451,12 @@ int countInversions(int* arr, int size){
         
         if( A[aCounter] < B[aCounter] ){
             
-            C[cCounter] = A[aCounter];
+            arr[cCounter] = A[aCounter];
             aCounter++;
             
         }else{
             
-            C[cCounter] = B[bCounter];
+            arr[cCounter] = B[bCounter];
             inversions += (sizeA - aCounter);
             bCounter++;
             
@@ -429,13 +468,51 @@ int countInversions(int* arr, int size){
     
     if(aCounter < sizeA){
         
-        memcpy( &C[cCounter], &A[aCounter], sizeA - aCounter);
+        memcpy( &arr[cCounter], &A[aCounter], (sizeA - aCounter) * sizeof(int));
         
     } else if(bCounter < sizeB){
         
-        memcpy( &C[cCounter], &B[bCounter], sizeB - bCounter);
+        memcpy( &arr[cCounter], &B[bCounter], (sizeB - bCounter) * sizeof(int));
         
     }
+    x--;
+    
+    indent(x);
+    printf("NA: ");
+    
+    
+    
+    for(int i = 0; i <sizeA ; i++){
+        
+        printf("%d ",A[i]);
+        
+    }
+    
+    printf("\n");
+    
+    indent(x);
+    printf("NB: ");
+    
+    for(int i = 0; i <sizeB ; i++){
+        
+        printf("%d ",B[i]);
+        
+    }
+    
+    printf("\n");
+    
+    indent(x);
+    printf("C: ");
+    
+    for(int i = 0; i <size ; i++){
+        
+        printf("%d ",arr[i]);
+        
+    }
+    
+    printf("\n");
+    
+    
     
     return inversions;
     
@@ -496,6 +573,22 @@ int main(int argc, char* argv[]){
     evaluatePopulationSNGP_A();
     
     printPopulation();
+    
+    arrBuffer[0] = 6;
+    arrBuffer[1] = 5;
+    arrBuffer[2] = 4;
+    arrBuffer[3] = 3;
+    arrBuffer[4] = 2;
+    arrBuffer[5] = 1;
+    
+    
+    printf("%d\n",countInversions(arrBuffer,6));
+    
+    for(int i = 0; i <5 ; i++){
+        
+        printf("%d ",arrBuffer[i]);
+        
+    }
     
     return 0;
 }
