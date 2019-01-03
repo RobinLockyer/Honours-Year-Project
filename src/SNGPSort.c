@@ -28,6 +28,7 @@ typedef struct{
 
 Array* tests[MAX_OPS][NUM_TESTS];
 Array* results;
+Array* mergeSpace;
 int index;
 
 int generation = 0;
@@ -193,7 +194,10 @@ int initialiseTestData(char* path){
         
     }
     
-    results = malloc( arrayMen(maxTestSize) );
+    results = malloc( arrayMem(maxTestSize) );
+    mergeSpace = malloc( arrayMem(maxTestSize) );
+    
+    mergeSpace->size = maxTestSize;
     
     fclose(file);
     return 0;
@@ -229,11 +233,11 @@ void printTestData(){
     
 }
 
-int init(){
-    
+int init(char* path){
+    if(path == NULL) return 1;
     srand(RANDOM_SEED);
     initialisePopulation();
-    return initialiseTestData(TEST_DATA_PATH);
+    return initialiseTestData(path);
     
 }
 
@@ -397,18 +401,57 @@ Array* countInversions(Array* arr){
     A->size = sizeA;
     B->size = sizeB;
     
-    //Use result->arr to pass arrays?
+    //Use mergeSpace->arr to pass arrays?
     
     memcpy(A->arr, arr->arr, arr->size/2);
     memcpy(B->arr, &arr->arr[sizeA], sizeB);
     
-    measureUnsortedness(A);
-    measureUnsortedness(B);
+    countInversions(A);
+    countInversions(B);
     
-    int inversions = A->inversions + B->inversions;
+    arr->inversions = A->inversions + B->inversions;
+    
+    Array* C = malloc( arrayMem(A->size + B->size) );
+    C->inversions = 0;
+    
+    int aCounter = 0;
+    int bCounter = 0;
+    int cCounter = 0;
     
     
+    while( aCounter < A->size && bCounter < B->size ){
+        
+        if( A->arr[aCounter] < B->arr[aCounter] ){
+            
+            C->arr[cCounter] = A->arr[aCounter];
+            aCounter++;
+            
+        }else{
+            
+            C->arr[cCounter] = B->arr[bCounter];
+            arr->inversions += (A->size - aCounter);
+            bCounter++;
+            
+        }
+        
+        cCounter++;
+        
+    }
     
+    if(aCounter < A->size){
+        
+        memcpy( &C->arr[cCounter], &A->arr[bCounter], A->size - aCounter);
+        
+    } else if(bCounter < B->size){
+        
+        memcpy( &C->arr[cCounter], &B->arr[bCounter], B->size - bCounter);
+        
+    }
+    
+    free(A);
+    free(B);
+    
+    return C;
     
 }
 
@@ -449,13 +492,15 @@ int evaluatePopulationSNGP_A(){
     
 }
 
-int main(){
+int main(int argc, char* argv[]){
     
     printf("Start\n\n");
+    printf(argv[1]);
+    printf("\n\n");
     
     printPrimativeTable();
     
-    if(init()) {
+    if(init(argv[1])){
         printf("File Not Found");
         return 1;
     }
