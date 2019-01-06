@@ -27,8 +27,11 @@ typedef struct{
 #define arrayMem(x) (sizeof(Array) + sizeof(int) * (x))
 
 Array* tests[MAX_OPS][NUM_TESTS];
-Array* results;
-int* mergeBuffer;
+int maxTestSize;
+
+Array* results = NULL;
+int* mergeBuffer1 = NULL;
+int* mergeBuffer2 = NULL;
 int index;
 
 int generation = 0;
@@ -144,7 +147,7 @@ int initialiseTestData(char* path){
     
     int setNum = 0;
     int testNum = 0;
-    int maxTestSize = 0;
+    maxTestSize = 0;
     
     //Iterate through test data file until we have a test set for each generation or EOF has been reached
     while(setNum < MAX_OPS){
@@ -190,10 +193,6 @@ int initialiseTestData(char* path){
         ++testNum;
         
     }
-    
-    results = malloc( arrayMem(maxTestSize) );
-    mergeBuffer = malloc( sizeof(int) * maxTestSize );
-    
     fclose(file);
     return 0;
 }
@@ -230,9 +229,13 @@ void printTestData(){
 
 int init(char* path){
     if(path == NULL) return 1;
+    if(!initialiseTestData(path)) return 1;
     srand(RANDOM_SEED);
     initialisePopulation();
-    return initialiseTestData(path);
+    results = malloc( arrayMem(maxTestSize) );
+    mergeBuffer1 = malloc( sizeof(int) * maxTestSize );
+    mergeBuffer2 = malloc( sizeof(int) * maxTestSize );
+    return 0;
     
 }
 
@@ -376,13 +379,6 @@ int execute(Node* node){
     
 }
 
-int countInversions(int* arr, int size){
-    
-    memcpy(mergeBuffer,arr,size*sizeof(int));
-    return countInversionsRec(arr, mergeBuffer, size, 0);
-    
-}
-
 int countInversionsRec(int* arr, int* working, int size, int offset){
     
     if(size <= 1){
@@ -434,6 +430,19 @@ int countInversionsRec(int* arr, int* working, int size, int offset){
     }    
     
     return inversions;
+    
+}
+
+int countInversions(Array* arr){
+    
+    if(mergeBuffer1 == NULL || mergeBuffer2 == NULL) return -1;
+    
+    memcpy(mergeBuffer1,arr->arr,arr->size*sizeof(int));
+    memcpy(mergeBuffer2,arr->arr,arr->size*sizeof(int));
+    
+    arr->inversions = countInversionsRec(mergeBuffer1, mergeBuffer2, arr->size, 0);
+    
+    return arr->inversions;
     
 }
 
@@ -498,15 +507,7 @@ int main(int argc, char* argv[]){
     
     printPopulation();
     
-    int arrBuffer[] = {8,6,5,4,3, 1,2};
     
-    printf("%d\n", countInversions(arrBuffer,7) );
-    
-    for(int i = 0; i <8 ; i++){
-        
-        printf("%d ",arrBuffer[i]);
-        
-    }
     
     return 0;
 }
