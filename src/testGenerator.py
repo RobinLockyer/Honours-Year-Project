@@ -1,12 +1,19 @@
 from random import randint
+from sys import argv
 
-minVal = 0
-maxVal = 200
+minIntVal = 0
+maxIntVal = 200
+
+minArrSize = 2
+maxArrSize = 100
+
+numTests = 5
+maxOps = 1000
 
 def countInversions(arr):
 
-    if len(arr) == 1:
-        return 1
+    if len(arr) <= 1:
+        return 0
     
     mid = len(arr)//2
     a = arr[:mid]
@@ -19,13 +26,14 @@ def countInversions(arr):
     cCounter = 0
     
     while aCounter < len(a) and bCounter < len(b):
-        if a < b:
+        if a[aCounter] < b[bCounter]:
             arr[cCounter] = a[aCounter]
             aCounter+=1
         else:
             arr[cCounter] = b[bCounter]
             bCounter+=1
-            inversions+=1
+            inversions+=(len(a)-aCounter)
+            
         cCounter+=1
 
     if aCounter < len(a):
@@ -36,17 +44,25 @@ def countInversions(arr):
         for i in range(bCounter, len(b)):
             arr[cCounter] = b[i]
             cCounter+=1
-
+            
     return inversions    
 
-def randArr(size):
+def randArr():
     arr = []
-    for i in range(size):
-        arr.append(randint(minVal, maxVal+1))
+    for i in range(randint(minArrSize,maxArrSize+1)):
+        arr.append(randint(minIntVal, maxIntVal+1))
     return arr
 
 def main():
-    print(countInversions([7,6,5,4,3,2,1]))
+    #print(countInversions([6,7,5,4,3,1,2]))
+    file = open(argv[1],"w+")
+    outString = ""
+    for testSet in range(maxOps):
+        for test in range(numTests):
+            arr = randArr()
+            outString += str(len(arr)) + " "+ str(countInversions(arr.copy())) + " " + str(arr).strip('[]').replace(",","") + "\n"
+        outString += "\n"
+    file.write(outString)
 
 if __name__ == "__main__":
     main()
