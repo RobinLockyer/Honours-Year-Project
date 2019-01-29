@@ -14,7 +14,6 @@
 
 #define POPULATION_SIZE 10
 
-#define TEST_DATA_PATH "data\\tests.dat"
 #define NUM_TESTS 5
 #define LINE_LENGTH 255
 
@@ -143,8 +142,8 @@ void initialisePopulation(){
 int initialiseTestData(char* path){
     
     FILE* file = fopen(path,"r");
+	
     if(!file) return 1;
-    
     int setNum = 0;
     int testNum = 0;
     maxTestSize = 0;
@@ -208,7 +207,7 @@ void printTestData(){
             
             Array* test = tests[i][j];
             
-            printf("Test %d-%d Size %d\n", i, j, test->size);
+            printf("Test: %d-%d Size: %d Inversions: %d\n", i, j, test->size, test->inversions);
             
             for(int k = 0; k < test->size; k++){
                 
@@ -230,7 +229,7 @@ void printTestData(){
 
 int init(char* path){
     if(path == NULL) return 1;
-    if(!initialiseTestData(path)) return 1;
+    if(initialiseTestData(path)) return 1;
     srand(RANDOM_SEED);
     initialisePopulation();
     results = malloc( arrayMem(maxTestSize) );
