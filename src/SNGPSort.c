@@ -7,7 +7,7 @@
 
 #define NUM_TERMINALS 2
 #define NUM_FUNCTIONS 7
-#define NUM_PRIMATIVES NUM_TERMINALS+NUM_FUNCTIONS
+#define NUM_PRIMITIVES NUM_TERMINALS+NUM_FUNCTIONS
 #define MAX_ARITY 3
 
 #define MAX_OPS 3
@@ -45,15 +45,15 @@ typedef enum {
     SUB,
     INC,
     DEC
-} Primative;
+} Primitive;
 
 typedef struct {
-    Primative primative;
+    Primitive primitive;
     int arity;
     char* name;
 } TableEntry;
 
-TableEntry primativeTable[NUM_PRIMATIVES] = {
+TableEntry primitiveTable[NUM_PRIMITIVES] = {
     {INDEX,    0, "INDEX"},
     {LENGTH,   0, "LENGTH"},
     {ITERATE,  3, "ITERATE"},
@@ -66,7 +66,7 @@ TableEntry primativeTable[NUM_PRIMATIVES] = {
 };
 
 typedef struct {
-    Primative primative;
+    Primitive primitive;
     int fitness;
     int oldFitness;
     int operands[MAX_ARITY];
@@ -75,12 +75,12 @@ typedef struct {
 
 Node population[POPULATION_SIZE];
 
-void printPrimativeTable(){
+void printPrimitiveTable(){
     
-    for(int i = 0; i < NUM_PRIMATIVES; i++){
+    for(int i = 0; i < NUM_PRIMITIVES; i++){
         
-        TableEntry entry = primativeTable[i];
-        printf("i: %d, e: %d, a: %d n: %s\n", i, entry.primative, entry.arity, entry.name);
+        TableEntry entry = primitiveTable[i];
+        printf("i: %d, e: %d, a: %d n: %s\n", i, entry.primitive, entry.arity, entry.name);
         
     }
     
@@ -99,7 +99,7 @@ void initialisePopulation(){
     
     for(int tIndex = 0; tIndex < NUM_TERMINALS; tIndex++){
         
-        population[tIndex].primative = tIndex;
+        population[tIndex].primitive = tIndex;
         for(int oIndex = 0; oIndex < MAX_ARITY; oIndex++){
             
              population[tIndex].operands[oIndex] = -1;
@@ -111,15 +111,15 @@ void initialisePopulation(){
         
         Node* node = &population[fIndex];
         
-        Primative primative = randRange(NUM_TERMINALS,NUM_PRIMATIVES-1);
+        Primitive primitive = randRange(NUM_TERMINALS,NUM_PRIMITIVES-1);
         
-        node->primative = primative;
+        node->primitive = primitive;
         node->fitness = -1;
         node->oldFitness = -1;
         
         for(int oIndex = 0; oIndex < MAX_ARITY; oIndex++){
             
-            if(oIndex<primativeTable[primative].arity){
+            if(oIndex<primitiveTable[primitive].arity){
                 
                 int operandIndex = randRange(0,fIndex-1);
                 
@@ -245,10 +245,10 @@ void printPopulation(){
     for(int popIndex = 0; popIndex < POPULATION_SIZE; popIndex++){
         Node node = population[popIndex];
         printf(
-            "Index: %d primative: %s Arity: %d\nFitness: %d OldFitness: %d\nOperands:", 
+            "Index: %d primitive: %s Arity: %d\nFitness: %d OldFitness: %d\nOperands:", 
             popIndex,
-            primativeTable[node.primative].name,
-            primativeTable[node.primative].arity,
+            primitiveTable[node.primitive].name,
+            primitiveTable[node.primitive].arity,
             node.fitness,
             node.oldFitness
         );
@@ -274,7 +274,7 @@ void printPopulation(){
 
 int execute(Node* node){
     
-    switch(node->primative){
+    switch(node->primitive){
         
         case INDEX:{
             
@@ -373,7 +373,7 @@ int execute(Node* node){
         }break;
             
         default:
-            printf("\nINVALID PRIMATIVE (%d)\n", node->primative);
+            printf("\nINVALID PRIMITIVE (%d)\n", node->primitive);
             return -1;
     }
     
@@ -452,7 +452,7 @@ int test(Node* node, int testSet, int testNum){
     
     if(test->inversions == -1){
         
-        //memcpy(arrBuffer, test->arr, test->size);
+        memcpy(results, test->arr, test->size);
         //test->inversions = countInversions(arrBuffer, test->size, 0);
         
     }
@@ -488,14 +488,51 @@ int evaluatePopulationSNGP_A(){
     
 }
 
+void initialiseExamplePopulation(){
+	
+	population[0].primitive = INDEX;
+	
+	population[1].primitive = LENGTH;
+	
+	population[2].primitive = INC;
+	population[2].operands[0] = 0;
+	
+	population[3].primitive = SMALLEST;
+	population[3].operands[0] = 2;
+	population[3].operands[1] = 0;
+	
+	population[4].primitive = SWAP;
+	population[4].operands[0] = 3;
+	population[4].operands[1] = 0;
+	
+	population[5].primitive = SUB;
+	population[4].operands[0] = 1;
+	population[4].operands[1] = 1;
+	
+	population[6].primitive = DEC;
+	population[6].operands[0] = 1;
+	
+	population[7].primitive = ITERATE;
+	population[7].operands[0] = 5;
+	population[7].operands[1] = 6;
+	population[7].operands[2] = 4;
+	
+	population[8].primitive = ITERATE;
+	population[8].operands[0] = 5;
+	population[8].operands[1] = 6;
+	population[8].operands[2] = 7;
+	
+}
+
 int main(int argc, char* argv[]){
     
     printf("Start\n\n");
     printf(argv[1]);
     printf("\n\n");
     
-    printPrimativeTable();
+    printPrimitiveTable();
     
+	/*
     if(init(argv[1])){
         printf("File Not Found");
         return 1;
@@ -506,7 +543,15 @@ int main(int argc, char* argv[]){
     evaluatePopulationSNGP_A();
     
     printPopulation();
-    
+    */
+	
+	initialiseExamplePopulation();
+	printPopulation();
+	
+	initialiseTestData(argv[1]);
+	test(&population[8],2,1);
+	
+	
     
     
     return 0;
