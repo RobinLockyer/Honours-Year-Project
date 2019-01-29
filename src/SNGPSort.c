@@ -31,7 +31,6 @@ int maxTestSize;
 Array* results = NULL;
 int* mergeBuffer1 = NULL;
 int* mergeBuffer2 = NULL;
-int index;
 
 int generation = 0;
 
@@ -272,7 +271,11 @@ void printPopulation(){
     
 }
 
-int execute(Node* node){
+int execute(int popIndex){
+    
+    Node* node = &population[popIndex];
+    
+    int index = 0;
     
     switch(node->primitive){
         
@@ -291,12 +294,12 @@ int execute(Node* node){
         case ITERATE:{
                 
             int len = results->size;
-            int start = execute(&population[node->operands[0]]);
-            int end = execute(&population[node->operands[1]]);
-            Node* function = &population[node->operands[2]];
+            int start = execute(node->operands[0]);
+            int end = execute(node->operands[1]);
+            int functionIndex = node->operands[2];
             
-            for(index = start; index < end || index < len; index++){
-                execute(function);
+            for(index = start; index <= end && index< len; index++){
+                execute(functionIndex);
             }
             
             return (end < len) ? end : len ;
@@ -305,8 +308,8 @@ int execute(Node* node){
             
         case SWAP:{
             
-            int x = node->operands[0];
-            int y = node->operands[1];
+            int x = execute(node->operands[0]);
+            int y = execute(node->operands[1]);
             int t = results->arr[x];
             results->arr[x] = results->arr[y];
             results->arr[y] = t;
@@ -317,8 +320,8 @@ int execute(Node* node){
             
         case SMALLEST:{
             
-            int x = node->operands[0];
-            int y = node->operands[1];
+            int x = execute(node->operands[0]);
+            int y = execute(node->operands[1]);
             
             if(results->arr[x] < results->arr[y]){
                 return x;
@@ -333,8 +336,8 @@ int execute(Node* node){
             
         case LARGEST:{
             
-            int x = node->operands[0];
-            int y = node->operands[1];
+            int x = execute(node->operands[0]);
+            int y = execute(node->operands[1]);
             
             if(results->arr[x] > results->arr[y]){
                 return x;
@@ -349,8 +352,8 @@ int execute(Node* node){
             
         case SUB:{
             
-            int x = node->operands[0];
-            int y = node->operands[1];
+            int x = execute(node->operands[0]);
+            int y = execute(node->operands[1]);
             
             return x-y;
             
@@ -358,7 +361,7 @@ int execute(Node* node){
             
         case INC:{
             
-            int x = node->operands[0];
+            int x = execute(node->operands[0]);
             
             return x+1;
             
@@ -366,7 +369,7 @@ int execute(Node* node){
             
         case DEC:{
             
-            int x = node->operands[0];
+            int x = execute(node->operands[0]);
             
             return x-1;
             
@@ -446,7 +449,7 @@ int countInversions(Array* arr){
     
 }
 
-int test(Node* node, int testSet, int testNum){
+int evaluateNode(int popIndex, int testSet, int testNum){
     
     Array* test = tests[testSet][testNum];
     
@@ -459,7 +462,7 @@ int test(Node* node, int testSet, int testNum){
     
     memcpy(results, test, arrayMem(test->size));
     
-    execute(node);
+    execute(popIndex);
     
     
     
@@ -473,12 +476,9 @@ int evaluatePopulationSNGP_A(){
     
     for(int popIndex = 0; popIndex < POPULATION_SIZE; popIndex++){
         
-        Node* node = &population[popIndex];
-        
-        
         for(int testNum = 0; testNum < NUM_TESTS; testNum++){
             
-            totalFitness += test(node, generation, testNum);
+            totalFitness += evaluateNode(popIndex, generation, testNum);
             
         }
         
@@ -549,9 +549,17 @@ int main(int argc, char* argv[]){
 	printPopulation();
 	
 	initialiseTestData(argv[1]);
-	test(&population[8],2,1);
-	
-	
+    results = malloc(arrayMem(maxTestSize));
+    
+    printf("Test data initialised\n");
+    
+	int testResult = evaluateNode(8,2,1);
+    
+	for(int i = 0; i < results->size; i++){
+        
+        printf("%d ", results->arr[i]);
+        
+    }
     
     
     return 0;
