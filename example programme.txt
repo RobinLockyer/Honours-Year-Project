@@ -1,0 +1,17 @@
+ITERATE(
+	0,
+	DECREMENT( LENGTH ),
+	ITERATE(
+		0,
+		DECREMENT( LENGTH ),
+		SWAP( 
+			SMALLER(  
+				INCREMENT( INDEX ),
+				INDEX
+			),
+			INDEX
+ 		)
+	)
+	
+
+)
