@@ -1,2 +1,2 @@
 @echo off
-build\SNGPSort data\tests.dat
+build\SNGPSort data\test1.dat

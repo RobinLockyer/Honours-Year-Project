@@ -170,8 +170,9 @@ int initialiseTestData(char* path){
         ungetc(firstC,file);
         
         int arrSize = 0;
+		int inversions = 0;
         
-        fscanf(file, "%d", &arrSize);
+        fscanf(file, "%d %d", &arrSize, &inversions);
         
         tests[setNum][testNum] = malloc( arrayMem(arrSize) );
         
@@ -179,7 +180,7 @@ int initialiseTestData(char* path){
         
         Array* test = tests[setNum][testNum];
         test->size = arrSize;
-        test->inversions = -1;
+        test->inversions = inversions;
         
         for(int i = 0; i < arrSize; i++){
             

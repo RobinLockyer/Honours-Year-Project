@@ -2,7 +2,15 @@
 if NOT EXIST "build" mkdir build
 if not defined DevEnvDir (
     SET VSCMD_START_DIR="%CD%"
-    "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
+    if EXIST "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" (
+	
+		"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
+	
+	) else (
+	
+		"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
+	
+	)
 )
 pushd build
 cl -Zi ..\src\SNGPSort.c
