@@ -496,6 +496,8 @@ Fitness_t evaluatePopulationSNGP_A(){
             
         }
 		
+		population[popindex].oldFitness = population[popIndex].fitness;
+		
 		population[popIndex].fitness = nodeTotalFitness / NUM_TESTS;
 		
 		totalFitness += population[popIndex].fitness;
