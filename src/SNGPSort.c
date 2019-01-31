@@ -5,6 +5,8 @@
 
 #define RANDOM_SEED 1892
 
+#define Fitness_t float
+
 #define NUM_TERMINALS 2
 #define NUM_FUNCTIONS 7
 #define NUM_PRIMITIVES NUM_TERMINALS+NUM_FUNCTIONS
@@ -12,10 +14,9 @@
 
 #define MAX_OPS 3
 
-#define POPULATION_SIZE 10
+#define POPULATION_SIZE 20
 
 #define NUM_TESTS 5
-#define LINE_LENGTH 255
 
 typedef struct{
     int size;
@@ -68,8 +69,8 @@ TableEntry primitiveTable[NUM_PRIMITIVES] = {
 
 typedef struct {
     Primitive primitive;
-    int fitness;
-    int oldFitness;
+    double fitness;
+    double oldFitness;
     int operands[MAX_ARITY];
     bool predecessors[POPULATION_SIZE];
 } Node;
@@ -246,7 +247,7 @@ void printPopulation(){
     for(int popIndex = 0; popIndex < POPULATION_SIZE; popIndex++){
         Node node = population[popIndex];
         printf(
-            "Index: %d primitive: %s Arity: %d\nFitness: %d OldFitness: %d\nOperands:", 
+            "Index: %d primitive: %s Arity: %d\nFitness: %f OldFitness: %f\nOperands:", 
             popIndex,
             primitiveTable[node.primitive].name,
             primitiveTable[node.primitive].arity,
@@ -456,7 +457,7 @@ int countInversions(Array* arr){
     
 }
 
-int evaluateNode(int popIndex, int testSet, int testNum){
+Fitness_t evaluateNode(int popIndex, int testSet, int testNum){
     
     Array* test = tests[testSet][testNum];
     
@@ -469,26 +470,32 @@ int evaluateNode(int popIndex, int testSet, int testNum){
     }
     
     memcpy(results, test, arrayMem(test->size));
+	execute(popIndex);
+	Fitness_t fitness = 1.0/(1+countInversions(results));
     
-    execute(popIndex);
     
     
-    
-    return 0; //countInversions(results->arr, test->size, 0);
+    return fitness; 
     
 }
 
-int evaluatePopulationSNGP_A(){
+Fitness_t evaluatePopulationSNGP_A(){
     
-    int totalFitness = 0;
+    Fitness_t totalFitness = 0;
     
     for(int popIndex = 0; popIndex < POPULATION_SIZE; popIndex++){
         
+		Fitness_t nodeTotalFitness = 0;
+		
         for(int testNum = 0; testNum < NUM_TESTS; testNum++){
             
-            totalFitness += evaluateNode(popIndex, generation, testNum);
+			nodeTotalFitness += evaluateNode(popIndex, generation, testNum);
             
         }
+		
+		population[popIndex].fitness = nodeTotalFitness / NUM_TESTS;
+		
+		totalFitness += population[popIndex].fitness;
         
     }
     
@@ -536,31 +543,11 @@ void initialiseExamplePopulation(){
 	
 }
 
-int main(int argc, char* argv[]){
-    
-    printf("Start\n\n");
-    printf(argv[1]);
-    printf("\n\n");
-    
-    printPrimitiveTable();
-    
-	/*
-    if(init(argv[1])){
-        printf("File Not Found");
-        return 1;
-    }
-    
-    printTestData();
-    
-    evaluatePopulationSNGP_A();
-    
-    printPopulation();
-    */
+void testExecution(){
 	
 	initialiseExamplePopulation();
 	printPopulation();
 	
-	initialiseTestData(argv[1]);
     results = malloc(arrayMem(maxTestSize));
     
     printf("Test data initialised\n");
@@ -572,7 +559,27 @@ int main(int argc, char* argv[]){
         printf("%d ", results->arr[i]);
         
     }
+	
+}
+
+int main(int argc, char* argv[]){
     
+    printf("Start\n\n");
+    printf(argv[1]);
+    printf("\n\n");
     
+    printPrimitiveTable();
+    
+    if(init(argv[1])){
+        printf("File Not Found");
+        return 1;
+    }
+    
+    printTestData();
+    
+    printf("SNGP/A Fitness: %f\n\n",evaluatePopulationSNGP_A());
+    
+    printPopulation();
+	
     return 0;
 }
