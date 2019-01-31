@@ -32,6 +32,8 @@ Array* results = NULL;
 int* mergeBuffer1 = NULL;
 int* mergeBuffer2 = NULL;
 
+int index = 0;
+
 int generation = 0;
 
 typedef enum {
@@ -275,8 +277,6 @@ int execute(int popIndex){
     
     Node* node = &population[popIndex];
     
-    int index = 0;
-    
     switch(node->primitive){
         
         case INDEX:{
@@ -298,7 +298,10 @@ int execute(int popIndex){
             int end = execute(node->operands[1]);
             int functionIndex = node->operands[2];
             
-            for(index = start; index <= end && index< len; index++){
+            for(int i = start; i <= end && i < len; ++i){
+				
+				index = i;
+				
                 execute(functionIndex);
             }
             
@@ -310,6 +313,10 @@ int execute(int popIndex){
             
             int x = execute(node->operands[0]);
             int y = execute(node->operands[1]);
+			
+			//If x or y is not a valid index, return 0
+			if(x<0 || y<0 || x>=results->size || y>=results->size) return 0;
+			
             int t = results->arr[x];
             results->arr[x] = results->arr[y];
             results->arr[y] = t;
@@ -453,10 +460,11 @@ int evaluateNode(int popIndex, int testSet, int testNum){
     
     Array* test = tests[testSet][testNum];
     
+	//If inversions not counted, count inversions
     if(test->inversions == -1){
         
         memcpy(results, test->arr, test->size);
-        //test->inversions = countInversions(arrBuffer, test->size, 0);
+        countInversions(test);
         
     }
     
@@ -506,8 +514,8 @@ void initialiseExamplePopulation(){
 	population[4].operands[1] = 0;
 	
 	population[5].primitive = SUB;
-	population[4].operands[0] = 1;
-	population[4].operands[1] = 1;
+	population[5].operands[0] = 1;
+	population[5].operands[1] = 1;
 	
 	population[6].primitive = DEC;
 	population[6].operands[0] = 1;
@@ -521,6 +529,10 @@ void initialiseExamplePopulation(){
 	population[8].operands[0] = 5;
 	population[8].operands[1] = 6;
 	population[8].operands[2] = 7;
+	
+	population[9].primitive = SWAP;
+	population[9].operands[0] = 6;
+	population[9].operands[1] = 0;
 	
 }
 
