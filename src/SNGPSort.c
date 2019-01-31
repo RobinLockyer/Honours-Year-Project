@@ -299,12 +299,14 @@ int execute(int popIndex){
             int end = execute(node->operands[1]);
             int functionIndex = node->operands[2];
             
-            for(int i = start; i <= end && i < len; ++i){
-				
-				index = i;
+			int oldIndex = index;
+			
+            for(index = start; index <= end && index < len; ++index){
 				
                 execute(functionIndex);
             }
+			
+			index = oldIndex;
             
             return (end < len) ? end : len ;
                 
@@ -468,12 +470,13 @@ Fitness_t evaluateNode(int popIndex, int testSet, int testNum){
         countInversions(test);
         
     }
+	
+	index = 0;
     
-    memcpy(results, test, arrayMem(test->size));
+	memcpy(results, test, arrayMem(test->size));
 	execute(popIndex);
+	
 	Fitness_t fitness = 1.0/(1+countInversions(results));
-    
-    
     
     return fitness; 
     
@@ -575,7 +578,7 @@ int main(int argc, char* argv[]){
         return 1;
     }
     
-    printTestData();
+    //printTestData();
     
     printf("SNGP/A Fitness: %f\n\n",evaluatePopulationSNGP_A());
     
