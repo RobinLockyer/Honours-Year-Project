@@ -5,8 +5,6 @@
 
 #define RANDOM_SEED 1892
 
-#define Fitness_t float
-
 #define NUM_TERMINALS 2
 #define NUM_FUNCTIONS 7
 #define NUM_PRIMITIVES NUM_TERMINALS+NUM_FUNCTIONS
@@ -459,7 +457,7 @@ int countInversions(Array* arr){
     
 }
 
-Fitness_t evaluateNode(int popIndex, int testSet, int testNum){
+float evaluateNode(int popIndex, int testSet, int testNum){
     
     Array* test = tests[testSet][testNum];
     
@@ -476,19 +474,19 @@ Fitness_t evaluateNode(int popIndex, int testSet, int testNum){
 	memcpy(results, test, arrayMem(test->size));
 	execute(popIndex);
 	
-	Fitness_t fitness = 1.0/(1+countInversions(results));
+	float fitness = 1.0/(1+countInversions(results));
     
     return fitness; 
     
 }
 
-Fitness_t evaluatePopulationSNGP_A(){
+float evaluatePopulationSNGP_A(){
     
-    Fitness_t totalFitness = 0;
+    float totalFitness = 0;
     
     for(int popIndex = 0; popIndex < POPULATION_SIZE; popIndex++){
         
-		Fitness_t nodeTotalFitness = 0;
+		float nodeTotalFitness = 0;
 		
         for(int testNum = 0; testNum < NUM_TESTS; testNum++){
             
@@ -496,7 +494,7 @@ Fitness_t evaluatePopulationSNGP_A(){
             
         }
 		
-		population[popindex].oldFitness = population[popIndex].fitness;
+		population[popIndex].oldFitness = population[popIndex].fitness;
 		
 		population[popIndex].fitness = nodeTotalFitness / NUM_TESTS;
 		
@@ -567,6 +565,22 @@ void testExecution(){
 	
 }
 
+void successorMutate(int popIndex){
+	
+	
+	Node* node = &population[popIndex];
+	
+	int randomOperandIndex = randRange(0, primitiveTable[node->primitive].arity-1);
+	
+	removePredecessor(node->operands[randomOperandIndex], popIndex);
+	
+	int newOperand = randRange(0,popIndex-1);
+	
+	node->operands[randomOperandIndex] = newOperand;
+	
+	addPredecessor(newOperand, popIndex);
+}
+
 int main(int argc, char* argv[]){
     
     printf("Start\n\n");
@@ -574,7 +588,7 @@ int main(int argc, char* argv[]){
     printf("\n\n");
     
     printPrimitiveTable();
-    
+   
     if(init(argv[1])){
         printf("File Not Found");
         return 1;
