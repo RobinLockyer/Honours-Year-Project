@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
+//#include <string.h>
 
 #define RANDOM_SEED 1892
 
@@ -70,7 +69,7 @@ typedef struct {
     double fitness;
     double oldFitness;
     int operands[MAX_ARITY];
-    bool predecessors[POPULATION_SIZE];
+    int predecessors[POPULATION_SIZE];
 } Node;
 
 Node population[POPULATION_SIZE];
@@ -88,6 +87,50 @@ void printPrimitiveTable(){
     
 }
 
+void addPredecessor(int popIndex, int predIndex){
+    
+    //If the node is a terminal, we don't need to maintain its predecessor array
+    if(popIndex < NUM_TERMINALS) return;
+    
+    Node* node = &population[popIndex];
+    
+    int* predArray = node->predecessors;
+    
+    int prevValue = 0;
+    
+    int nextValue = predArray[prevValue];
+    
+    while(nextValue != 0 && predArray[nextValue] >= predIndex){
+        
+        prevValue = predArray[prevValue];
+        nextValue = predArray[nextValue];
+        
+        
+    }
+    
+    if(nextValue != predIndex){
+        
+        predArray[prevValue] = predIndex;
+        
+        predArray[predIndex] = nextValue;
+        
+    }
+    
+    
+    
+}
+
+void removePredecessor(int popIndex, int predIndex){
+    
+    //If the node is a terminal, we don't need to maintain its predecessor array
+    if(predIndex < NUM_TERMINALS) return;
+    
+    int* predArray = population[popIndex].predecessors;
+    
+    
+    
+}
+
 //Returns random number in interval [min,max] inclusive
 int randRange(int min, int max){
     
@@ -97,19 +140,15 @@ int randRange(int min, int max){
 
 void initialisePopulation(){
     
-    for(int tIndex = 0; tIndex < NUM_TERMINALS; tIndex++){
+    for(int terminalIndex = 0; terminalIndex < NUM_TERMINALS; terminalIndex++){
         
-        population[tIndex].primitive = tIndex;
-        for(int oIndex = 0; oIndex < MAX_ARITY; oIndex++){
-            
-             population[tIndex].operands[oIndex] = -1;
-            
-        }
+        population[terminalIndex].primitive = terminalIndex;
+        
     }
     
-    for(int fIndex = NUM_TERMINALS; fIndex < POPULATION_SIZE; fIndex++){
+    for(int functionIndex = NUM_TERMINALS; functionIndex < POPULATION_SIZE; functionIndex++){
         
-        Node* node = &population[fIndex];
+        Node* node = &population[functionIndex];
         
         Primitive primitive = randRange(NUM_TERMINALS,NUM_PRIMITIVES-1);
         
@@ -117,19 +156,19 @@ void initialisePopulation(){
         node->fitness = -1;
         node->oldFitness = -1;
         
-        for(int oIndex = 0; oIndex < MAX_ARITY; oIndex++){
+        for(int operandIndex = 0; operandIndex < MAX_ARITY; operandIndex++){
             
-            if(oIndex<primitiveTable[primitive].arity){
+            if( operandIndex < primitiveTable[primitive].arity ){
                 
-                int operandIndex = randRange(0,fIndex-1);
+                int randomOperand = randRange(0,functionIndex-1);
                 
-                node->operands[oIndex] = operandIndex;
+                node->operands[operandIndex] = randomOperand;
                 
-                population[operandIndex].predecessors[fIndex] = true;
+                addPredecessor(randomOperand, functionIndex);
                 
             } else{
                 
-                node->operands[oIndex] = -1;
+                node->operands[operandIndex] = -1;
                 
             }
             
@@ -253,13 +292,13 @@ void printPopulation(){
             node.oldFitness
         );
         
-        for(int j = 0; j < MAX_ARITY; j++){
+        for(int j = 0; j < primitiveTable[node.primitive].arity; j++ ){
             printf("%d ",node.operands[j]);
         }
         
         printf("\nPredecessors: ");
         
-        for(int j = 0; j < POPULATION_SIZE; j++){
+        for(int j = 0; j < POPULATION_SIZE && node.predecessors[j] != 0; j = node.predecessors[j]){
             
             if(node.predecessors[j]) printf("%d ",j);
             
@@ -564,6 +603,7 @@ void testExecution(){
     }
 	
 }
+
 
 void successorMutate(int popIndex){
 	
