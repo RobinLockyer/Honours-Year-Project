@@ -87,7 +87,7 @@ void printPrimitiveTable(){
     
 }
 
-void addPredecessor(int popIndex, int predIndex){
+void addPredecessor(int popIndex, int newPredIndex){
     
     //If the node is a terminal, we don't need to maintain its predecessor array
     if(popIndex < NUM_TERMINALS) return;
@@ -96,19 +96,19 @@ void addPredecessor(int popIndex, int predIndex){
     
     int* predArray = node->predecessors;
     
-    int nextValue = predArray[0];
+    int nextValue = 0;
     
-    while(nextValue != 0 && predArray[nextValue] >= predIndex){
+    while(predArray[nextValue] != 0 && predArray[nextValue] < newPredIndex){
         
         nextValue = predArray[nextValue];
         
     }
     
-    if(nextValue != predIndex){
+    if(predArray[nextValue] != newPredIndex){
         
-        predArray[predIndex] = predArray[nextValue];
+        predArray[newPredIndex] = predArray[nextValue];
         
-        predArray[nextValue] = predIndex;
+        predArray[nextValue] = newPredIndex;
         
     }
     
@@ -116,18 +116,18 @@ void addPredecessor(int popIndex, int predIndex){
     
 }
 
-int removePredecessor(int popIndex, int predIndex){
+int removePredecessor(int popIndex, int newPredIndex){
     
     //If the node is a terminal, we don't need to maintain its predecessor array
-    if(predIndex < NUM_TERMINALS) return 0;
+    if(popIndex < NUM_TERMINALS) return 0;
     
     Node* node = &population[popIndex];
     
     int* predArray = node->predecessors;
     
-    int nextValue = predArray[0];
+    int nextValue = 0;
     
-    while(nextValue != 0 && predArray[nextValue] != predIndex){
+    while(predArray[nextValue] != 0 && predArray[nextValue] != newPredIndex){
         
         nextValue = predArray[nextValue];
         
@@ -136,9 +136,9 @@ int removePredecessor(int popIndex, int predIndex){
     //if predIndex not found in predArray, return error
     if(nextValue == 0) return 1;
     
-    predArray[nextValue] = predArray[predIndex];
+    predArray[nextValue] = predArray[newPredIndex];
     
-    predArray[predIndex] = 0;
+    predArray[newPredIndex] = 0;
     
     return 0;
 }
@@ -296,7 +296,7 @@ void printPopulation(){
     for(int popIndex = 0; popIndex < POPULATION_SIZE; popIndex++){
         Node node = population[popIndex];
         printf(
-            "Index: %d primitive: %s Arity: %d\nFitness: %f OldFitness: %f\nOperands:", 
+            "Index: %d primitive: %s Arity: %d\nFitness: %f OldFitness: %f\nOperands: ", 
             popIndex,
             primitiveTable[node.primitive].name,
             primitiveTable[node.primitive].arity,
@@ -310,9 +310,9 @@ void printPopulation(){
         
         printf("\nPredecessors: ");
         
-        for(int j = node.predecessors[0]; j < POPULATION_SIZE && j != 0; j = node.predecessors[j]){
+        for(int j = 0; j < POPULATION_SIZE; ++j){
             
-            printf("%d ",j);
+            if(node.predecessors[j]!=0)printf("%d ",node.predecessors[j]);
             
         }
         
@@ -649,6 +649,8 @@ int main(int argc, char* argv[]){
     //printTestData();
     
     printf("SNGP/A Fitness: %f\n\n",evaluatePopulationSNGP_A());
+    
+    removePredecessor(4,12);
     
     printPopulation();
 	
