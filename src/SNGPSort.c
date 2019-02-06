@@ -102,7 +102,6 @@ void addPredecessor(int popIndex, int predIndex){
         
         nextValue = predArray[nextValue];
         
-        
     }
     
     if(nextValue != predIndex){
@@ -117,15 +116,31 @@ void addPredecessor(int popIndex, int predIndex){
     
 }
 
-void removePredecessor(int popIndex, int predIndex){
+int removePredecessor(int popIndex, int predIndex){
     
     //If the node is a terminal, we don't need to maintain its predecessor array
-    if(predIndex < NUM_TERMINALS) return;
+    if(predIndex < NUM_TERMINALS) return 0;
     
-    int* predArray = population[popIndex].predecessors;
+    Node* node = &population[popIndex];
     
+    int* predArray = node->predecessors;
     
+    int nextValue = predArray[0];
     
+    while(nextValue != 0 && predArray[nextValue] != predIndex){
+        
+        nextValue = predArray[nextValue];
+        
+    }
+    
+    //if predIndex not found in predArray, return error
+    if(nextValue == 0) return 1;
+    
+    predArray[nextValue] = predArray[predIndex];
+    
+    predArray[predIndex] = 0;
+    
+    return 0;
 }
 
 //Returns random number in interval [min,max] inclusive
