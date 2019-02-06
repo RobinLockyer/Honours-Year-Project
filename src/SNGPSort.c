@@ -650,9 +650,18 @@ int main(int argc, char* argv[]){
     
     printf("SNGP/A Fitness: %f\n\n",evaluatePopulationSNGP_A());
     
-    removePredecessor(4,12);
     
     printPopulation();
+    
+    int randomNode = randRange(NUM_TERMINALS,POPULATION_SIZE-1);
+    
+    successorMutate(randomNode);
+    
+    printf("SNGP/A Fitness: %f\n\n",evaluatePopulationSNGP_A());
+    
+    printPopulation();
+    
+    printf("Random node: %d\n\n", randomNode);
 	
     return 0;
 }
