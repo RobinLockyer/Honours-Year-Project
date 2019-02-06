@@ -96,13 +96,10 @@ void addPredecessor(int popIndex, int predIndex){
     
     int* predArray = node->predecessors;
     
-    int prevValue = 0;
-    
-    int nextValue = predArray[prevValue];
+    int nextValue = predArray[0];
     
     while(nextValue != 0 && predArray[nextValue] >= predIndex){
         
-        prevValue = predArray[prevValue];
         nextValue = predArray[nextValue];
         
         
@@ -110,9 +107,9 @@ void addPredecessor(int popIndex, int predIndex){
     
     if(nextValue != predIndex){
         
-        predArray[prevValue] = predIndex;
+        predArray[predIndex] = predArray[nextValue];
         
-        predArray[predIndex] = nextValue;
+        predArray[nextValue] = predIndex;
         
     }
     
@@ -298,9 +295,9 @@ void printPopulation(){
         
         printf("\nPredecessors: ");
         
-        for(int j = 0; j < POPULATION_SIZE && node.predecessors[j] != 0; j = node.predecessors[j]){
+        for(int j = node.predecessors[0]; j < POPULATION_SIZE && j != 0; j = node.predecessors[j]){
             
-            if(node.predecessors[j]) printf("%d ",j);
+            printf("%d ",j);
             
         }
         
