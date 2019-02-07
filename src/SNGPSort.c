@@ -28,6 +28,7 @@ int maxTestSize;
 Array* results = NULL;
 int* mergeBuffer1 = NULL;
 int* mergeBuffer2 = NULL;
+int updateList[POPULATION_SIZE];
 
 int index = 0;
 
@@ -519,6 +520,17 @@ void successorMutate(int popIndex){
 	node->operands[randomOperandIndex] = newOperand;
 	
 	addPredecessor(newOperand, popIndex);
+}
+
+void buildUpdateList(int popIndex){
+	
+	memcpy(updateList, population[popIndex].predecessors, POPULATION_SIZE * sizeof(int));
+	
+	updateList[0] = popIndex;
+	
+	
+	
+	
 }
 
 #include "SNGP_Sort_Debug.c"
