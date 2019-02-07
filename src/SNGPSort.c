@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-//#include <string.h>
 
 #define RANDOM_SEED 1892
 
@@ -33,6 +32,7 @@ int* mergeBuffer2 = NULL;
 int index = 0;
 
 int generation = 0;
+float totalFitness = 0;
 
 typedef enum {
     INDEX,
@@ -74,18 +74,7 @@ typedef struct {
 
 Node population[POPULATION_SIZE];
 
-void printPrimitiveTable(){
-    
-    for(int i = 0; i < NUM_PRIMITIVES; i++){
-        
-        TableEntry entry = primitiveTable[i];
-        printf("i: %d, e: %d, a: %d n: %s\n", i, entry.primitive, entry.arity, entry.name);
-        
-    }
-    
-    printf("\n");
-    
-}
+
 
 void addPredecessor(int popIndex, int newPredIndex){
     
@@ -134,7 +123,7 @@ int removePredecessor(int popIndex, int newPredIndex){
     }
     
     //if predIndex not found in predArray, return error
-    if(nextValue == 0) return 1;
+    if(predArray[nextValue] == 0) return 1;
     
     predArray[nextValue] = predArray[newPredIndex];
     
@@ -248,35 +237,7 @@ int initialiseTestData(char* path){
     return 0;
 }
 
-void printTestData(){
-    
-    for(int i = 0; i < MAX_OPS; i++){
-        
-        printf("Set %d\n\n", i);
-        
-        for(int j = 0; j < NUM_TESTS; j++){
-            
-            Array* test = tests[i][j];
-            
-            printf("Test: %d-%d Size: %d Inversions: %d\n", i, j, test->size, test->inversions);
-            
-            for(int k = 0; k < test->size; k++){
-                
-                printf("%d " , test->arr[k]);
-                
-            }
-            
-            printf("\n");
-            
-        }
-        
-        printf("\n");
-        
-    }
-    
-    printf("\n");
-    
-}
+
 
 int init(char* path){
     if(path == NULL) return 1;
@@ -290,38 +251,7 @@ int init(char* path){
     
 }
 
-void printPopulation(){
-    
-    
-    for(int popIndex = 0; popIndex < POPULATION_SIZE; popIndex++){
-        Node node = population[popIndex];
-        printf(
-            "Index: %d primitive: %s Arity: %d\nFitness: %f OldFitness: %f\nOperands: ", 
-            popIndex,
-            primitiveTable[node.primitive].name,
-            primitiveTable[node.primitive].arity,
-            node.fitness,
-            node.oldFitness
-        );
-        
-        for(int j = 0; j < primitiveTable[node.primitive].arity; j++ ){
-            printf("%d ",node.operands[j]);
-        }
-        
-        printf("\nPredecessors: ");
-        
-        for(int j = 0; j < POPULATION_SIZE; ++j){
-            
-            if(node.predecessors[j]!=0)printf("%d ",node.predecessors[j]);
-            
-        }
-        
-        printf("\n\n");
-    }
-    
-    printf("\n");
-    
-}
+
 
 int execute(int popIndex){
     
@@ -508,7 +438,7 @@ int countInversions(Array* arr){
     
 }
 
-float evaluateNode(int popIndex, int testSet, int testNum){
+float testNode(int popIndex, int testSet, int testNum){
     
     Array* test = tests[testSet][testNum];
     
@@ -531,91 +461,49 @@ float evaluateNode(int popIndex, int testSet, int testNum){
     
 }
 
-float evaluatePopulationSNGP_A(){
-    
-    float totalFitness = 0;
-    
-    for(int popIndex = 0; popIndex < POPULATION_SIZE; popIndex++){
-        
-		float nodeTotalFitness = 0;
+float evaluateNode(int popIndex, int testSet){
+	
+	float nodeTotalFitness = 0;
 		
-        for(int testNum = 0; testNum < NUM_TESTS; testNum++){
-            
-			nodeTotalFitness += evaluateNode(popIndex, generation, testNum);
-            
-        }
+	for(int testNum = 0; testNum < NUM_TESTS; testNum++){
 		
-		population[popIndex].oldFitness = population[popIndex].fitness;
+		nodeTotalFitness += testNode(popIndex, testSet, testNum);
 		
-		population[popIndex].fitness = nodeTotalFitness / NUM_TESTS;
-		
-		totalFitness += population[popIndex].fitness;
-        
-    }
-    
-    return totalFitness/POPULATION_SIZE;
-    
-}
-
-void initialiseExamplePopulation(){
+	}
 	
-	population[0].primitive = INDEX;
+	population[popIndex].oldFitness = population[popIndex].fitness;
 	
-	population[1].primitive = LENGTH;
+	population[popIndex].fitness = nodeTotalFitness / NUM_TESTS;
 	
-	population[2].primitive = INC;
-	population[2].operands[0] = 0;
-	
-	population[3].primitive = SMALLEST;
-	population[3].operands[0] = 2;
-	population[3].operands[1] = 0;
-	
-	population[4].primitive = SWAP;
-	population[4].operands[0] = 3;
-	population[4].operands[1] = 0;
-	
-	population[5].primitive = SUB;
-	population[5].operands[0] = 1;
-	population[5].operands[1] = 1;
-	
-	population[6].primitive = DEC;
-	population[6].operands[0] = 1;
-	
-	population[7].primitive = ITERATE;
-	population[7].operands[0] = 5;
-	population[7].operands[1] = 6;
-	population[7].operands[2] = 4;
-	
-	population[8].primitive = ITERATE;
-	population[8].operands[0] = 5;
-	population[8].operands[1] = 6;
-	population[8].operands[2] = 7;
-	
-	population[9].primitive = SWAP;
-	population[9].operands[0] = 6;
-	population[9].operands[1] = 0;
+	return population[popIndex].fitness;
 	
 }
 
-void testExecution(){
-	
-	initialiseExamplePopulation();
-	printPopulation();
-	
-    results = malloc(arrayMem(maxTestSize));
+float evaluatePopulationSNGP_A(int* updateList, int testSet){
     
-    printf("Test data initialised\n");
-    
-	int testResult = evaluateNode(8,2,1);
-    
-	for(int i = 0; i < results->size; i++){
-        
-        printf("%d ", results->arr[i]);
-        
-    }
+	if(updateList == NULL){
 	
-}
+		totalFitness = 0;
 
+		for(int popIndex = 0; popIndex < POPULATION_SIZE; popIndex++){
+			
+			totalFitness += evaluateNode(popIndex, testSet);
+			
+		}
+	} else{
+		
+		for(int nextUpdateNode = updateList[0]; nextUpdateNode != 0; nextUpdateNode = updateList[nextUpdateNode]){
+			
+			totalFitness += evaluateNode(nextUpdateNode);
+			
+			totalFitness -= population[nextUpdateNode].oldFitness;
+			
+		}
+	}
+    
+    return totalFitness;
+    
+}
 
 void successorMutate(int popIndex){
 	
@@ -633,6 +521,8 @@ void successorMutate(int popIndex){
 	addPredecessor(newOperand, popIndex);
 }
 
+#include "SNGP_Sort_Debug.c"
+
 int main(int argc, char* argv[]){
     
     printf("Start\n\n");
@@ -648,7 +538,7 @@ int main(int argc, char* argv[]){
     
     //printTestData();
     
-    printf("SNGP/A Fitness: %f\n\n",evaluatePopulationSNGP_A());
+    printf("SNGP/A Fitness: %f\n\n",evaluatePopulationSNGP_A(NULL, 0));
     
     
     printPopulation();
@@ -657,7 +547,7 @@ int main(int argc, char* argv[]){
     
     successorMutate(randomNode);
     
-    printf("SNGP/A Fitness: %f\n\n",evaluatePopulationSNGP_A());
+    printf("SNGP/A Fitness: %f\n\n",evaluatePopulationSNGP_A(NULL, 0));
     
     printPopulation();
     
