@@ -1,6 +1,18 @@
 #ifndef SNGP_SORT_DEBUG_C
 #define SNGP_SORT_DEBUG_C
 
+#include<stdio.h>
+
+void printIntArray(int* a, int n){
+    
+    for(int i = 0; i<n; i++){
+        
+        printf("%d ", a[i]);
+        
+    }
+    
+}
+
 void printPrimitiveTable(){
     
     for(int i = 0; i < NUM_PRIMITIVES; i++){

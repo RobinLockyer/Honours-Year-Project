@@ -183,7 +183,7 @@ void initialisePopulation(){
 int initialiseTestData(char* path){
     
     FILE* file = fopen(path,"r");
-	
+    
     if(!file) return 1;
     int setNum = 0;
     int testNum = 0;
@@ -210,7 +210,7 @@ int initialiseTestData(char* path){
         ungetc(firstC,file);
         
         int arrSize = 0;
-		int inversions = 0;
+        int inversions = 0;
         
         fscanf(file, "%d %d", &arrSize, &inversions);
         
@@ -279,14 +279,14 @@ int execute(int popIndex){
             int end = execute(node->operands[1]);
             int functionIndex = node->operands[2];
             
-			int oldIndex = index;
-			
+            int oldIndex = index;
+            
             for(index = start; index <= end && index < len; ++index){
-				
+                
                 execute(functionIndex);
             }
-			
-			index = oldIndex;
+            
+            index = oldIndex;
             
             return (end < len) ? end : len ;
                 
@@ -296,10 +296,10 @@ int execute(int popIndex){
             
             int x = execute(node->operands[0]);
             int y = execute(node->operands[1]);
-			
-			//If x or y is not a valid index, return 0
-			if(x<0 || y<0 || x>=results->size || y>=results->size) return 0;
-			
+            
+            //If x or y is not a valid index, return 0
+            if(x<0 || y<0 || x>=results->size || y>=results->size) return 0;
+            
             int t = results->arr[x];
             results->arr[x] = results->arr[y];
             results->arr[y] = t;
@@ -443,94 +443,123 @@ float testNode(int popIndex, int testSet, int testNum){
     
     Array* test = tests[testSet][testNum];
     
-	//If inversions not counted, count inversions
+    //If inversions not counted, count inversions
     if(test->inversions == -1){
         
         memcpy(results, test->arr, test->size);
         countInversions(test);
         
     }
-	
-	index = 0;
     
-	memcpy(results, test, arrayMem(test->size));
-	execute(popIndex);
-	
-	float fitness = 1.0/(1+countInversions(results));
+    index = 0;
+    
+    memcpy(results, test, arrayMem(test->size));
+    execute(popIndex);
+    
+    float fitness = 1.0/(1+countInversions(results));
     
     return fitness; 
     
 }
 
 float evaluateNode(int popIndex, int testSet){
-	
-	float nodeTotalFitness = 0;
-		
-	for(int testNum = 0; testNum < NUM_TESTS; testNum++){
-		
-		nodeTotalFitness += testNode(popIndex, testSet, testNum);
-		
-	}
-	
-	population[popIndex].oldFitness = population[popIndex].fitness;
-	
-	population[popIndex].fitness = nodeTotalFitness / NUM_TESTS;
-	
-	return population[popIndex].fitness;
-	
+    
+    float nodeTotalFitness = 0;
+        
+    for(int testNum = 0; testNum < NUM_TESTS; testNum++){
+        
+        nodeTotalFitness += testNode(popIndex, testSet, testNum);
+        
+    }
+    
+    population[popIndex].oldFitness = population[popIndex].fitness;
+    
+    population[popIndex].fitness = nodeTotalFitness / NUM_TESTS;
+    
+    return population[popIndex].fitness;
+    
 }
 
 float evaluatePopulationSNGP_A(int* updateList, int testSet){
     
-	if(updateList == NULL){
-	
-		totalFitness = 0;
+    if(updateList == NULL){
+    
+        totalFitness = 0;
 
-		for(int popIndex = 0; popIndex < POPULATION_SIZE; popIndex++){
-			
-			totalFitness += evaluateNode(popIndex, testSet);
-			
-		}
-	} else{
-		
-		for(int nextUpdateNode = updateList[0]; nextUpdateNode != 0; nextUpdateNode = updateList[nextUpdateNode]){
-			
-			totalFitness += evaluateNode(nextUpdateNode);
-			
-			totalFitness -= population[nextUpdateNode].oldFitness;
-			
-		}
-	}
+        for(int popIndex = 0; popIndex < POPULATION_SIZE; popIndex++){
+            
+            totalFitness += evaluateNode(popIndex, testSet);
+            
+        }
+    } else{
+        
+        for(int nextUpdateNode = updateList[0]; nextUpdateNode != 0; nextUpdateNode = updateList[nextUpdateNode]){
+            
+            totalFitness += evaluateNode(nextUpdateNode, testSet);
+            
+            totalFitness -= population[nextUpdateNode].oldFitness;
+            
+        }
+    }
     
     return totalFitness;
     
 }
 
 void successorMutate(int popIndex){
-	
-	
-	Node* node = &population[popIndex];
-	
-	int randomOperandIndex = randRange(0, primitiveTable[node->primitive].arity-1);
-	
-	removePredecessor(node->operands[randomOperandIndex], popIndex);
-	
-	int newOperand = randRange(0,popIndex-1);
-	
-	node->operands[randomOperandIndex] = newOperand;
-	
-	addPredecessor(newOperand, popIndex);
+    
+    
+    Node* node = &population[popIndex];
+    
+    int randomOperandIndex = randRange(0, primitiveTable[node->primitive].arity-1);
+    
+    removePredecessor(node->operands[randomOperandIndex], popIndex);
+    
+    int newOperand = randRange(0,popIndex-1);
+    
+    node->operands[randomOperandIndex] = newOperand;
+    
+    addPredecessor(newOperand, popIndex);
 }
 
+void addToUpdateList(int popIndex){
+    
+    int nextValue = 0;
+    
+    while(updateList[nextValue] != 0 && updateList[nextValue] < popIndex){
+        
+        nextValue = updateList[nextValue];
+        
+    }
+    
+    if(updateList[nextValue] != popIndex){
+        
+        updateList[popIndex] = updateList[nextValue];
+        
+        updateList[nextValue] = popIndex;
+        
+    }
+    
+    
+}
+
+//updateList[0] must be set to 0 before this function is called
 void buildUpdateList(int popIndex){
-	
-	memcpy(updateList, population[popIndex].predecessors, POPULATION_SIZE * sizeof(int));
-	
-	updateList[0] = popIndex;
-	
-	
-	
-	
+    
+    addToUpdateList(popIndex);
+    
+    int* predArray = population[popIndex].predecessors;
+
+    int nextPredecessor = predArray[0];
+    
+    while(nextPredecessor != 0){
+        
+        addToUpdateList(nextPredecessor);
+        buildUpdateList(nextPredecessor);
+        nextPredecessor = predArray[nextPredecessor];
+        
+    }
+    
 }
 
 #include "SNGP_Sort_Debug.c"
@@ -555,15 +584,18 @@ int main(int argc, char* argv[]){
     
     printPopulation();
     
-    int randomNode = randRange(NUM_TERMINALS,POPULATION_SIZE-1);
+    int randomNode = 7;//randRange(NUM_TERMINALS, POPULATION_SIZE-1);
     
     successorMutate(randomNode);
     
-    printf("SNGP/A Fitness: %f\n\n",evaluatePopulationSNGP_A(NULL, 0));
+    buildUpdateList(randomNode);
+    
+    printf("SNGP/A Fitness: %f\n\n",evaluatePopulationSNGP_A(updateList, 0));
     
     printPopulation();
     
-    printf("Random node: %d\n\n", randomNode);
-	
+    printf("Random Node: %d\n", randomNode);
+    printIntArray(updateList, POPULATION_SIZE);
+    
     return 0;
 }
