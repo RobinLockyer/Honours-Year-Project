@@ -8,10 +8,10 @@
 #define NUM_PRIMITIVES NUM_TERMINALS+NUM_FUNCTIONS
 #define MAX_ARITY 3
 
+//The maximum number of times we apply the successor mutate operation
 #define MAX_OPS 3
-
+#define NUM_GENERATIONS MAX_OPS+1
 #define POPULATION_SIZE 20
-
 #define NUM_TESTS 5
 
 typedef struct{
@@ -22,7 +22,7 @@ typedef struct{
 
 #define arrayMem(x) (sizeof(Array) + sizeof(int) * (x))
 
-Array* tests[MAX_OPS][NUM_TESTS];
+Array* tests[NUM_GENERATIONS][NUM_TESTS];
 int maxTestSize;
 
 Array* results = NULL;
@@ -32,8 +32,7 @@ int updateList[POPULATION_SIZE];
 
 int index = 0;
 
-int generation = 0;
-float totalFitness = 0;
+float totalNodeFitness = 0;
 
 typedef enum {
     INDEX,
@@ -195,7 +194,7 @@ int initialiseTestData(char* path){
     maxTestSize = 0;
     
     //Iterate through test data file until we have a test set for each generation or EOF has been reached
-    while(setNum < MAX_OPS){
+    while(setNum < NUM_GENERATIONS){
         
         char firstC = getc(file);
         
@@ -242,22 +241,6 @@ int initialiseTestData(char* path){
     fclose(file);
     return 0;
 }
-
-
-
-int init(char* path){
-    if(path == NULL) return 1;
-    if(initialiseTestData(path)) return 1;
-    srand(RANDOM_SEED);
-    initialisePopulation();
-    results = malloc( arrayMem(maxTestSize) );
-    mergeBuffer1 = malloc( sizeof(int) * maxTestSize );
-    mergeBuffer2 = malloc( sizeof(int) * maxTestSize );
-    return 0;
-    
-}
-
-
 
 int execute(int popIndex){
     
@@ -489,25 +472,25 @@ float evaluatePopulationSNGP_A(int* updateList, int testSet){
     
     if(updateList == NULL){
     
-        totalFitness = 0;
+        totalNodeFitness = 0;
 
         for(int popIndex = 0; popIndex < POPULATION_SIZE; popIndex++){
             
-            totalFitness += evaluateNode(popIndex, testSet);
+            totalNodeFitness += evaluateNode(popIndex, testSet);
             
         }
     } else{
         
         for(int nextUpdateNode = updateList[0]; nextUpdateNode != 0; nextUpdateNode = updateList[nextUpdateNode]){
             
-            totalFitness += evaluateNode(nextUpdateNode, testSet);
+            totalNodeFitness += evaluateNode(nextUpdateNode, testSet);
             
-            totalFitness -= population[nextUpdateNode].oldFitness;
+            totalNodeFitness -= population[nextUpdateNode].oldFitness;
             
         }
     }
     
-    return totalFitness;
+    return totalNodeFitness/POPULATION_SIZE;
     
 }
 
@@ -567,6 +550,25 @@ void buildUpdateList(int popIndex){
     
 }
 
+void revert(int* updateList){
+    
+    
+    
+    
+}
+
+int init(char* path){
+    if(path == NULL) return 1;
+    if(initialiseTestData(path)) return 1;
+    srand(RANDOM_SEED);
+    initialisePopulation();
+    results = malloc( arrayMem(maxTestSize) );
+    mergeBuffer1 = malloc( sizeof(int) * maxTestSize );
+    mergeBuffer2 = malloc( sizeof(int) * maxTestSize );
+    return 0;
+    
+}
+
 #include "SNGP_Sort_Debug.c"
 
 int main(int argc, char* argv[]){
@@ -582,25 +584,34 @@ int main(int argc, char* argv[]){
         return 1;
     }
     
-    //printTestData();
+    float oldFitness = -1;
     
-    printf("SNGP/A Fitness: %f\n\n",evaluatePopulationSNGP_A(NULL, 0));
     
+    //evaluate the initial population (generation 0)
+    float fitness = evaluatePopulationSNGP_A(NULL, 0);
+    
+    for(int generation = 1; generation < NUM_GENERATIONS; ++generation){
+        
+        int randomNode = randRange(NUM_TERMINALS, NUM_PRIMITIVES-1);
+        
+        successorMutate(randomNode);
+        
+        updateList[0] = 0;
+        
+        buildUpdateList(randomNode);
+        
+        oldFitness = fitness;
+        
+        fitness = evaluatePopulationSNGP_A(updateList, generation);
+        
+        if(oldFitness >= fitness){
+            revert(updateList);
+            fitness = oldFitness;
+        }      
+        
+    }
     
     printPopulation();
-    
-    int randomNode = 7;//randRange(NUM_TERMINALS, POPULATION_SIZE-1);
-    
-    successorMutate(randomNode);
-    
-    buildUpdateList(randomNode);
-    
-    //printf("SNGP/A Fitness: %f\n\n",evaluatePopulationSNGP_A(updateList, 0));
-    
-    printPopulation();
-    
-    printf("Random Node: %d\n", randomNode);
-    printIntArray(updateList, POPULATION_SIZE);
     
     return 0;
 }
