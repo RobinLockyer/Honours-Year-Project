@@ -144,7 +144,12 @@ void initialisePopulation(){
     
     for(int terminalIndex = 0; terminalIndex < NUM_TERMINALS; terminalIndex++){
         
-        population[terminalIndex].primitive = terminalIndex;
+        Node* node = &population[terminalIndex];
+        
+        node->primitive = terminalIndex;
+        
+        node->fitness = -1;
+        node->oldFitness = -1;
         
     }
     
@@ -590,7 +595,7 @@ int main(int argc, char* argv[]){
     
     buildUpdateList(randomNode);
     
-    printf("SNGP/A Fitness: %f\n\n",evaluatePopulationSNGP_A(updateList, 0));
+    //printf("SNGP/A Fitness: %f\n\n",evaluatePopulationSNGP_A(updateList, 0));
     
     printPopulation();
     
