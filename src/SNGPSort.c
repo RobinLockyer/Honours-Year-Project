@@ -11,7 +11,7 @@
 //The maximum number of times we apply the successor mutate operation
 #define MAX_OPS 3
 #define NUM_GENERATIONS MAX_OPS+1
-#define POPULATION_SIZE 20
+#define POPULATION_SIZE 10
 #define NUM_TESTS 5
 
 typedef struct{
@@ -586,10 +586,11 @@ int main(int argc, char* argv[]){
     
     float oldFitness = -1;
     
+    initialiseExamplePopulation();
     
     //evaluate the initial population (generation 0)
     float fitness = evaluatePopulationSNGP_A(NULL, 0);
-    
+    /*
     for(int generation = 1; generation < NUM_GENERATIONS; ++generation){
         
         int randomNode = randRange(NUM_TERMINALS, NUM_PRIMITIVES-1);
@@ -609,7 +610,7 @@ int main(int argc, char* argv[]){
             fitness = oldFitness;
         }      
         
-    }
+    }*/
     
     printPopulation();
     
