@@ -383,7 +383,7 @@ int countInversionsRec(int* arr, int* working, int size, int offset){
     
     while( aCounter < sizeA && bCounter < sizeB ){
         
-        if( A[aCounter] < B[aCounter] ){
+        if( A[aCounter] <= B[aCounter] ){
             
             arr[cCounter] = A[aCounter];
             aCounter++;
