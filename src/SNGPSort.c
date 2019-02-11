@@ -9,10 +9,10 @@
 #define MAX_ARITY 3
 
 //The maximum number of times we apply the successor mutate operation
-#define MAX_OPS 3
+#define MAX_OPS 100
 #define NUM_GENERATIONS MAX_OPS+1
-#define POPULATION_SIZE 10
-#define NUM_TESTS 5
+#define POPULATION_SIZE 50
+#define NUM_TESTS 15
 
 typedef struct{
     int size;
@@ -198,8 +198,8 @@ int initialiseTestData(char* path){
         
         char firstC = getc(file);
         
-        //If this line is blank, then we have reached the end of this test set
-        if(firstC == '\n'){
+        //If this line is blank or we have exeeded the number of tests per test set, then we have reached the end of this test set
+        if(firstC == '\n' || testNum >= NUM_TESTS){
             ++setNum;
             testNum = 0;
             continue;
@@ -494,20 +494,15 @@ float evaluatePopulationSNGP_A(int* updateList, int testSet){
     
 }
 
-void successorMutate(int popIndex){
-    
+void successorMutate(int popIndex, int randomOperandIndex, int newOperandValue){
     
     Node* node = &population[popIndex];
     
-    int randomOperandIndex = randRange(0, primitiveTable[node->primitive].arity-1);
-    
     removePredecessor(node->operands[randomOperandIndex], popIndex);
     
-    int newOperand = randRange(0,popIndex-1);
+    node->operands[randomOperandIndex] = newOperandValue;
     
-    node->operands[randomOperandIndex] = newOperand;
-    
-    addPredecessor(newOperand, popIndex);
+    addPredecessor(newOperandValue, popIndex);
 }
 
 void addToUpdateList(int popIndex){
@@ -550,10 +545,17 @@ void buildUpdateList(int popIndex){
     
 }
 
-void revert(int* updateList){
+void restoreFitnessValues(int* list){
     
+    int nextNode = list[0];
     
-    
+    while(nextNode != 0 && nextNode < POPULATION_SIZE){
+        
+        population[nextNode].fitness = population[nextNode].oldFitness;
+        
+        nextNode = list[nextNode];
+        
+    }
     
 }
 
@@ -582,6 +584,10 @@ int main(int argc, char* argv[]){
     if(init(argv[1])){
         printf("File Not Found");
         return 1;
+    }else{
+        
+        printf("\nTest file loaded\n\n");
+        
     }
     
     float oldFitness = -1;
@@ -590,27 +596,50 @@ int main(int argc, char* argv[]){
     
     //evaluate the initial population (generation 0)
     float fitness = evaluatePopulationSNGP_A(NULL, 0);
-    /*
+    
+    printf("\nInitial population evaluated\n");
+    
+    
     for(int generation = 1; generation < NUM_GENERATIONS; ++generation){
         
-        int randomNode = randRange(NUM_TERMINALS, NUM_PRIMITIVES-1);
+        int randomNodeIndex = randRange(NUM_TERMINALS, NUM_PRIMITIVES-1);
+        Node* randomNode = &population[randomNodeIndex];
+        int randomOperandIndex = randRange(0, primitiveTable[randomNode->primitive].arity-1);
+        int oldOperandValue = randomNode->operands[randomOperandIndex];
+        int randomOperandValue = randRange(0,randomNodeIndex-1);
         
-        successorMutate(randomNode);
+        successorMutate(randomNodeIndex, randomOperandIndex, randomOperandValue);
         
         updateList[0] = 0;
         
-        buildUpdateList(randomNode);
+        buildUpdateList(randomNodeIndex);
         
         oldFitness = fitness;
         
         fitness = evaluatePopulationSNGP_A(updateList, generation);
         
         if(oldFitness >= fitness){
-            revert(updateList);
+            
+            restoreFitnessValues(updateList);
+            
             fitness = oldFitness;
+            
+            removePredecessor(randomOperandValue, randomNodeIndex);
+            
+            randomNode->operands[randomOperandIndex] = oldOperandValue;
+            
+            addPredecessor(oldOperandValue, randomNodeIndex);
+            
         }      
         
-    }*/
+        if(generation%1 == 0){
+            
+            printf("\n%d", generation);
+            
+            
+        }
+        
+    }
     
     printPopulation();
     

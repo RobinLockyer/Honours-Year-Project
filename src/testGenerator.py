@@ -2,12 +2,12 @@ from random import randint
 from sys import argv
 
 minIntVal = 0
-maxIntVal = 200
+maxIntVal = 400
 
 minArrSize = 2
-maxArrSize = 100
+maxArrSize = 300
 
-numTests = 5
+numTests = 50
 maxOps = 1000
 
 def countInversions(arr):
