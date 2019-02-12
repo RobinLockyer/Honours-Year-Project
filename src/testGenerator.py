@@ -5,7 +5,7 @@ minIntVal = 0
 maxIntVal = 400
 
 minArrSize = 2
-maxArrSize = 300
+maxArrSize = 100
 
 numTests = 50
 maxOps = 1000
