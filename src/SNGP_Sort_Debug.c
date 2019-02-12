@@ -28,7 +28,7 @@ void printPrimitiveTable(){
 
 void printTestData(){
     
-    for(int i = 0; i < MAX_OPS; i++){
+    for(int i = 0; i < NUM_GENERATIONS; i++){
         
         printf("Set %d\n\n", i);
         
