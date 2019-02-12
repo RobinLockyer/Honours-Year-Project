@@ -592,8 +592,6 @@ int main(int argc, char* argv[]){
     
     float oldFitness = -1;
     
-    initialiseExamplePopulation();
-    
     //evaluate the initial population (generation 0)
     float fitness = evaluatePopulationSNGP_A(NULL, 0);
     
