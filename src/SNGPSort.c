@@ -9,10 +9,10 @@
 #define MAX_ARITY 3
 
 //The maximum number of times we apply the successor mutate operation
-#define MAX_OPS 9
+#define MAX_OPS 2000
 #define NUM_GENERATIONS MAX_OPS+1
 #define POPULATION_SIZE 50
-#define NUM_TESTS 5
+#define NUM_TESTS 15
 
 typedef struct{
     int size;
@@ -604,8 +604,6 @@ int main(int argc, char* argv[]){
         
     }
     
-    printTestData();
-    return 0;
     float oldFitness = -1;
     
     //evaluate the initial population (generation 0)
