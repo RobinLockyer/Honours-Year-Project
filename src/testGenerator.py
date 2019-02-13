@@ -5,10 +5,10 @@ minIntVal = 0
 maxIntVal = 400
 
 minArrSize = 2
-maxArrSize = 30
+maxArrSize = 100
 
-numTests = 50
-maxOps = 1000
+numTests = 40
+maxOps = 3000
 
 def countInversions(arr):
 

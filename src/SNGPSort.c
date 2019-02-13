@@ -9,10 +9,11 @@
 #define MAX_ARITY 3
 
 //The maximum number of times we apply the successor mutate operation
-#define MAX_OPS 2000
+#define MAX_OPS 2999
 #define NUM_GENERATIONS MAX_OPS+1
-#define POPULATION_SIZE 50
+#define POPULATION_SIZE 70
 #define NUM_TESTS 15
+#define MAX_RUNS 20
 
 typedef struct{
     int size;
@@ -31,6 +32,8 @@ int* mergeBuffer2 = NULL;
 int updateList[POPULATION_SIZE];
 
 int index = 0;
+
+int success = 0;
 
 float totalNodeFitness = 0;
 
@@ -458,7 +461,13 @@ float testNode(int popIndex, int testSet, int testNum){
     memcpy(results, test, arrayMem(test->size));
     execute(popIndex);
     
-    float fitness = 1.0/(1+countInversions(results));
+    int inversions = countInversions(results);
+    
+    float fitness = 0;
+    
+    if(test->inversions!=0) fitness = 1 - inversions/(float)test->inversions;
+    else if(inversions == 0) fitness = 1;
+    else fitness = -inversions;
     
     return fitness; 
     
@@ -477,6 +486,8 @@ float evaluateNode(int popIndex, int testSet){
     population[popIndex].oldFitness = population[popIndex].fitness;
     
     population[popIndex].fitness = nodeTotalFitness / NUM_TESTS;
+    
+    if(population[popIndex].fitness > 0.8) success = 1;
     
     return population[popIndex].fitness;
     
@@ -577,7 +588,6 @@ int init(char* path){
     if(path == NULL) return 1;
     if(initialiseTestData(path)) return 1;
     srand(RANDOM_SEED);
-    initialisePopulation();
     results = malloc( arrayMem(maxTestSize) );
     mergeBuffer1 = malloc( sizeof(int) * maxTestSize );
     mergeBuffer2 = malloc( sizeof(int) * maxTestSize );
@@ -604,55 +614,61 @@ int main(int argc, char* argv[]){
         
     }
     
-    float oldFitness = -1;
-    
-    //evaluate the initial population (generation 0)
-    float fitness = evaluatePopulationSNGP_A(NULL, 0);
-    
-    printf("\nInitial population evaluated\n");
-    
-    
-    for(int generation = 1; generation < NUM_GENERATIONS; ++generation){
+    runs:for(int run = 0; run<MAX_RUNS; ++run){
         
-        int randomNodeIndex = randRange(NUM_TERMINALS, NUM_PRIMITIVES-1);
-        Node* randomNode = &population[randomNodeIndex];
-        int randomOperandIndex = randRange(0, primitiveTable[randomNode->primitive].arity-1);
-        int oldOperandValue = randomNode->operands[randomOperandIndex];
-        int randomOperandValue = randRange(0,randomNodeIndex-1);
+        if(success==1) break;
         
-        successorMutate(randomNodeIndex, randomOperandIndex, randomOperandValue);
+        initialisePopulation();
         
-        updateList[0] = 0;
+        float oldFitness = -1;
         
-        buildUpdateList(randomNodeIndex);
+        //evaluate the initial population (generation 0)
+        float fitness = evaluatePopulationSNGP_A(NULL, 0);
         
-        oldFitness = fitness;
         
-        fitness = evaluatePopulationSNGP_A(updateList, generation);
-        
-        if(oldFitness >= fitness){
+        for(int generation = 1; generation < NUM_GENERATIONS; ++generation){
             
-            restoreFitnessValues(updateList);
+            if(success==1) break;
             
-            fitness = oldFitness;
+            int randomNodeIndex = randRange(NUM_TERMINALS, NUM_PRIMITIVES-1);
+            Node* randomNode = &population[randomNodeIndex];
+            int randomOperandIndex = randRange(0, primitiveTable[randomNode->primitive].arity-1);
+            int oldOperandValue = randomNode->operands[randomOperandIndex];
+            int randomOperandValue = randRange(0,randomNodeIndex-1);
             
-            removePredecessor(randomOperandValue, randomNodeIndex);
+            successorMutate(randomNodeIndex, randomOperandIndex, randomOperandValue);
             
-            randomNode->operands[randomOperandIndex] = oldOperandValue;
+            updateList[0] = 0;
             
-            addPredecessor(oldOperandValue, randomNodeIndex);
+            buildUpdateList(randomNodeIndex);
             
-        }      
-        
-        if(generation%1 == 0){
+            oldFitness = fitness;
             
-            printf("\n%d", generation);
+            fitness = evaluatePopulationSNGP_A(updateList, generation);
             
+            if(oldFitness >= fitness){
+                
+                restoreFitnessValues(updateList);
+                
+                fitness = oldFitness;
+                
+                removePredecessor(randomOperandValue, randomNodeIndex);
+                
+                randomNode->operands[randomOperandIndex] = oldOperandValue;
+                
+                addPredecessor(oldOperandValue, randomNodeIndex);
+                
+            }      
+            
+            if(generation%100 == 0){
+                
+                printf("\n%d", generation);
+                
+                
+            }
             
         }
-        
     }
-    
     printPopulation();
     
     
