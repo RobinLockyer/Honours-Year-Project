@@ -9,10 +9,10 @@
 #define MAX_ARITY 3
 
 //The maximum number of times we apply the successor mutate operation
-#define MAX_OPS 100
+#define MAX_OPS 9
 #define NUM_GENERATIONS MAX_OPS+1
 #define POPULATION_SIZE 50
-#define NUM_TESTS 15
+#define NUM_TESTS 5
 
 typedef struct{
     int size;
@@ -198,10 +198,24 @@ int initialiseTestData(char* path){
         
         char firstC = getc(file);
         
-        //If this line is blank or we have exeeded the number of tests per test set, then we have reached the end of this test set
-        if(firstC == '\n' || testNum >= NUM_TESTS){
+        
+        
+        //If this line is blank, then we have reached the end of this test set
+        if(firstC == '\n'){
             ++setNum;
             testNum = 0;
+            continue;
+        
+        //if we have exeeded the number of tests per set, skip the remainder of the set
+        }else if(testNum >= NUM_TESTS){
+            ++setNum;
+            testNum = 0;
+            
+            do{
+                fscanf(file,"%*[^\n]",NULL);
+                getc(file);
+                firstC = getc(file);
+            }while(firstC != '\n');
             continue;
         }
         //If end of file has been reached, exit loop
@@ -590,6 +604,8 @@ int main(int argc, char* argv[]){
         
     }
     
+    printTestData();
+    return 0;
     float oldFitness = -1;
     
     //evaluate the initial population (generation 0)
@@ -640,6 +656,8 @@ int main(int argc, char* argv[]){
     }
     
     printPopulation();
+    
+    
     
     return 0;
 }
