@@ -471,7 +471,8 @@ float testNode(int popIndex, int testSet, int testNum){
     
     float fitness = 0;
     
-    if(test->inversions!=0) fitness = 1 - inversions/(float)test->inversions;
+    if(inversions == test->inversions && inversions!=0) fitness = -100;
+    else if(test->inversions!=0) fitness = 1 - inversions/(float)test->inversions;
     else if(inversions == 0) fitness = 1;
     else fitness = -inversions;
     
@@ -652,12 +653,12 @@ int main(int argc, char* argv[]){
         
     }
     
-    runs:for(int run = 0; run<MAX_RUNS; ++run){
+    for(int run = 0; run<MAX_RUNS; ++run){
         
         if(success==1) break;
         
         initialisePopulation();
-        
+        initialiseExamplePopulation();
         float oldFitness = -1;
         
         //evaluate the initial population (generation 0)
