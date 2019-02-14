@@ -1,19 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define RANDOM_SEED 1892
+#define RANDOM_SEED 1893
 
 #define NUM_TERMINALS 2
 #define NUM_FUNCTIONS 7
 #define NUM_PRIMITIVES NUM_TERMINALS+NUM_FUNCTIONS
 #define MAX_ARITY 3
 
+//Macro to define which version of SNGP is used
+#define evaluatePopulation(updateList,testSet) evaluatePopulationSNGP_B((updateList),(testSet))
+
 //The maximum number of times we apply the successor mutate operation
 #define MAX_OPS 2999
 #define NUM_GENERATIONS MAX_OPS+1
-#define POPULATION_SIZE 70
+#define POPULATION_SIZE 50
 #define NUM_TESTS 15
-#define MAX_RUNS 20
+#define MAX_RUNS 3
 
 typedef struct{
     int size;
@@ -35,7 +38,10 @@ int index = 0;
 
 int success = 0;
 
+//For SNGP/A
 float totalNodeFitness = 0;
+//For SNGP/B
+float bestNodeFitness = 0;
 
 typedef enum {
     INDEX,
@@ -519,6 +525,38 @@ float evaluatePopulationSNGP_A(int* updateList, int testSet){
     
 }
 
+float evaluatePopulationSNGP_B(int* updateList, int testSet){
+    
+    if(updateList == NULL){
+    
+        bestNodeFitness = evaluateNode(0, testSet);
+
+        for(int popIndex = 1; popIndex < POPULATION_SIZE; popIndex++){
+            
+            float nodeFitness = evaluateNode(popIndex, testSet);
+            if(nodeFitness > bestNodeFitness) bestNodeFitness = nodeFitness;
+            
+        }
+    } else{
+        
+        for(int nextUpdateNode = updateList[0]; nextUpdateNode != 0; nextUpdateNode = updateList[nextUpdateNode]){
+            
+            evaluateNode(nextUpdateNode, testSet);
+            
+        }
+        
+        bestNodeFitness = population[0].fitness;
+        
+        for(int i = 1; i<POPULATION_SIZE; ++i){
+            
+            if(bestNodeFitness < population[i].fitness) bestNodeFitness = population[i].fitness;
+            
+        }
+    }
+    
+    return totalNodeFitness/POPULATION_SIZE;
+}
+
 void successorMutate(int popIndex, int randomOperandIndex, int newOperandValue){
     
     Node* node = &population[popIndex];
@@ -623,7 +661,7 @@ int main(int argc, char* argv[]){
         float oldFitness = -1;
         
         //evaluate the initial population (generation 0)
-        float fitness = evaluatePopulationSNGP_A(NULL, 0);
+        float fitness = evaluatePopulation(NULL, 0);
         
         
         for(int generation = 1; generation < NUM_GENERATIONS; ++generation){
@@ -644,7 +682,7 @@ int main(int argc, char* argv[]){
             
             oldFitness = fitness;
             
-            fitness = evaluatePopulationSNGP_A(updateList, generation);
+            fitness = evaluatePopulation(updateList, generation);
             
             if(oldFitness >= fitness){
                 
