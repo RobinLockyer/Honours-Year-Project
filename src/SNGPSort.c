@@ -658,7 +658,7 @@ int main(int argc, char* argv[]){
         if(success==1) break;
         
         initialisePopulation();
-        initialiseExamplePopulation();
+        //initialiseExamplePopulation();
         float oldFitness = -1;
         
         //evaluate the initial population (generation 0)
