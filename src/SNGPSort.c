@@ -12,12 +12,12 @@
 #define evaluatePopulation(updateList,testSet) evaluatePopulationSNGP_B((updateList),(testSet))
 
 //The maximum number of times we apply the successor mutate operation
-#define MAX_OPS 20000
+#define MAX_OPS 1000
 #define NUM_GENERATIONS MAX_OPS+1
 #define POPULATION_SIZE 30
 #define NUM_TESTS 15
 #define MAX_RUNS 1
-#define NUM_TEST_SETS 3000
+#define NUM_TEST_SETS 1000
 
 typedef struct{
     int size;

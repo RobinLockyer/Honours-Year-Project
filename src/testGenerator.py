@@ -2,7 +2,11 @@ from random import randint
 from sys import argv
 
 #length20, inversions = 86
-testArr = [82,160,286,169,65,275,35,376,288,87,398,57,66,80,41,195,154,314,375,167]
+testArr1 = [82,160,286,169,65,275,35,376,288,87,398,57,66,80,41,195,154,314,375,167]
+
+#length = 17, inversions = 82
+
+testArr2 = [206, 344, 377, 270, 117, 14, 304, 125, 178, 134, 222, 187, 201, 257, 159, 41, 178]
 
 minIntVal = 0
 maxIntVal = 400
@@ -29,7 +33,7 @@ def countInversions(arr):
     cCounter = 0
     
     while aCounter < len(a) and bCounter < len(b):
-        if a[aCounter] < b[bCounter]:
+        if a[aCounter] <= b[bCounter]:
             arr[cCounter] = a[aCounter]
             aCounter+=1
         else:
@@ -59,8 +63,7 @@ def randArr():
     return arr
 
 def main():
-    print(countInversions([6,7,7,5,4,3,1,2]))
-    print(countInversions([1,2,3,7,4,7,5,6]))
+    #print(countInversions(testArr2))
     file = open(argv[1],"w+")
     outString = ""
     for testSet in range(maxOps):
