@@ -667,7 +667,7 @@ int main(int argc, char* argv[]){
         
         for(int generation = 1; generation < NUM_GENERATIONS; ++generation){
             
-            if(success==1) break;
+            //if(success==1) break;
             
             int randomNodeIndex = randRange(NUM_TERMINALS, NUM_PRIMITIVES-1);
             Node* randomNode = &population[randomNodeIndex];
