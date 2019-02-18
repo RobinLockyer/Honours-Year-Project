@@ -51,8 +51,6 @@ def countInversions(arr):
         for i in range(bCounter, len(b)):
             arr[cCounter] = b[i]
             cCounter+=1
-
-    print(arr)
             
     return inversions    
 

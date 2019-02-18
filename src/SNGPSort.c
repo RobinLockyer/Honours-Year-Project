@@ -17,7 +17,7 @@
 #define POPULATION_SIZE 30
 #define NUM_TESTS 15
 #define MAX_RUNS 1
-#define NUM_TEST_SETS 1000
+#define NUM_TEST_SETS 3000
 
 typedef struct{
     int size;
@@ -470,12 +470,12 @@ float testNode(int popIndex, int testSet, int testNum){
     
     int inversions = countInversions(results);
     
-    float fitness = test->inversions - inversions;
+    float fitness;// = test->inversions - inversions;
     
-    /*if(inversions == test->inversions && inversions!=0) fitness = 0;
+    if(inversions == test->inversions && inversions!=0) fitness = 0;
     else if(test->inversions!=0) fitness = 1 - inversions/(float)test->inversions;
     else if(inversions == 0) fitness = 1;
-    else fitness = -inversions;*/
+    else fitness = -inversions;
     
     return fitness; 
     
