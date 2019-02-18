@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define RANDOM_SEED 1893
+#define RANDOM_SEED 1894
 
 #define NUM_TERMINALS 2
 #define NUM_FUNCTIONS 7
@@ -12,11 +12,11 @@
 #define evaluatePopulation(updateList,testSet) evaluatePopulationSNGP_B((updateList),(testSet))
 
 //The maximum number of times we apply the successor mutate operation
-#define MAX_OPS 2999
+#define MAX_OPS 20000
 #define NUM_GENERATIONS MAX_OPS+1
-#define POPULATION_SIZE 50
+#define POPULATION_SIZE 30
 #define NUM_TESTS 15
-#define MAX_RUNS 3
+#define MAX_RUNS 1
 
 typedef struct{
     int size;
@@ -469,12 +469,12 @@ float testNode(int popIndex, int testSet, int testNum){
     
     int inversions = countInversions(results);
     
-    float fitness = 0;
+    float fitness = test->inversions - inversions;
     
-    if(inversions == test->inversions && inversions!=0) fitness = -100;
+    /*if(inversions == test->inversions && inversions!=0) fitness = 0;
     else if(test->inversions!=0) fitness = 1 - inversions/(float)test->inversions;
     else if(inversions == 0) fitness = 1;
-    else fitness = -inversions;
+    else fitness = -inversions;*/
     
     return fitness; 
     
@@ -658,7 +658,7 @@ int main(int argc, char* argv[]){
         if(success==1) break;
         
         initialisePopulation();
-        //initialiseExamplePopulation();
+        initialiseExamplePopulation();
         float oldFitness = -1;
         
         //evaluate the initial population (generation 0)
@@ -683,7 +683,7 @@ int main(int argc, char* argv[]){
             
             oldFitness = fitness;
             
-            fitness = evaluatePopulation(updateList, generation);
+            fitness = evaluatePopulation(updateList, generation%2999);
             
             if(oldFitness >= fitness){
                 
