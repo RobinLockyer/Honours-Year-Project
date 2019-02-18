@@ -17,6 +17,7 @@
 #define POPULATION_SIZE 30
 #define NUM_TESTS 15
 #define MAX_RUNS 1
+#define NUM_TEST_SETS 3000
 
 typedef struct{
     int size;
@@ -406,7 +407,7 @@ int countInversionsRec(int* arr, int* working, int size, int offset){
     
     while( aCounter < sizeA && bCounter < sizeB ){
         
-        if( A[aCounter] <= B[aCounter] ){
+        if( A[aCounter] <= B[bCounter] ){
             
             arr[cCounter] = A[aCounter];
             aCounter++;
@@ -653,6 +654,14 @@ int main(int argc, char* argv[]){
         
     }
     
+    /*
+    printf("Inversions %d", countInversions(tests[0][0]));
+    
+    printIntArray(mergeBuffer1,20);
+    
+    printIntArray(mergeBuffer2,20);*/
+    
+    
     for(int run = 0; run<MAX_RUNS; ++run){
         
         if(success==1) break;
@@ -683,7 +692,7 @@ int main(int argc, char* argv[]){
             
             oldFitness = fitness;
             
-            fitness = evaluatePopulation(updateList, generation%2999);
+            fitness = evaluatePopulation(updateList, generation % NUM_TEST_SETS);
             
             if(oldFitness >= fitness){
                 

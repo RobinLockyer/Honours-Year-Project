@@ -1,6 +1,9 @@
 from random import randint
 from sys import argv
 
+#length20, inversions = 86
+testArr = [82,160,286,169,65,275,35,376,288,87,398,57,66,80,41,195,154,314,375,167]
+
 minIntVal = 0
 maxIntVal = 400
 
@@ -44,6 +47,8 @@ def countInversions(arr):
         for i in range(bCounter, len(b)):
             arr[cCounter] = b[i]
             cCounter+=1
+
+    print(arr)
             
     return inversions    
 
@@ -54,7 +59,8 @@ def randArr():
     return arr
 
 def main():
-    #print(countInversions([6,7,5,4,3,1,2]))
+    print(countInversions([6,7,7,5,4,3,1,2]))
+    print(countInversions([1,2,3,7,4,7,5,6]))
     file = open(argv[1],"w+")
     outString = ""
     for testSet in range(maxOps):
