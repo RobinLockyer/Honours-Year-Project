@@ -12,11 +12,11 @@
 #define evaluatePopulation(updateList,testSet) evaluatePopulationSNGP_B((updateList),(testSet))
 
 //The maximum number of times we apply the successor mutate operation
-#define MAX_OPS 1000
+#define MAX_OPS 5000
 #define NUM_GENERATIONS MAX_OPS+1
 #define POPULATION_SIZE 30
 #define NUM_TESTS 15
-#define MAX_RUNS 1
+#define MAX_RUNS 5
 #define NUM_TEST_SETS 3000
 
 typedef struct{
@@ -667,7 +667,7 @@ int main(int argc, char* argv[]){
         if(success==1) break;
         
         initialisePopulation();
-        initialiseExamplePopulation();
+        //initialiseExamplePopulation();
         float oldFitness = -1;
         
         //evaluate the initial population (generation 0)
@@ -676,7 +676,7 @@ int main(int argc, char* argv[]){
         
         for(int generation = 1; generation < NUM_GENERATIONS; ++generation){
             
-            //if(success==1) break;
+            if(success==1) break;
             
             int randomNodeIndex = randRange(NUM_TERMINALS, NUM_PRIMITIVES-1);
             Node* randomNode = &population[randomNodeIndex];
