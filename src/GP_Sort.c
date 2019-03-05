@@ -8,11 +8,15 @@
 #define NUM_PRIMITIVES NUM_TERMINALS+NUM_FUNCTIONS
 #define MAX_ARITY 3
 
-#define POPULATION_SIZE 10
-#define NUM_GENERATIONS 10
+#define POPULATION_SIZE 10//1000 in final
+#define MAX_PROG_SIZE 2000
+#define INITIAL_MAX_DEPTH 6
+#define NUM_GENERATIONS 10 //50 in final
 #define NUM_TESTS 15
-#define MAX_RUNS 5
+#define MAX_RUNS 1 //20 in final
 #define NUM_TEST_SETS 3000
+
+short success = 0;
 
 typedef enum {
     INDEX,
@@ -45,12 +49,14 @@ TableEntry primitiveTable[NUM_PRIMITIVES] = {
 };
 
 typedef struct {
-    Primitive primitive;
+    char code[MAX_PROG_SIZE+1];//Includes null terminator
     double fitness;
-    int operands[MAX_ARITY];
-} Node;
+    int progLen;
+} Prog;
 
-Node population[POPULATION_SIZE];
+char* progNode = NULL;
+
+Prog population[POPULATION_SIZE];
 
 typedef struct{
     int size;
@@ -150,11 +156,9 @@ int initialiseTestData(char* path){
     return 0;
 }
 
-int execute(int popIndex){
+int execute(){
     
-    Node* node = &population[popIndex];
-    
-    switch(node->primitive){
+    switch(*progNode++){
         
         case INDEX:{
             
@@ -171,15 +175,17 @@ int execute(int popIndex){
         case ITERATE:{
                 
             int len = results->size;
-            int start = execute(node->operands[0]);
-            int end = execute(node->operands[1]);
-            int functionIndex = node->operands[2];
+            int start = execute();
+            int end = execute();
+            char* function = progNode;
             
             int oldIndex = index;
             
             for(index = start; index <= end && index < len && progIterations < MAX_PROG_ITERATIONS; ++index, ++progIterations){
                 
-                execute(functionIndex);
+                progNode = function;
+                
+                execute();
             }
             
             index = oldIndex;
@@ -190,8 +196,8 @@ int execute(int popIndex){
             
         case SWAP:{
             
-            int x = execute(node->operands[0]);
-            int y = execute(node->operands[1]);
+            int x = execute();
+            int y = execute();
             
             //If x or y is not a valid index, return 0
             if(x<0 || y<0 || x>=results->size || y>=results->size) return 0;
@@ -206,8 +212,8 @@ int execute(int popIndex){
             
         case SMALLEST:{
             
-            int x = execute(node->operands[0]);
-            int y = execute(node->operands[1]);
+            int x = execute();
+            int y = execute();
             
             if(results->arr[x] < results->arr[y]){
                 return x;
@@ -222,8 +228,8 @@ int execute(int popIndex){
             
         case LARGEST:{
             
-            int x = execute(node->operands[0]);
-            int y = execute(node->operands[1]);
+            int x = execute();
+            int y = execute();
             
             if(results->arr[x] > results->arr[y]){
                 return x;
@@ -238,8 +244,8 @@ int execute(int popIndex){
             
         case SUB:{
             
-            int x = execute(node->operands[0]);
-            int y = execute(node->operands[1]);
+            int x = execute();
+            int y = execute();
             
             return x-y;
             
@@ -247,7 +253,7 @@ int execute(int popIndex){
             
         case INC:{
             
-            int x = execute(node->operands[0]);
+            int x = execute();
             
             return x+1;
             
@@ -255,14 +261,14 @@ int execute(int popIndex){
             
         case DEC:{
             
-            int x = execute(node->operands[0]);
+            int x = execute();
             
             return x-1;
             
         }break;
             
         default:
-            printf("\nINVALID PRIMITIVE (%d)\n", node->primitive);
+            printf("\nINVALID PRIMITIVE (%d)\n", *(progNode-1));
             return -1;
     }
     
@@ -369,6 +375,23 @@ float testNode(int popIndex, int testSet, int testNum){
     
 }
 
+void initialisePopulation(){
+    
+    
+    
+}
+
+int init(char* path){
+    if(path == NULL) return 1;
+    if(initialiseTestData(path)) return 1;
+    srand(RANDOM_SEED);
+    results = malloc( arrayMem(maxTestSize) );
+    mergeBuffer1 = malloc( sizeof(int) * maxTestSize );
+    mergeBuffer2 = malloc( sizeof(int) * maxTestSize );
+    return 0;
+    
+}
+
 #include "GP_Sort_Debug.c"
 int main(int argc, char* argv[]){
     
@@ -377,6 +400,15 @@ int main(int argc, char* argv[]){
     printf("\n\n");
     
     printPrimitiveTable();
+    
+    if(init(argv[1])){
+        printf("File Not Found");
+        return 1;
+    }else{
+        
+        printf("\nTest file loaded\n\n");
+        
+    }
     
     return 0;
     

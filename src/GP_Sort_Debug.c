@@ -60,83 +60,20 @@ void printPopulation(){
     
     
     for(int popIndex = 0; popIndex < POPULATION_SIZE; popIndex++){
-        Node node = population[popIndex];
+        Prog prog = population[popIndex];
         printf(
-            "Index: %d primitive: %s Arity: %d\nFitness: %f \nOperands: ", 
+            "Index: %d Prog: %s\n ProgLen: %d Fitness: %f", 
             popIndex,
-            primitiveTable[node.primitive].name,
-            primitiveTable[node.primitive].arity,
-            node.fitness
+            prog.code,
+            prog.progLen,
+            prog.fitness
         );
-        
-        for(int j = 0; j < primitiveTable[node.primitive].arity; j++ ){
-            printf("%d ",node.operands[j]);
-        }
         
         printf("\n\n");
     }
     
     printf("\n");
     
-}
-
-void initialiseExamplePopulation(){
-	
-	population[0].primitive = INDEX;
-	
-	population[1].primitive = LENGTH;
-	
-	population[2].primitive = INC;
-	population[2].operands[0] = 0;
-	
-	population[3].primitive = SMALLEST;
-	population[3].operands[0] = 2;
-	population[3].operands[1] = 0;
-	
-	population[4].primitive = SWAP;
-	population[4].operands[0] = 3;
-	population[4].operands[1] = 0;
-	
-	population[5].primitive = SUB;
-	population[5].operands[0] = 1;
-	population[5].operands[1] = 1;
-	
-	population[6].primitive = DEC;
-	population[6].operands[0] = 1;
-	
-	population[7].primitive = ITERATE;
-	population[7].operands[0] = 5;
-	population[7].operands[1] = 6;
-	population[7].operands[2] = 4;
-	
-	population[8].primitive = ITERATE;
-	population[8].operands[0] = 5;
-	population[8].operands[1] = 6;
-	population[8].operands[2] = 7;
-	
-	population[9].primitive = SWAP;
-	population[9].operands[0] = 6;
-	population[9].operands[1] = 0;
-	
-}
-
-void testExecution(){
-	
-	initialiseExamplePopulation();
-	printPopulation();
-	
-    results = malloc(arrayMem(maxTestSize));
-    
-    printf("Test data initialised\n");
-    
-	int testResult = testNode(8,2,1);
-    
-	for(int i = 0; i < results->size; i++){
-        
-        printf("%d ", results->arr[i]);
-        
-    }
-	
 }
 
 #endif
