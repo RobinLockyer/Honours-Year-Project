@@ -472,7 +472,7 @@ float testNode(int popIndex, int testSet, int testNum){
     progIterations = 0;
     execute(popIndex);
     
-    if(progIterations > MAX_PROG_ITERATIONS) printf("\nMax iterations exceeded\n");
+    //if(progIterations > MAX_PROG_ITERATIONS) printf("\nMax iterations exceeded\n");
     
     int inversions = countInversions(results);
     

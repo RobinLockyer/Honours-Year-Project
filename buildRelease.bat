@@ -13,6 +13,6 @@ if not defined DevEnvDir (
 	)
 )
 pushd build
-cl ..\src\SNGPSort.c
+cl ..\src\%1%.c
 REM gcc -o SNGPSort ..\src\SNGPSort.c
 popd
