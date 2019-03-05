@@ -335,8 +335,42 @@ int countInversions(Array* arr){
     
 }
 
-#include "SNGP_Sort_Debug.c"
-int main(int argc, char*[] argv){
+float testNode(int popIndex, int testSet, int testNum){
+    
+    Array* test = tests[testSet][testNum];
+    
+    //If inversions not counted, count inversions
+    if(test->inversions == -1){
+        
+        memcpy(results, test->arr, test->size);
+        countInversions(test);
+        
+    }
+    
+    index = 0;
+    
+    memcpy(results, test, arrayMem(test->size));
+    
+    progIterations = 0;
+    execute(popIndex);
+    
+    //if(progIterations > MAX_PROG_ITERATIONS) printf("\nMax iterations exceeded\n");
+    
+    int inversions = countInversions(results);
+    
+    float fitness;// = test->inversions - inversions;
+    
+    if(inversions == test->inversions && inversions!=0) fitness = 0;
+    else if(test->inversions!=0) fitness = 1 - inversions/(float)test->inversions;
+    else if(inversions == 0) fitness = 1;
+    else fitness = -inversions;
+    
+    return fitness; 
+    
+}
+
+#include "GP_Sort_Debug.c"
+int main(int argc, char* argv[]){
     
     printf("Start\n\n");
     printf(argv[1]);
