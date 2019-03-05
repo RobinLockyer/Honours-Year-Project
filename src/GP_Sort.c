@@ -375,8 +375,40 @@ float testNode(int popIndex, int testSet, int testNum){
     
 }
 
+char* createTree(char* tree, int depth, int full){  
+     
+    if (depth == 1) *tree++ = randRange(0,NUM_TERMINALS-1);
+    
+    else{
+        
+        char primitive = full ? randRange(NUM_TERMINALS, NUM_PRIMITIVES-1): randRange(0,NUM_PRIMITIVES-1);
+        
+        *tree++ = primitive;
+        
+        int arity = primitiveTable[primitive].arity;
+        
+        for(int argument = 0; argument < arity; ++argument){
+            
+            tree = createTree(tree, depth-1, full);
+            
+        }
+   }
+   return(tree);
+}
+
 void initialisePopulation(){
     
+    for(int popIndex = 0; popIndex < POPULATION_SIZE; ++popIndex){
+        
+        Prog* prog = &population[popIndex];
+        
+        char* code = prog->code;
+        
+        createTree(code, 6, 1);
+        
+        prog->progLen = strlen(code);
+        
+    }
     
     
 }
@@ -409,6 +441,10 @@ int main(int argc, char* argv[]){
         printf("\nTest file loaded\n\n");
         
     }
+    
+    initialisePopulation();
+    
+    printPopulation();
     
     return 0;
     
