@@ -67,6 +67,10 @@ Array* results = NULL;
 int* mergeBuffer1 = NULL;
 int* mergeBuffer2 = NULL;
 
+int index = 0;
+int progIterations = 0;
+#define MAX_PROG_ITERATIONS 10000
+
 //Returns random number in interval [min,max] inclusive
 int randRange(int min, int max){
     
@@ -173,7 +177,7 @@ int execute(int popIndex){
             
             int oldIndex = index;
             
-            for(index = start; index <= end && index < len; ++index){
+            for(index = start; index <= end && index < len && progIterations < MAX_PROG_ITERATIONS; ++index, ++progIterations){
                 
                 execute(functionIndex);
             }

@@ -36,6 +36,8 @@ int* mergeBuffer2 = NULL;
 int updateList[POPULATION_SIZE];
 
 int index = 0;
+int progIterations = 0;
+#define MAX_PROG_ITERATIONS 10000
 
 int success = 0;
 
@@ -293,7 +295,7 @@ int execute(int popIndex){
             
             int oldIndex = index;
             
-            for(index = start; index <= end && index < len; ++index){
+            for(index = start; index <= end && index < len && progIterations < MAX_PROG_ITERATIONS; ++index, ++progIterations){
                 
                 execute(functionIndex);
             }
@@ -466,7 +468,11 @@ float testNode(int popIndex, int testSet, int testNum){
     index = 0;
     
     memcpy(results, test, arrayMem(test->size));
+    
+    progIterations = 0;
     execute(popIndex);
+    
+    if(progIterations > MAX_PROG_ITERATIONS) printf("\nMax iterations exceeded\n");
     
     int inversions = countInversions(results);
     
@@ -666,6 +672,8 @@ int main(int argc, char* argv[]){
         
         if(success==1) break;
         
+        printf("\n\nRun %d\n\n",run);
+        
         initialisePopulation();
         //initialiseExamplePopulation();
         float oldFitness = -1;
@@ -677,6 +685,8 @@ int main(int argc, char* argv[]){
         for(int generation = 1; generation < NUM_GENERATIONS; ++generation){
             
             if(success==1) break;
+            
+            
             
             int randomNodeIndex = randRange(NUM_TERMINALS, NUM_PRIMITIVES-1);
             Node* randomNode = &population[randomNodeIndex];
