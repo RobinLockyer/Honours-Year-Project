@@ -1,5 +1,5 @@
-#ifndef SNGP_SORT_DEBUG_C
-#define SNGP_SORT_DEBUG_C
+#ifndef GP_SORT_DEBUG_C
+#define GP_SORT_DEBUG_C
 
 #include<stdio.h>
 
@@ -79,6 +79,30 @@ void printPopulation(){
     }
     
     printf("\n");
+    
+}
+
+void setExampleProgramme(Prog* prog){
+    
+    Primitive code[18] = {ITERATE,SUB,LENGTH,LENGTH,DEC, LENGTH ,ITERATE,SUB,LENGTH,LENGTH,	DEC, LENGTH ,SWAP,SMALLEST,INC,INDEX,INDEX,INDEX};
+    
+    for(int i = 0; i<18; i++){
+        
+        prog->code[i] = code[i];
+        
+    }
+    
+    prog->progLen = 18;
+    
+}
+
+void testExecution(){
+    
+    setExampleProgramme(&population[0]);
+    
+    testProg(0,0,0);
+    
+    printIntArray(results->arr, results->size);
     
 }
 

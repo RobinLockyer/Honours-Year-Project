@@ -19,6 +19,7 @@
 short success = 0;
 
 typedef enum {
+    DUMMY,
     INDEX,
     LENGTH,
     ITERATE, 
@@ -36,7 +37,8 @@ typedef struct {
     char* name;
 } TableEntry;
 
-TableEntry primitiveTable[NUM_PRIMITIVES] = {
+TableEntry primitiveTable[NUM_PRIMITIVES+1] = {
+    {DUMMY,   -1, "DUMMY"},
     {INDEX,    0, "INDEX"},
     {LENGTH,   0, "LENGTH"},
     {ITERATE,  3, "ITERATE"},
@@ -156,6 +158,8 @@ int initialiseTestData(char* path){
     return 0;
 }
 
+//progNode must be set to Prog.code before this is called
+//progIterations must be set to 0 before this is called
 int execute(){
     
     switch(*progNode++){
@@ -341,7 +345,7 @@ int countInversions(Array* arr){
     
 }
 
-float testNode(int popIndex, int testSet, int testNum){
+float testProg(int popIndex, int testSet, int testNum){
     
     Array* test = tests[testSet][testNum];
     
@@ -358,6 +362,7 @@ float testNode(int popIndex, int testSet, int testNum){
     memcpy(results, test, arrayMem(test->size));
     
     progIterations = 0;
+    progNode = population[popIndex].code;
     execute(popIndex);
     
     //if(progIterations > MAX_PROG_ITERATIONS) printf("\nMax iterations exceeded\n");
@@ -377,11 +382,11 @@ float testNode(int popIndex, int testSet, int testNum){
 
 char* createTree(char* tree, int depth, int full){  
      
-    if (depth == 1) *tree++ = randRange(0,NUM_TERMINALS-1);
+    if (depth == 1) *tree++ = randRange(1,NUM_TERMINALS);
     
     else{
         
-        char primitive = full ? randRange(NUM_TERMINALS, NUM_PRIMITIVES-1): randRange(0,NUM_PRIMITIVES-1);
+        char primitive = full ? randRange(NUM_TERMINALS+1, NUM_PRIMITIVES): randRange(1,NUM_PRIMITIVES);
         
         *tree = primitive;
         
@@ -447,6 +452,8 @@ int main(int argc, char* argv[]){
     initialisePopulation();
     
     printPopulation();
+    
+    testExecution();
     
     return 0;
     

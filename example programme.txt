@@ -1,8 +1,14 @@
 ITERATE(
-	0,
+	SUB(
+		LENGTH,
+		LENGTH
+	),
 	DECREMENT( LENGTH ),
 	ITERATE(
-		0,
+		SUB(
+			LENGTH,
+			LENGTH
+		),
 		DECREMENT( LENGTH ),
 		SWAP( 
 			SMALLER(  
