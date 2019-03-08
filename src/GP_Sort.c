@@ -383,7 +383,9 @@ char* createTree(char* tree, int depth, int full){
         
         char primitive = full ? randRange(NUM_TERMINALS, NUM_PRIMITIVES-1): randRange(0,NUM_PRIMITIVES-1);
         
-        *tree++ = primitive;
+        *tree = primitive;
+        
+        tree++;
         
         int arity = primitiveTable[primitive].arity;
         
@@ -404,7 +406,7 @@ void initialisePopulation(){
         
         char* code = prog->code;
         
-        createTree(code, 6, 1);
+        createTree(code, 6, 0);
         
         prog->progLen = strlen(code);
         
