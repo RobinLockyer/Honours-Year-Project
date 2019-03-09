@@ -37,7 +37,7 @@ int updateList[POPULATION_SIZE];
 
 int index = 0;
 int progIterations = 0;
-#define MAX_PROG_ITERATIONS 10000
+#define MAX_PROG_ITERATIONS 2000
 
 int success = 0;
 
