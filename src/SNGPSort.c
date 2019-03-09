@@ -14,7 +14,7 @@
 //The maximum number of times we apply the successor mutate operation
 #define MAX_OPS 5000
 #define NUM_GENERATIONS MAX_OPS+1
-#define POPULATION_SIZE 30
+#define POPULATION_SIZE 200
 #define NUM_TESTS 15
 #define MAX_RUNS 5
 #define NUM_TEST_SETS 3000
