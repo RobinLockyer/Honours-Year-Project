@@ -100,7 +100,7 @@ void testExecution(){
     
     setExampleProgramme(&population[0]);
     
-    testProg(0,0,0);
+    res(0,0,0);
     
     printIntArray(results->arr, results->size);
     

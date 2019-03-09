@@ -16,6 +16,9 @@
 #define MAX_RUNS 1 //20 in final
 #define NUM_TEST_SETS 3000
 
+#define SF 5
+#define OF 5
+
 short success = 0;
 
 typedef enum {
@@ -345,7 +348,7 @@ int countInversions(Array* arr){
     
 }
 
-float testProg(int popIndex, int testSet, int testNum){
+int res(int popIndex, int testSet, int testNum){
     
     Array* test = tests[testSet][testNum];
     
@@ -365,18 +368,67 @@ float testProg(int popIndex, int testSet, int testNum){
     progNode = population[popIndex].code;
     execute(popIndex);
     
-    //if(progIterations > MAX_PROG_ITERATIONS) printf("\nMax iterations exceeded\n");
+    int iDis = test->inversions;
     
-    int inversions = countInversions(results);
+    int rDis = countInversions(results);
     
-    float fitness;// = test->inversions - inversions;
     
-    if(inversions == test->inversions && inversions!=0) fitness = 0;
-    else if(test->inversions!=0) fitness = 1 - inversions/(float)test->inversions;
-    else if(inversions == 0) fitness = 1;
-    else fitness = -inversions;
     
-    return fitness; 
+    int pDis = (rDis > iDis) ? (rDis - iDis)*100 : 0;
+    
+
+    
+    return rDis + pDis; 
+    
+}
+
+int praw(int testSet, int popIndex){
+    
+    int resSum = 0;
+    
+    for(int testNum = 0; testNum < NUM_TESTS; testNum++){
+        resSum += res(popIndex,testSet,testNum);
+    }
+    
+    return (resSum * OF) + (population[popIndex].progLen * SF);
+    
+}
+
+void evaluatePopulation(int testSet){
+    
+    int prawTable[POPULATION_SIZE];
+    int raw[POPULATION_SIZE];
+    float adj[POPULATION_SIZE];
+    float adjSum = 0;
+    
+    prawTable[0] = praw(testSet, 0);
+    
+    int minpraw = prawTable[0];
+    
+    
+    for(int popIndex = 1; popIndex < POPULATION_SIZE; ++popIndex){
+        
+        prawTable[popIndex] = praw(testSet, popIndex);
+        
+        if(prawTable[popIndex] < minpraw) minpraw = prawTable[popIndex];
+        
+    }
+    
+    for(int popIndex = 1; popIndex < POPULATION_SIZE; ++popIndex){
+        
+        int raw = prawTable[popIndex] - minpraw;
+        
+        adj[popIndex] = 1.0/(1.0+raw);
+        
+        adjSum += adj[popIndex];
+        
+    }
+    
+    for(int popIndex = 1; popIndex < POPULATION_SIZE; ++popIndex){
+        
+        population[popIndex].fitness = adj[popIndex]/adjSum;
+        
+    }
     
 }
 
@@ -450,10 +502,9 @@ int main(int argc, char* argv[]){
     }
     
     initialisePopulation();
-    
+    setExampleProgramme(&population[0]);
+    evaluatePopulation(0);
     printPopulation();
-    
-    testExecution();
     
     return 0;
     
