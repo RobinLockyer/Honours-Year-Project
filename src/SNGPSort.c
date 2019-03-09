@@ -16,7 +16,7 @@
 #define NUM_GENERATIONS MAX_OPS+1
 #define POPULATION_SIZE 200
 #define NUM_TESTS 15
-#define MAX_RUNS 5
+#define MAX_RUNS 100
 #define NUM_TEST_SETS 3000
 
 typedef struct{
