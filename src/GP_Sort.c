@@ -414,7 +414,7 @@ void evaluatePopulation(int testSet){
         
     }
     
-    for(int popIndex = 1; popIndex < POPULATION_SIZE; ++popIndex){
+    for(int popIndex = 0; popIndex < POPULATION_SIZE; ++popIndex){
         
         int raw = prawTable[popIndex] - minpraw;
         
@@ -424,7 +424,7 @@ void evaluatePopulation(int testSet){
         
     }
     
-    for(int popIndex = 1; popIndex < POPULATION_SIZE; ++popIndex){
+    for(int popIndex = 0; popIndex < POPULATION_SIZE; ++popIndex){
         
         population[popIndex].fitness = adj[popIndex]/adjSum;
         
@@ -453,6 +453,13 @@ char* createTree(char* tree, int depth, int full){
         }
    }
    return(tree);
+}
+
+int fitnessProportionalSelection(){
+    
+    
+    
+    
 }
 
 void initialisePopulation(){
@@ -505,6 +512,16 @@ int main(int argc, char* argv[]){
     setExampleProgramme(&population[0]);
     evaluatePopulation(0);
     printPopulation();
+    
+    
+    float s = 0;
+    for(int i =0; i<POPULATION_SIZE; i++){
+        
+        s+=population[i].fitness;
+        
+    }
+    
+    printf("\nTotalFitness: %f\n",s);
     
     return 0;
     
