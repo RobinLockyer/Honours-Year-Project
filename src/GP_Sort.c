@@ -61,7 +61,11 @@ typedef struct {
 
 char* progNode = NULL;
 
-Prog population[POPULATION_SIZE];
+Prog popBuffer1[POPULATION_SIZE];
+Prog popBuffer2[POPULATION_SIZE];
+
+Prog* population = &popBuffer1[0];
+Prog* newPopulation = &popBuffer2[0];
 
 typedef struct{
     int size;
@@ -82,7 +86,7 @@ int index = 0;
 int progIterations = 0;
 #define MAX_PROG_ITERATIONS 10000
 
-//Returns random number in interval [min,max] inclusive
+//Returns random integer in interval [min,max] inclusive
 int randRange(int min, int max){
     
     return min + rand()/(RAND_MAX/(max-min+1)+1);
@@ -469,6 +473,53 @@ int fitnessProportionalSelection(){
     
 }
 
+int subtreeLength(char* start){
+    
+    int remaining = primitiveTable[*start].arity;
+    int length = 1;
+    
+    while(remaining > 0){
+        
+        remaining--;
+        start++;
+        remaining += primitiveTable[*start].arity;
+        length++;
+        
+    }
+    
+    return length;
+    
+}
+
+void reproduction(int popIndex){
+    
+    newPopulation[popIndex] = population[fitnessProportionalSelection()];
+ 
+}
+
+void mutate(int popIndex){
+    
+    Prog* baseProg =  &population[fitnessProportionalSelection()];
+    
+    int mutatedNode = randRange(0,baseProg->progLen - 1);
+    
+    int subTreeLen = subtreeLength(&baseProg->code[mutatedNode]);
+    
+    char* newCode = newPopulation[popIndex].code;
+    
+    memcpy(newCode, baseProg->code, mutatedNode);
+    
+    char* subTreeEnd = createTree(newCode + mutatedNode, 6, 0);
+    
+    memcpy(subTreeEnd, &baseProg->code[subTreeLen+mutatedNode-1], baseProg->progLen - subTreeLen - mutatedNode +1);
+    
+    
+    *(subTreeEnd + (baseProg->progLen - subTreeLen - mutatedNode+1)) = '\0';
+    
+    newPopulation[popIndex].progLen = strlen(newPopulation[popIndex].code);
+    
+} 
+
 void initialisePopulation(){
     
     for(int popIndex = 0; popIndex < POPULATION_SIZE; ++popIndex){
@@ -515,20 +566,60 @@ int main(int argc, char* argv[]){
         
     }
     
+    
+    /*for(int run = 0; run<MAX_RUNS; ++run){
+        
+        if(success==1) break;
+        
+        printf("\n\nRun %d\n\n",run);
+        
+        initialisePopulation();
+        
+        //evaluate the initial population (generation 0)
+        evaluatePopulation(0);
+        
+        
+        for(int generation = 1; generation < NUM_GENERATIONS; ++generation){
+            
+            if(success==1) break;
+            
+            
+            for(int popIndex = 0; i < POPULATION_SIZE; i++){
+                
+                if(randRange(0,9) <= 8) crossover(popIndex);
+                else reproduction(popIndex);
+                
+                if(randRange(0,9) == 0) mutate(popIndex);
+  
+            }
+            
+            evaluatePopulation(generation);
+            
+            if(generation%100 == 0){
+                
+                printf("\n%d", generation);
+                
+                
+            }
+            
+            Prog* temp = newPopulation;
+            newPopulation = population;
+            population = temp;
+            
+        }
+    }
+    */
+    
+    
+    //setExampleProgramme(&population[0]);
     initialisePopulation();
-    setExampleProgramme(&population[0]);
-    evaluatePopulation(0);
     printPopulation();
     
+    mutate(0);
     
-    float s = 0;
-    for(int i =0; i<POPULATION_SIZE; i++){
-        
-        s+=population[i].fitness;
-        
-    }
+    population = newPopulation;
     
-    printf("\nTotalFitness: %f\n",s);
+    printPopulation();
     
     return 0;
     
