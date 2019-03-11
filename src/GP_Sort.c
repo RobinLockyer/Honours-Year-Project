@@ -457,8 +457,15 @@ char* createTree(char* tree, int depth, int full){
 
 int fitnessProportionalSelection(){
     
+    float randNum = (float)rand()/ (float)RAND_MAX;
     
+    for(int popIndex = 0; popIndex < POPULATION_SIZE; ++popIndex ){
+        
+        if(population[popIndex].fitness <= randNum) return popIndex;
+        else randNum -= population[popIndex].fitness;
+    }
     
+    return -1;
     
 }
 
