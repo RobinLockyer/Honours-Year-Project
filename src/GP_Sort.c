@@ -8,7 +8,7 @@
 #define NUM_PRIMITIVES NUM_TERMINALS+NUM_FUNCTIONS
 #define MAX_ARITY 3
 
-#define POPULATION_SIZE 10//1000 in final
+#define POPULATION_SIZE 100//1000 in final
 #define MAX_PROG_SIZE 2000
 #define INITIAL_MAX_DEPTH 6
 #define NUM_GENERATIONS 10 //50 in final
@@ -18,6 +18,8 @@
 
 #define SF 5
 #define OF 5
+
+#define MAX_MUTATE_DEPTH_INCREASE 1.15
 
 short success = 0;
 
@@ -465,7 +467,7 @@ int fitnessProportionalSelection(){
     
     for(int popIndex = 0; popIndex < POPULATION_SIZE; ++popIndex ){
         
-        if(population[popIndex].fitness <= randNum) return popIndex;
+        if(population[popIndex].fitness >= randNum) return popIndex;
         else randNum -= population[popIndex].fitness;
     }
     
@@ -491,6 +493,28 @@ int subtreeLength(char* start){
     
 }
 
+int subTreeDepth(char* start){
+    
+    int maxDepth = 0;
+    
+    int arity = primitiveTable[*start].arity;
+    
+    start++;
+    
+    for(int i = 0; i<arity; i++){
+        
+        int depth = subTreeDepth(start);
+        
+        if(depth > maxDepth) maxDepth = depth;
+        
+        start += subtreeLength(start);
+        
+    }
+    
+    return maxDepth+1;
+    
+}
+
 void reproduction(int popIndex){
     
     newPopulation[popIndex] = population[fitnessProportionalSelection()];
@@ -499,19 +523,27 @@ void reproduction(int popIndex){
 
 void mutate(int popIndex){
     
-    Prog* baseProg =  &population[fitnessProportionalSelection()];
+    int selectedProg = fitnessProportionalSelection();
+    
+    Prog* baseProg = &population[selectedProg];
+    
+    int baseDepth = subTreeDepth(baseProg->code);
+    
+    int maxDepth = baseDepth * MAX_MUTATE_DEPTH_INCREASE;
     
     int mutatedNode = randRange(0,baseProg->progLen - 1);
     
     int subTreeLen = subtreeLength(&baseProg->code[mutatedNode]);
     
+    int subTreeDep = subTreeDepth(&baseProg->code[mutatedNode]);
+    
     char* newCode = newPopulation[popIndex].code;
     
     memcpy(newCode, baseProg->code, mutatedNode);
     
-    char* subTreeEnd = createTree(newCode + mutatedNode, 6, 0);
+    char* subTreeEnd = createTree(newCode + mutatedNode, maxDepth - baseDepth + subTreeDep , 0);
     
-    memcpy(subTreeEnd, &baseProg->code[subTreeLen+mutatedNode-1], baseProg->progLen - subTreeLen - mutatedNode +1);
+    memcpy(subTreeEnd, &baseProg->code[subTreeLen+mutatedNode], baseProg->progLen - subTreeLen - mutatedNode);
     
     
     *(subTreeEnd + (baseProg->progLen - subTreeLen - mutatedNode+1)) = '\0';
@@ -611,13 +643,17 @@ int main(int argc, char* argv[]){
     */
     
     
-    //setExampleProgramme(&population[0]);
+
     initialisePopulation();
+    //setExampleProgramme(&population[0]);
+    evaluatePopulation(0);
     printPopulation();
     
-    mutate(0);
+    for(int i = 0; i<POPULATION_SIZE; i++) mutate(i);
     
     population = newPopulation;
+    
+    evaluatePopulation(1);
     
     printPopulation();
     
