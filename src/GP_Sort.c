@@ -543,21 +543,12 @@ void mutate(int popIndex){
     
     int mutatedNode = randRange(0,baseProg->progLen - 1);
     
-    //int subTreeLen = subtreeLength(&baseProg->code[mutatedNode]);
-    
     int subTreeDep = subTreeDepth(&baseProg->code[mutatedNode]);
-    
-    //char* newCode = newPopulation[popIndex].code;
-    
-    /*memcpy(newCode, baseProg->code, mutatedNode);
-    char* subTreeEnd = createTree(newCode + mutatedNode, maxDepth - baseDepth + subTreeDep , 0);
-    memcpy(subTreeEnd, &baseProg->code[subTreeLen+mutatedNode], baseProg->progLen - subTreeLen - mutatedNode);
-    *(subTreeEnd + (baseProg->progLen - subTreeLen - mutatedNode+1)) = '\0';*/
     
     char newTree[MAX_PROG_SIZE];
     createTree(newTree, maxDepth - baseDepth + subTreeDep , 0);
-    replaceSubtree(baseProg->code, baseProg->progLen, mutatedNode, newTree, newPopulation[popIndex].code);
     
+    replaceSubtree(baseProg->code, baseProg->progLen, mutatedNode, newTree, newPopulation[popIndex].code);
     
     newPopulation[popIndex].progLen = strlen(newPopulation[popIndex].code);
     
@@ -574,6 +565,9 @@ void crossover(int popIndex1, int popIndex2){
     
     replaceSubtree(parent1->code, parent1->progLen, crossoverPoint1, parent2->code + crossoverPoint2, newPopulation[popIndex1].code);
     replaceSubtree(parent2->code, parent2->progLen, crossoverPoint2, parent1->code + crossoverPoint1, newPopulation[popIndex2].code);
+    
+    newPopulation[popIndex1].progLen = strlen(newPopulation[popIndex1].code);
+    newPopulation[popIndex2].progLen = strlen(newPopulation[popIndex2].code);
     
 }
 
@@ -679,11 +673,11 @@ int main(int argc, char* argv[]){
     
 
     initialisePopulation();
-    //setExampleProgramme(&population[0]);
+    setExampleProgramme(&population[0]);
     evaluatePopulation(0);
     printPopulation();
     
-    for(int i = 0; i<POPULATION_SIZE; i++) mutate(i);
+    for(int i = 0; i<POPULATION_SIZE; i++) {crossover(i,i+1);++i;}
     
     population = newPopulation;
     
