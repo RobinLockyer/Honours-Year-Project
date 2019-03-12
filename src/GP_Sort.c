@@ -8,7 +8,7 @@
 #define NUM_PRIMITIVES NUM_TERMINALS+NUM_FUNCTIONS
 #define MAX_ARITY 3
 
-#define POPULATION_SIZE 100//1000 in final
+#define POPULATION_SIZE 82//1000 in final
 #define MAX_PROG_SIZE 2000
 #define INITIAL_MAX_DEPTH 6
 #define NUM_GENERATIONS 10 //50 in final
@@ -515,6 +515,17 @@ int subTreeDepth(char* start){
     
 }
 
+void replaceSubtree(char* baseProg, int baseLen, int oldSubtree, char* newSubtree, char* newProg){
+    
+    memcpy(newProg, baseProg, oldSubtree);
+    int subtreelen = subtreeLength(baseProg + oldSubtree);
+    int newSubtreeLen = subtreeLength(newSubtree);
+    memcpy(newProg + oldSubtree, newSubtree, newSubtreeLen);
+    memcpy(newProg + oldSubtree + newSubtreeLen, baseProg + oldSubtree + subtreelen, baseLen - subtreelen - oldSubtree);
+    newProg[baseLen-subtreelen+newSubtreeLen] = '\0';
+    
+}
+
 void reproduction(int popIndex){
     
     newPopulation[popIndex] = population[fitnessProportionalSelection()];
@@ -528,29 +539,43 @@ void mutate(int popIndex){
     Prog* baseProg = &population[selectedProg];
     
     int baseDepth = subTreeDepth(baseProg->code);
-    
     int maxDepth = baseDepth * MAX_MUTATE_DEPTH_INCREASE;
     
     int mutatedNode = randRange(0,baseProg->progLen - 1);
     
-    int subTreeLen = subtreeLength(&baseProg->code[mutatedNode]);
+    //int subTreeLen = subtreeLength(&baseProg->code[mutatedNode]);
     
     int subTreeDep = subTreeDepth(&baseProg->code[mutatedNode]);
     
-    char* newCode = newPopulation[popIndex].code;
+    //char* newCode = newPopulation[popIndex].code;
     
-    memcpy(newCode, baseProg->code, mutatedNode);
-    
+    /*memcpy(newCode, baseProg->code, mutatedNode);
     char* subTreeEnd = createTree(newCode + mutatedNode, maxDepth - baseDepth + subTreeDep , 0);
-    
     memcpy(subTreeEnd, &baseProg->code[subTreeLen+mutatedNode], baseProg->progLen - subTreeLen - mutatedNode);
+    *(subTreeEnd + (baseProg->progLen - subTreeLen - mutatedNode+1)) = '\0';*/
     
+    char newTree[MAX_PROG_SIZE];
+    createTree(newTree, maxDepth - baseDepth + subTreeDep , 0);
+    replaceSubtree(baseProg->code, baseProg->progLen, mutatedNode, newTree, newPopulation[popIndex].code);
     
-    *(subTreeEnd + (baseProg->progLen - subTreeLen - mutatedNode+1)) = '\0';
     
     newPopulation[popIndex].progLen = strlen(newPopulation[popIndex].code);
     
 } 
+
+void crossover(int popIndex1, int popIndex2){
+    
+    Prog* parent1 = &population[fitnessProportionalSelection()];
+    Prog* parent2 = &population[fitnessProportionalSelection()];
+    while(parent1 == parent2)parent2 = &population[fitnessProportionalSelection()];
+    
+    int crossoverPoint1 = randRange(0,parent1->progLen-1);
+    int crossoverPoint2 = randRange(0,parent2->progLen-1);
+    
+    replaceSubtree(parent1->code, parent1->progLen, crossoverPoint1, parent2->code + crossoverPoint2, newPopulation[popIndex1].code);
+    replaceSubtree(parent2->code, parent2->progLen, crossoverPoint2, parent1->code + crossoverPoint1, newPopulation[popIndex2].code);
+    
+}
 
 void initialisePopulation(){
     
@@ -618,12 +643,23 @@ int main(int argc, char* argv[]){
             
             for(int popIndex = 0; i < POPULATION_SIZE; i++){
                 
-                if(randRange(0,9) <= 8) crossover(popIndex);
+                if(randRange(0,9) <= 8){
+                        crossover(popIndex,popIndex+1);
+                        ++i;
+                }
                 else reproduction(popIndex);
                 
-                if(randRange(0,9) == 0) mutate(popIndex);
-  
             }
+            
+            Prog* temp = newPopulation;
+            newPopulation = population;
+            population = temp;
+            
+            for(int popIndex = 0; i < POPULATION_SIZE; i++)if(randRange(0,9) == 0) mutate(popIndex);else reproduction(popIndex);
+            
+            temp = newPopulation;
+            newPopulation = population;
+            population = temp;
             
             evaluatePopulation(generation);
             
@@ -634,9 +670,7 @@ int main(int argc, char* argv[]){
                 
             }
             
-            Prog* temp = newPopulation;
-            newPopulation = population;
-            population = temp;
+            
             
         }
     }
