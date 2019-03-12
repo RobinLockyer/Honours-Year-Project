@@ -8,10 +8,10 @@
 #define NUM_PRIMITIVES NUM_TERMINALS+NUM_FUNCTIONS
 #define MAX_ARITY 3
 
-#define POPULATION_SIZE 82//1000 in final
-#define MAX_PROG_SIZE 2000
+#define POPULATION_SIZE 1000 //1000 in final
+#define MAX_PROG_SIZE 3000
 #define INITIAL_MAX_DEPTH 6
-#define NUM_GENERATIONS 10 //50 in final
+#define NUM_GENERATIONS 50 //50 in final
 #define NUM_TESTS 15
 #define MAX_RUNS 1 //20 in final
 #define NUM_TEST_SETS 3000
@@ -532,11 +532,9 @@ void reproduction(int popIndex){
  
 }
 
-void mutate(int popIndex){
+void mutate(Prog* baseProg, int popIndex){
     
     int selectedProg = fitnessProportionalSelection();
-    
-    Prog* baseProg = &population[selectedProg];
     
     int baseDepth = subTreeDepth(baseProg->code);
     int maxDepth = baseDepth * MAX_MUTATE_DEPTH_INCREASE;
@@ -618,7 +616,7 @@ int main(int argc, char* argv[]){
     }
     
     
-    /*for(int run = 0; run<MAX_RUNS; ++run){
+    for(int run = 0; run<MAX_RUNS; ++run){
         
         if(success==1) break;
         
@@ -635,23 +633,23 @@ int main(int argc, char* argv[]){
             if(success==1) break;
             
             
-            for(int popIndex = 0; i < POPULATION_SIZE; i++){
+            for(int popIndex = 0; popIndex < POPULATION_SIZE; popIndex++){
                 
                 if(randRange(0,9) <= 8){
-                        crossover(popIndex,popIndex+1);
-                        ++i;
+                        crossover(popIndex,(popIndex+1)%POPULATION_SIZE);
+                        ++popIndex;
                 }
                 else reproduction(popIndex);
                 
             }
             
+            for(int popIndex = 0; popIndex < POPULATION_SIZE; popIndex++)
+                if(randRange(0,9) == 0){
+                    Prog p = newPopulation[popIndex];
+                    mutate(&p,popIndex);
+                }
+            
             Prog* temp = newPopulation;
-            newPopulation = population;
-            population = temp;
-            
-            for(int popIndex = 0; i < POPULATION_SIZE; i++)if(randRange(0,9) == 0) mutate(popIndex);else reproduction(popIndex);
-            
-            temp = newPopulation;
             newPopulation = population;
             population = temp;
             
@@ -668,20 +666,6 @@ int main(int argc, char* argv[]){
             
         }
     }
-    */
-    
-    
-
-    initialisePopulation();
-    setExampleProgramme(&population[0]);
-    evaluatePopulation(0);
-    printPopulation();
-    
-    for(int i = 0; i<POPULATION_SIZE; i++) {crossover(i,i+1);++i;}
-    
-    population = newPopulation;
-    
-    evaluatePopulation(1);
     
     printPopulation();
     
