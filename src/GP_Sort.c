@@ -8,7 +8,7 @@
 #define NUM_PRIMITIVES NUM_TERMINALS+NUM_FUNCTIONS
 #define MAX_ARITY 3
 
-#define POPULATION_SIZE 500 //1000 in final
+#define POPULATION_SIZE 1000 //1000 in final
 #define MAX_PROG_SIZE 3000
 #define INITIAL_MAX_DEPTH 6
 #define NUM_GENERATIONS 50 //50 in final
@@ -563,15 +563,18 @@ void crossover(int popIndex1, int popIndex2){
     Prog* parent1 = &population[parIndex1];
     Prog* parent2 = &population[parIndex2];
     
-    
     int crossoverPoint1 = randRange(0,parent1->progLen-1);
     int crossoverPoint2 = randRange(0,parent2->progLen-1);
     
-    replaceSubtree(parent1->code, parent1->progLen, crossoverPoint1, parent2->code + crossoverPoint2, newPopulation[popIndex1].code);
-    replaceSubtree(parent2->code, parent2->progLen, crossoverPoint2, parent1->code + crossoverPoint1, newPopulation[popIndex2].code);
     
+    replaceSubtree(parent1->code, parent1->progLen, crossoverPoint1, parent2->code + crossoverPoint2, newPopulation[popIndex1].code);
     newPopulation[popIndex1].progLen = strlen(newPopulation[popIndex1].code);
-    newPopulation[popIndex2].progLen = strlen(newPopulation[popIndex2].code);
+    
+    if(popIndex2 < POPULATION_SIZE){
+        
+        replaceSubtree(parent2->code, parent2->progLen, crossoverPoint2, parent1->code + crossoverPoint1, newPopulation[popIndex2].code);
+        newPopulation[popIndex2].progLen = strlen(newPopulation[popIndex2].code);
+    }
     
 }
 
