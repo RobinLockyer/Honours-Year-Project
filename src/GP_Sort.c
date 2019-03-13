@@ -8,7 +8,7 @@
 #define NUM_PRIMITIVES NUM_TERMINALS+NUM_FUNCTIONS
 #define MAX_ARITY 3
 
-#define POPULATION_SIZE 1000 //1000 in final
+#define POPULATION_SIZE 500 //1000 in final
 #define MAX_PROG_SIZE 3000
 #define INITIAL_MAX_DEPTH 6
 #define NUM_GENERATIONS 50 //50 in final
@@ -465,11 +465,13 @@ int fitnessProportionalSelection(){
     
     float randNum = (float)rand()/ (float)RAND_MAX;
     
-    for(int popIndex = 0; popIndex < POPULATION_SIZE; ++popIndex ){
+    for(int popIndex = 0; popIndex < 2*POPULATION_SIZE; ++popIndex ){
         
-        if(population[popIndex].fitness >= randNum) return popIndex;
+        if(population[popIndex%POPULATION_SIZE].fitness >= randNum) return popIndex;
         else randNum -= population[popIndex].fitness;
     }
+    
+    printf("\n\nError: Fitness Proportionate Selection Failed\n\n");
     
     return -1;
     
@@ -534,7 +536,7 @@ void reproduction(int popIndex){
 
 void mutate(Prog* baseProg, int popIndex){
     
-    int selectedProg = fitnessProportionalSelection();
+    //int selectedProg = fitnessProportionalSelection();
     
     int baseDepth = subTreeDepth(baseProg->code);
     int maxDepth = baseDepth * MAX_MUTATE_DEPTH_INCREASE;
@@ -554,9 +556,13 @@ void mutate(Prog* baseProg, int popIndex){
 
 void crossover(int popIndex1, int popIndex2){
     
-    Prog* parent1 = &population[fitnessProportionalSelection()];
-    Prog* parent2 = &population[fitnessProportionalSelection()];
-    while(parent1 == parent2)parent2 = &population[fitnessProportionalSelection()];
+    int parIndex1 = fitnessProportionalSelection();
+    int parIndex2 = fitnessProportionalSelection();
+    while(parIndex1 == parIndex2)parIndex2 = fitnessProportionalSelection();
+    
+    Prog* parent1 = &population[parIndex1];
+    Prog* parent2 = &population[parIndex2];
+    
     
     int crossoverPoint1 = randRange(0,parent1->progLen-1);
     int crossoverPoint2 = randRange(0,parent2->progLen-1);
@@ -668,6 +674,8 @@ int main(int argc, char* argv[]){
     }
     
     printPopulation();
+
+	if (success == 1)printf("\n\nSuccess!\n\n");
     
     return 0;
     
