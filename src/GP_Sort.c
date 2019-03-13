@@ -482,15 +482,14 @@ int fitnessProportionalSelection(){
     
     float randNum = (float)rand()/ (float)RAND_MAX;
     
-    for(int popIndex = 0; popIndex < 2*POPULATION_SIZE; ++popIndex ){
+    for(int popIndex = 0; popIndex < POPULATION_SIZE; ++popIndex ){
         
         if(population[popIndex%POPULATION_SIZE].fitness >= randNum) return popIndex;
         else randNum -= population[popIndex].fitness;
     }
     
-    printf("\n\nError: Fitness Proportionate Selection Failed\n\n");
-    
-    return -1;
+    //If this line of code is reached it is due to floatg point precision
+    return POPULATION_SIZE-1;
     
 }
 
