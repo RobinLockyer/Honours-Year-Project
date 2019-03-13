@@ -21,7 +21,8 @@
 
 #define MAX_MUTATE_DEPTH_INCREASE 1.15
 
-short success = 0;
+int success = 0;
+int workingProgramme = -1;
 
 typedef enum {
     DUMMY,
@@ -396,6 +397,11 @@ int praw(int testSet, int popIndex){
         resSum += res(popIndex,testSet,testNum);
     }
     
+    if(resSum == 0){
+        success = 1;
+        workingProgramme = popIndex;
+    }
+    
     return (resSum * OF) + (population[popIndex].progLen * SF);
     
 }
@@ -438,27 +444,38 @@ void evaluatePopulation(int testSet){
     
 }
 
-char* createTree(char* tree, int depth, int full){  
-     
-    if (depth == 1) *tree++ = randRange(1,NUM_TERMINALS);
+char* createTree(char* tree, int depth, int maxNodes, int full){  
+    char* treeEnd = tree;
+    
+    if (depth == 1 || maxNodes == 1){
+        *treeEnd = randRange(1,NUM_TERMINALS);
+        treeEnd++;
+    }
     
     else{
         
-        char primitive = full ? randRange(NUM_TERMINALS+1, NUM_PRIMITIVES): randRange(1,NUM_PRIMITIVES);
+        char primitive;
+        int arity;
+        do{
+            
+            primitive = full ? randRange(NUM_TERMINALS+1, NUM_PRIMITIVES): randRange(1,NUM_PRIMITIVES);
+            arity = primitiveTable[primitive].arity;
+            
+        }while(arity > maxNodes-1);
+        
         
         *tree = primitive;
         
-        tree++;
+        treeEnd++;
         
-        int arity = primitiveTable[primitive].arity;
         
         for(int argument = 0; argument < arity; ++argument){
             
-            tree = createTree(tree, depth-1, full);
+            treeEnd = createTree(treeEnd, depth-1, maxNodes - (treeEnd - tree) - arity + 1 + argument, full);
             
         }
    }
-   return(tree);
+   return(treeEnd);
 }
 
 int fitnessProportionalSelection(){
@@ -544,9 +561,10 @@ void mutate(Prog* baseProg, int popIndex){
     int mutatedNode = randRange(0,baseProg->progLen - 1);
     
     int subTreeDep = subTreeDepth(&baseProg->code[mutatedNode]);
+    int subTreeLen = subtreeLength(&baseProg->code[mutatedNode]);
     
     char newTree[MAX_PROG_SIZE];
-    createTree(newTree, maxDepth - baseDepth + subTreeDep , 0);
+    createTree(newTree, maxDepth - baseDepth + subTreeDep, MAX_PROG_SIZE - baseProg->progLen + subTreeLen, 0);
     
     replaceSubtree(baseProg->code, baseProg->progLen, mutatedNode, newTree, newPopulation[popIndex].code);
     
@@ -565,7 +583,6 @@ void crossover(int popIndex1, int popIndex2){
     
     int crossoverPoint1 = randRange(0,parent1->progLen-1);
     int crossoverPoint2 = randRange(0,parent2->progLen-1);
-    
     
     replaceSubtree(parent1->code, parent1->progLen, crossoverPoint1, parent2->code + crossoverPoint2, newPopulation[popIndex1].code);
     newPopulation[popIndex1].progLen = strlen(newPopulation[popIndex1].code);
@@ -586,7 +603,7 @@ void initialisePopulation(){
         
         char* code = prog->code;
         
-        createTree(code, 6, 0);
+        createTree(code, 6, MAX_PROG_SIZE,0);
         
         prog->progLen = strlen(code);
         
@@ -678,7 +695,10 @@ int main(int argc, char* argv[]){
     
     printPopulation();
 
-	if (success == 1)printf("\n\nSuccess!\n\n");
+	if (success == 1){
+        printf("\n\nSuccess!\n\n");
+        printNode(workingProgramme);
+    }
     
     return 0;
     

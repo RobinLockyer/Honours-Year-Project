@@ -56,24 +56,30 @@ void printTestData(){
     
 }
 
+void printNode(int popIndex){
+    
+    Prog prog = population[popIndex];
+    printf(
+        "Index: %d ProgLen: %d Fitness: %f \nProg: ", 
+        popIndex,
+        prog.progLen,
+        prog.fitness
+    );
+    
+    for(int i = 0; i < prog.progLen; ++i){
+        
+        
+        printf("%s ",primitiveTable[prog.code[i]].name);
+        
+    }
+    
+}
+
 void printPopulation(){
     
     
     for(int popIndex = 0; popIndex < POPULATION_SIZE; popIndex++){
-        Prog prog = population[popIndex];
-        printf(
-            "Index: %d ProgLen: %d Fitness: %f \nProg: ", 
-            popIndex,
-            prog.progLen,
-            prog.fitness
-        );
-        
-        for(int i = 0; i < prog.progLen; ++i){
-            
-            
-            printf("%s ",primitiveTable[prog.code[i]].name);
-            
-        }
+        printNode(popIndex);
         
         printf("\n\n");
     }
