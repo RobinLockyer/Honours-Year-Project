@@ -56,31 +56,40 @@ void printTestData(){
     
 }
 
+void printNode(int popIndex){
+    
+    Node node = population[popIndex];
+    
+    printf(
+        "Index: %d primitive: %s Arity: %d\nFitness: %f OldFitness: %f ProgLen: %d\nOperands: ", 
+        popIndex,
+        primitiveTable[node.primitive].name,
+        primitiveTable[node.primitive].arity,
+        node.fitness,
+        node.oldFitness,
+        node.progLen
+    );
+    
+    for(int j = 0; j < primitiveTable[node.primitive].arity; j++ ){
+        printf("%d ",node.operands[j]);
+    }
+    
+    printf("\nPredecessors: ");
+    
+    for(int j = 0; j < POPULATION_SIZE; ++j){
+        
+        if(node.predecessors[j]!=0)printf("%d ",node.predecessors[j]);
+        
+    }
+    
+}
+
 void printPopulation(){
     
     
     for(int popIndex = 0; popIndex < POPULATION_SIZE; popIndex++){
-        Node node = population[popIndex];
-        printf(
-            "Index: %d primitive: %s Arity: %d\nFitness: %f OldFitness: %f\nOperands: ", 
-            popIndex,
-            primitiveTable[node.primitive].name,
-            primitiveTable[node.primitive].arity,
-            node.fitness,
-            node.oldFitness
-        );
         
-        for(int j = 0; j < primitiveTable[node.primitive].arity; j++ ){
-            printf("%d ",node.operands[j]);
-        }
-        
-        printf("\nPredecessors: ");
-        
-        for(int j = 0; j < POPULATION_SIZE; ++j){
-            
-            if(node.predecessors[j]!=0)printf("%d ",node.predecessors[j]);
-            
-        }
+        printNode(popIndex);
         
         printf("\n\n");
     }

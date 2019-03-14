@@ -12,11 +12,11 @@
 #define evaluatePopulation(updateList,testSet) evaluatePopulationSNGP_B((updateList),(testSet))
 
 //The maximum number of times we apply the successor mutate operation
-#define MAX_OPS 5000
+#define MAX_OPS 50
 #define NUM_GENERATIONS MAX_OPS+1
-#define POPULATION_SIZE 200
+#define POPULATION_SIZE 10000
 #define NUM_TESTS 15
-#define MAX_RUNS 100
+#define MAX_RUNS 20
 #define NUM_TEST_SETS 3000
 
 #define SF 5
@@ -43,6 +43,7 @@ int progIterations = 0;
 #define MAX_PROG_ITERATIONS 2000
 
 int success = 0;
+int workingProgramme = -1;
 
 //For SNGP/A
 float totalNodeFitness = 0;
@@ -84,6 +85,7 @@ typedef struct {
     double oldFitness;
     int operands[MAX_ARITY];
     int predecessors[POPULATION_SIZE];
+    int progLen;
 } Node;
 
 Node population[POPULATION_SIZE];
@@ -163,6 +165,7 @@ void initialisePopulation(){
         
         node->fitness = -1;
         node->oldFitness = -1;
+        node->progLen = 1;
         
     }
     
@@ -175,6 +178,7 @@ void initialisePopulation(){
         node->primitive = primitive;
         node->fitness = -1;
         node->oldFitness = -1;
+        node->progLen = 1;
         
         for(int operandIndex = 0; operandIndex < MAX_ARITY; operandIndex++){
             
@@ -183,6 +187,7 @@ void initialisePopulation(){
                 int randomOperand = randRange(0,functionIndex-1);
                 
                 node->operands[operandIndex] = randomOperand;
+                node->progLen += population[randomOperand].progLen;
                 
                 addPredecessor(randomOperand, functionIndex);
                 
@@ -499,15 +504,38 @@ float evaluateNode(int popIndex, int testSet){
         
     }
     
-    int newFitness = (resSum * OF) + (population[popIndex].progLen * SF)
+    int newFitness = (resSum * OF) + (population[popIndex].progLen * SF);
     
     population[popIndex].oldFitness = population[popIndex].fitness;
     
     population[popIndex].fitness = newFitness;
     
-    if(resSum == 0) success = 1;
+    if(resSum == 0){
+        success = 1;
+        workingProgramme = popIndex;
+    }
     
     return population[popIndex].fitness;
+    
+}
+
+void updateProgLen(int* updateList){
+    
+    for(int nextUpdateNode = updateList[0]; nextUpdateNode != 0; nextUpdateNode = updateList[nextUpdateNode]){
+        
+        Node* node = &population[nextUpdateNode];
+        
+        node->progLen = 1;
+        
+        for(int arg = 0; arg < primitiveTable[node->primitive].arity; arg++){
+            
+            node->progLen += population[node->operands[arg]].progLen;
+            
+        }
+        
+        
+    }
+    
     
 }
 
@@ -706,6 +734,8 @@ int main(int argc, char* argv[]){
             
             buildUpdateList(randomNodeIndex);
             
+            updateProgLen(updateList);
+            
             oldFitness = fitness;
             
             fitness = evaluatePopulation(updateList, generation % NUM_TEST_SETS);
@@ -735,7 +765,13 @@ int main(int argc, char* argv[]){
     }
     printPopulation();
     
-    
+    if(success == 1){
+        
+        printf("\n\nSuccess!\n\n");
+        
+        printNode(workingProgramme);
+        
+    }
     
     return 0;
 }
