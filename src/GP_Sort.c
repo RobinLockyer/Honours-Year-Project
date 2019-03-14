@@ -376,14 +376,8 @@ int res(int popIndex, int testSet, int testNum){
     execute(popIndex);
     
     int iDis = test->inversions;
-    
     int rDis = countInversions(results);
-    
-    
-    
     int pDis = (rDis > iDis) ? (rDis - iDis)*100 : 0;
-    
-
     
     return rDis + pDis; 
     
