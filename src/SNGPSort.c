@@ -43,8 +43,7 @@ int success = 0;
 
 //For SNGP/A
 float totalNodeFitness = 0;
-//For SNGP/B
-float bestNodeFitness = 0;
+
 
 typedef enum {
     INDEX,
@@ -534,6 +533,8 @@ float evaluatePopulationSNGP_A(int* updateList, int testSet){
 }
 
 float evaluatePopulationSNGP_B(int* updateList, int testSet){
+    
+    float bestNodeFitness = 0;
     
     if(updateList == NULL){
     
