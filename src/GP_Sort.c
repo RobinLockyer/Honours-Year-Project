@@ -13,7 +13,7 @@
 #define INITIAL_MAX_DEPTH 6
 #define NUM_GENERATIONS 50 //50 in final
 #define NUM_TESTS 15
-#define MAX_RUNS 1 //20 in final
+#define MAX_RUNS 20 //20 in final
 #define NUM_TEST_SETS 3000
 
 #define SF 5
@@ -641,9 +641,9 @@ int main(int argc, char* argv[]){
     }
     
     
-    for(int run = 0; 1==1||run<MAX_RUNS; ++run){
+    for(int run = 0; run<MAX_RUNS; ++run){
         
-        //if(success==1) break;
+        if(success==1) break;
         
         printf("\n\nRun %d\n\n",run);
         
@@ -655,7 +655,7 @@ int main(int argc, char* argv[]){
         
         for(int generation = 1; generation < NUM_GENERATIONS; ++generation){
             
-            //if(success==1) break;
+            if(success==1) break;
             
             
             for(int popIndex = 0; popIndex < POPULATION_SIZE; popIndex++){
