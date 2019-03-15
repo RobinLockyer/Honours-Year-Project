@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define RANDOM_SEED 1894
+#define RANDOM_SEED 1895
 
 #define NUM_TERMINALS 2
 #define NUM_FUNCTIONS 7
@@ -14,7 +14,7 @@
 //The maximum number of times we apply the successor mutate operation
 #define MAX_OPS 50
 #define NUM_GENERATIONS MAX_OPS+1
-#define POPULATION_SIZE 10000
+#define POPULATION_SIZE 50
 #define NUM_TESTS 15
 #define MAX_RUNS 20
 #define NUM_TEST_SETS 3000
@@ -302,7 +302,7 @@ int execute(int popIndex){
             
             int oldIndex = index;
             
-            for(index = start; index <= end && index < len && progIterations < MAX_PROG_ITERATIONS; ++index, ++progIterations){
+            for(index = start; index <= end && index < len && progIterations < 2*results->size*results->size; ++index, ++progIterations){
                 
                 execute(functionIndex);
             }
@@ -720,7 +720,7 @@ int main(int argc, char* argv[]){
             
             if(success==1) break;
             
-            
+            printf("\nGeneration %d\n",generation);
             
             int randomNodeIndex = randRange(NUM_TERMINALS, NUM_PRIMITIVES-1);
             Node* randomNode = &population[randomNodeIndex];
@@ -740,7 +740,7 @@ int main(int argc, char* argv[]){
             
             fitness = evaluatePopulation(updateList, generation % NUM_TEST_SETS);
             
-            if(oldFitness >= fitness){
+            if(oldFitness <= fitness){
                 
                 restoreFitnessValues(updateList);
                 
