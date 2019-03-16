@@ -13,13 +13,13 @@
 #define evaluatePopulation(updateList,testSet) evaluatePopulationSNGP_B((updateList),(testSet))
 
 //The maximum number of times we apply the successor mutate operation
-#define MAX_OPS 10000
+#define MAX_OPS 1000
 #define NUM_GENERATIONS MAX_OPS+1
 #define POPULATION_SIZE 50
 #define NUM_TESTS 15
-#define MAX_RUNS 1
+#define MAX_RUNS 20
 #define NUM_TEST_SETS 3000
-#define BETTER_THAN <
+#define BETTER_THAN >=
 
 #define SF 5
 #define OF 5
@@ -482,40 +482,34 @@ int testNode(int popIndex, int testSet, int testNum){
     execute(popIndex);
     
     
-    int iDis = test->inversions;
+    int inversions = countInversions(results);
     
-    int rDis = countInversions(results);
+    float fitness;// = test->inversions - inversions;
     
+    if(inversions == test->inversions && inversions!=0) fitness = 0;
+    else if(test->inversions!=0) fitness = 1 - inversions/(float)test->inversions;
+    else if(inversions == 0) fitness = 1;
+    else fitness = -inversions;
     
-    
-    int pDis = (rDis > iDis) ? (rDis - iDis)*100 : 0;
-    
-
-    
-    return rDis + pDis; 
+    return fitness;
     
 }
 
 float evaluateNode(int popIndex, int testSet){
     
-    int resSum = 0;
+    float nodeTotalFitness = 0;
         
     for(int testNum = 0; testNum < NUM_TESTS; testNum++){
         
-        resSum += testNode(popIndex, testSet, testNum);
+        nodeTotalFitness += testNode(popIndex, testSet, testNum);
         
     }
     
-    int newFitness = (resSum * OF) + (population[popIndex].progLen * SF);
-    
     population[popIndex].oldFitness = population[popIndex].fitness;
     
-    population[popIndex].fitness = newFitness;
+    population[popIndex].fitness = nodeTotalFitness / NUM_TESTS;
     
-    if(resSum == 0){
-        success = 1;
-        workingProgramme = popIndex;
-    }
+    if(population[popIndex].fitness > 0.8) success = 1;
     
     return population[popIndex].fitness;
     
@@ -583,7 +577,7 @@ float evaluatePopulationSNGP_A(int* updateList, int testSet){
         }
     }
     
-    return totalNodeFitness;
+    return totalNodeFitness/POPULATION_SIZE;
     
 }
 
@@ -632,7 +626,7 @@ void successorMutate(int popIndex, int randomOperandIndex, int newOperandValue){
     addPredecessor(newOperandValue, popIndex);
 }
 
-void addToUpdateList(int popIndex){
+int addToUpdateList(int popIndex){
     
     int nextValue = 0;
     
@@ -647,6 +641,14 @@ void addToUpdateList(int popIndex){
         updateList[popIndex] = updateList[nextValue];
         
         updateList[nextValue] = popIndex;
+        
+        //popIndex is not already in update list
+        return 0;
+        
+    } else{
+        
+        //popIndex is already in update list
+        return 1;
         
     }
     
@@ -664,8 +666,8 @@ void buildUpdateList(int popIndex){
     
     while(nextPredecessor != 0){
         
-        addToUpdateList(nextPredecessor);
-        buildUpdateList(nextPredecessor);
+        int inList = addToUpdateList(nextPredecessor);
+        if(!inList) buildUpdateList(nextPredecessor);
         nextPredecessor = predArray[nextPredecessor];
         
     }
