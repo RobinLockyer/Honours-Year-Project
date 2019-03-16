@@ -13,13 +13,13 @@
 #define evaluatePopulation(updateList,testSet) evaluatePopulationSNGP_B((updateList),(testSet))
 
 //The maximum number of times we apply the successor mutate operation
-#define MAX_OPS 1000
+#define MAX_OPS 50
 #define NUM_GENERATIONS MAX_OPS+1
 #define POPULATION_SIZE 50
 #define NUM_TESTS 15
 #define MAX_RUNS 20
 #define NUM_TEST_SETS 3000
-#define BETTER_THAN >=
+#define BETTER_THAN <
 
 #define SF 5
 #define OF 5
@@ -482,34 +482,39 @@ int testNode(int popIndex, int testSet, int testNum){
     execute(popIndex);
     
     
-    int inversions = countInversions(results);
+    int iDis = test->inversions;
     
-    float fitness;// = test->inversions - inversions;
+    int rDis = countInversions(results);
     
-    if(inversions == test->inversions && inversions!=0) fitness = 0;
-    else if(test->inversions!=0) fitness = 1 - inversions/(float)test->inversions;
-    else if(inversions == 0) fitness = 1;
-    else fitness = -inversions;
     
-    return fitness;
     
+    int pDis = (rDis > iDis) ? (rDis - iDis)*100 : 0;
+    
+
+    
+    return rDis + pDis; 
 }
 
 float evaluateNode(int popIndex, int testSet){
     
-    float nodeTotalFitness = 0;
+    int resSum = 0;
         
     for(int testNum = 0; testNum < NUM_TESTS; testNum++){
         
-        nodeTotalFitness += testNode(popIndex, testSet, testNum);
+        resSum += testNode(popIndex, testSet, testNum);
         
     }
     
+    int newFitness = (resSum * OF) + (population[popIndex].progLen * SF);
+    
     population[popIndex].oldFitness = population[popIndex].fitness;
     
-    population[popIndex].fitness = nodeTotalFitness / NUM_TESTS;
+    population[popIndex].fitness = newFitness;
     
-    if(population[popIndex].fitness > 0.8) success = 1;
+    if(resSum == 0){
+        success = 1;
+        workingProgramme = popIndex;
+    }
     
     return population[popIndex].fitness;
     
@@ -727,7 +732,7 @@ int main(int argc, char* argv[]){
     
     for(int run = 0; run<MAX_RUNS; ++run){
         
-        //if(success==1) break;
+        if(success==1) break;
         
         printf("\n\nRun %d\n\n",run);
         
@@ -742,7 +747,7 @@ int main(int argc, char* argv[]){
         
         for(int generation = 1; generation < NUM_GENERATIONS; ++generation){
             
-            //if(success==1) break;
+            if(success==1) break;
             
             printf("\nGeneration %d",generation);
             
