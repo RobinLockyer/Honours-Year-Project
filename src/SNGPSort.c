@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
-#define RANDOM_SEED 1895
+#define RANDOM_SEED 2837
 
 #define NUM_TERMINALS 2
 #define NUM_FUNCTIONS 7
@@ -12,12 +13,13 @@
 #define evaluatePopulation(updateList,testSet) evaluatePopulationSNGP_B((updateList),(testSet))
 
 //The maximum number of times we apply the successor mutate operation
-#define MAX_OPS 50
+#define MAX_OPS 10000
 #define NUM_GENERATIONS MAX_OPS+1
 #define POPULATION_SIZE 50
 #define NUM_TESTS 15
-#define MAX_RUNS 20
+#define MAX_RUNS 1
 #define NUM_TEST_SETS 3000
+#define BETTER_THAN <
 
 #define SF 5
 #define OF 5
@@ -521,21 +523,41 @@ float evaluateNode(int popIndex, int testSet){
 
 void updateProgLen(int* updateList){
     
-    for(int nextUpdateNode = updateList[0]; nextUpdateNode != 0; nextUpdateNode = updateList[nextUpdateNode]){
+    if (updateList == NULL){
         
-        Node* node = &population[nextUpdateNode];
+        for(int nextUpdateNode = 0; nextUpdateNode < POPULATION_SIZE; nextUpdateNode++){
         
-        node->progLen = 1;
-        
-        for(int arg = 0; arg < primitiveTable[node->primitive].arity; arg++){
+            Node* node = &population[nextUpdateNode];
             
-            node->progLen += population[node->operands[arg]].progLen;
+            node->progLen = 1;
             
+            for(int arg = 0; arg < primitiveTable[node->primitive].arity; arg++){
+                
+                node->progLen += population[node->operands[arg]].progLen;
+                
+            }
+        
+        
         }
-        
+    
         
     }
-    
+    else{
+        for(int nextUpdateNode = updateList[0]; nextUpdateNode != 0; nextUpdateNode = updateList[nextUpdateNode]){
+            
+            Node* node = &population[nextUpdateNode];
+            
+            node->progLen = 1;
+            
+            for(int arg = 0; arg < primitiveTable[node->primitive].arity; arg++){
+                
+                node->progLen += population[node->operands[arg]].progLen;
+                
+            }
+            
+            
+        }
+    }
     
 }
 
@@ -561,7 +583,7 @@ float evaluatePopulationSNGP_A(int* updateList, int testSet){
         }
     }
     
-    return totalNodeFitness/POPULATION_SIZE;
+    return totalNodeFitness;
     
 }
 
@@ -576,7 +598,7 @@ float evaluatePopulationSNGP_B(int* updateList, int testSet){
         for(int popIndex = 1; popIndex < POPULATION_SIZE; popIndex++){
             
             float nodeFitness = evaluateNode(popIndex, testSet);
-            if(nodeFitness > bestNodeFitness) bestNodeFitness = nodeFitness;
+            if(bestNodeFitness BETTER_THAN nodeFitness) bestNodeFitness = nodeFitness;
             
         }
     } else{
@@ -591,12 +613,12 @@ float evaluatePopulationSNGP_B(int* updateList, int testSet){
         
         for(int i = 1; i<POPULATION_SIZE; ++i){
             
-            if(bestNodeFitness < population[i].fitness) bestNodeFitness = population[i].fitness;
+            if(population[i].fitness BETTER_THAN bestNodeFitness) bestNodeFitness = population[i].fitness;
             
         }
     }
     
-    return totalNodeFitness/POPULATION_SIZE;
+    return bestNodeFitness;
 }
 
 void successorMutate(int popIndex, int randomOperandIndex, int newOperandValue){
@@ -693,24 +715,24 @@ int main(int argc, char* argv[]){
         printf("\nTest file loaded\n\n");
         
     }
-    
     /*
-    printf("Inversions %d", countInversions(tests[0][0]));
-    
-    printIntArray(mergeBuffer1,20);
-    
-    printIntArray(mergeBuffer2,20);*/
+    initialisePopulation();
+    initialiseExamplePopulation();
+    updateProgLen(NULL);
+    evaluatePopulation(NULL,0);
+    printPopulation();*/
     
     
     for(int run = 0; run<MAX_RUNS; ++run){
         
-        if(success==1) break;
+        //if(success==1) break;
         
         printf("\n\nRun %d\n\n",run);
         
         initialisePopulation();
         //initialiseExamplePopulation();
-        float oldFitness = -1;
+        //updateProgLen(NULL);
+        float oldFitness = (1 BETTER_THAN 0)? INT_MAX: INT_MIN;
         
         //evaluate the initial population (generation 0)
         float fitness = evaluatePopulation(NULL, 0);
@@ -718,9 +740,9 @@ int main(int argc, char* argv[]){
         
         for(int generation = 1; generation < NUM_GENERATIONS; ++generation){
             
-            if(success==1) break;
+            //if(success==1) break;
             
-            printf("\nGeneration %d\n",generation);
+            printf("\nGeneration %d",generation);
             
             int randomNodeIndex = randRange(NUM_TERMINALS, NUM_PRIMITIVES-1);
             Node* randomNode = &population[randomNodeIndex];
@@ -740,7 +762,7 @@ int main(int argc, char* argv[]){
             
             fitness = evaluatePopulation(updateList, generation % NUM_TEST_SETS);
             
-            if(oldFitness <= fitness){
+            if(!(fitness BETTER_THAN oldFitness)){
                 
                 restoreFitnessValues(updateList);
                 
@@ -754,12 +776,8 @@ int main(int argc, char* argv[]){
                 
             }      
             
-            if(generation%100 == 0){
-                
-                printf("\n%d", generation);
-                
-                
-            }
+            
+            printf(" Fitness: %f\n", fitness);
             
         }
     }
