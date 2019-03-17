@@ -13,11 +13,11 @@
 #define evaluatePopulation(updateList,testSet) evaluatePopulationSNGP_B((updateList),(testSet))
 
 //The maximum number of times we apply the successor mutate operation
-#define MAX_OPS 50
+#define MAX_OPS 3
 #define NUM_GENERATIONS MAX_OPS+1
 #define POPULATION_SIZE 50
 #define NUM_TESTS 15
-#define MAX_RUNS 20
+#define MAX_RUNS 2
 #define NUM_TEST_SETS 3000
 #define BETTER_THAN <
 
@@ -181,6 +181,7 @@ void initialisePopulation(){
         node->fitness = -1;
         node->oldFitness = -1;
         node->progLen = 1;
+        node->predecessors[0] = 0;
         
         for(int operandIndex = 0; operandIndex < MAX_ARITY; operandIndex++){
             
