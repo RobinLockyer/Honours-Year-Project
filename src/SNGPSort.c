@@ -17,11 +17,11 @@
 //The maximum number of times we apply the successor mutate operation
 #define MAX_OPS 100000
 #define NUM_GENERATIONS MAX_OPS+1
-#define POPULATION_SIZE 30
+#define POPULATION_SIZE 70
 #define NUM_TESTS 15
 #define MAX_RUNS 20
 #define NUM_TEST_SETS 30000
-#define BETTER_THAN <=
+#define BETTER_THAN >=
 
 #define OUTPUT_INTERVAL 500
 
@@ -487,39 +487,33 @@ float testNode(int popIndex, int testSet, int testNum){
     execute(popIndex);
     
     
-    int iDis = test->inversions;
+    int inversions = countInversions(results);
     
-    int rDis = countInversions(results);
+    float fitness;// = test->inversions - inversions;
     
+    if(inversions == test->inversions && inversions!=0) fitness = 0;
+    else if(test->inversions!=0) fitness = 1 - inversions/(float)test->inversions;
+    else if(inversions == 0) fitness = 1;
+    else fitness = -inversions;
     
-    
-    int pDis = (rDis > iDis) ? (rDis - iDis)*100 : 0;
-    
-
-    
-    return (rDis + pDis); 
+    return fitness; 
 }
 
 float evaluateNode(int popIndex, int testSet){
     
-    float resSum = 0;
+    float nodeTotalFitness = 0;
         
     for(int testNum = 0; testNum < NUM_TESTS; testNum++){
         
-        resSum += testNode(popIndex, testSet, testNum);
+        nodeTotalFitness += testNode(popIndex, testSet, testNum);
         
     }
     
-    float newFitness = (resSum * OF) + (population[popIndex].progLen * SF);
-    
     population[popIndex].oldFitness = population[popIndex].fitness;
     
-    population[popIndex].fitness = newFitness;
+    population[popIndex].fitness = nodeTotalFitness / NUM_TESTS;
     
-    if(resSum == 0){
-        success = 1;
-        workingProgramme = popIndex;
-    }
+    if(population[popIndex].fitness > 0.8) success = 1;
     
     return population[popIndex].fitness;
     
