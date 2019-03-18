@@ -76,9 +76,16 @@ void printNode(int popIndex){
     
     printf("\nPredecessors: ");
     
-    for(int j = 0; j < POPULATION_SIZE; ++j){
+    /*for(int j = 0; j < POPULATION_SIZE; ++j){
         
         if(node.predecessors[j]!=0)printf("%d ",node.predecessors[j]);
+        
+    }*/
+    
+    for(int i = node.predecessors[0]; i != 0; i = node.predecessors[i]){
+        
+        
+        printf("%d ",i);
         
     }
     

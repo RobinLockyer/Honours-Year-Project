@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <time.h>
 
-#define RANDOM_SEED 2837
+
+#define RANDOM_SEED time(NULL)//2928
 
 #define NUM_TERMINALS 2
 #define NUM_FUNCTIONS 7
@@ -13,15 +15,17 @@
 #define evaluatePopulation(updateList,testSet) evaluatePopulationSNGP_B((updateList),(testSet))
 
 //The maximum number of times we apply the successor mutate operation
-#define MAX_OPS 3
+#define MAX_OPS 100000
 #define NUM_GENERATIONS MAX_OPS+1
-#define POPULATION_SIZE 50
+#define POPULATION_SIZE 30
 #define NUM_TESTS 15
-#define MAX_RUNS 2
-#define NUM_TEST_SETS 3000
-#define BETTER_THAN <
+#define MAX_RUNS 20
+#define NUM_TEST_SETS 30000
+#define BETTER_THAN <=
 
-#define SF 5
+#define OUTPUT_INTERVAL 500
+
+#define SF 2
 #define OF 5
 
 typedef struct{
@@ -463,7 +467,7 @@ int countInversions(Array* arr){
     
 }
 
-int testNode(int popIndex, int testSet, int testNum){
+float testNode(int popIndex, int testSet, int testNum){
     
     Array* test = tests[testSet][testNum];
     
@@ -493,12 +497,12 @@ int testNode(int popIndex, int testSet, int testNum){
     
 
     
-    return rDis + pDis; 
+    return (rDis + pDis); 
 }
 
 float evaluateNode(int popIndex, int testSet){
     
-    int resSum = 0;
+    float resSum = 0;
         
     for(int testNum = 0; testNum < NUM_TESTS; testNum++){
         
@@ -506,7 +510,7 @@ float evaluateNode(int popIndex, int testSet){
         
     }
     
-    int newFitness = (resSum * OF) + (population[popIndex].progLen * SF);
+    float newFitness = (resSum * OF) + (population[popIndex].progLen * SF);
     
     population[popIndex].oldFitness = population[popIndex].fitness;
     
@@ -750,7 +754,7 @@ int main(int argc, char* argv[]){
             
             if(success==1) break;
             
-            printf("\nGeneration %d",generation);
+            if(generation % OUTPUT_INTERVAL ==0)printf("\nGeneration %d",generation);
             
             int randomNodeIndex = randRange(NUM_TERMINALS, NUM_PRIMITIVES-1);
             Node* randomNode = &population[randomNodeIndex];
@@ -785,7 +789,7 @@ int main(int argc, char* argv[]){
             }      
             
             
-            printf(" Fitness: %f\n", fitness);
+            if(generation % OUTPUT_INTERVAL ==0)printf(" Fitness: %f\n", fitness);
             
         }
     }

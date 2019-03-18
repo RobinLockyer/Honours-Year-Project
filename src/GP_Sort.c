@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
-#define RANDOM_SEED 1894
+#define RANDOM_SEED time(NULL)//1894
 
 #define NUM_TERMINALS 2
 #define NUM_FUNCTIONS 7
@@ -686,7 +687,7 @@ int main(int argc, char* argv[]){
         }
     }
     
-    printPopulation();
+    //printPopulation();
 
 	if (success == 1){
         printf("\n\nSuccess!\n\n");
