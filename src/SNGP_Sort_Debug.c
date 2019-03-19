@@ -145,6 +145,33 @@ void initialiseExamplePopulation(){
 	
 }
 
+void initialisePartialSolution(){
+    
+    population[0].primitive = INDEX;
+	
+	population[1].primitive = LENGTH;
+	
+	population[2].primitive = INC;
+	population[2].operands[0] = 0;
+	
+	population[3].primitive = SMALLEST;
+	population[3].operands[0] = 2;
+	population[3].operands[1] = 0;
+	
+	population[4].primitive = SWAP;
+	population[4].operands[0] = 3;
+	population[4].operands[1] = 0;
+	
+	population[5].primitive = SUB;
+	population[5].operands[0] = 1;
+	population[5].operands[1] = 1;
+	
+	population[6].primitive = DEC;
+	population[6].operands[0] = 1;
+    
+    
+}
+
 void testExecution(){
 	
 	initialiseExamplePopulation();
