@@ -17,11 +17,11 @@
 //The maximum number of times we apply the successor mutate operation
 #define MAX_OPS 25000
 #define NUM_GENERATIONS MAX_OPS+1
-#define POPULATION_SIZE 100
+#define POPULATION_SIZE 60
 #define NUM_TESTS 15
 #define MAX_RUNS 20
 #define NUM_TEST_SETS 30000
-#define BETTER_THAN >=
+#define BETTER_THAN >
 
 #define OUTPUT_INTERVAL 500
 
@@ -309,7 +309,7 @@ int execute(int popIndex){
             
             int oldIndex = index;
             
-            for(index = start; index <= end && index < len && progIterations < 2*results->size*results->size; ++index, ++progIterations){
+            for(index = start; index <= end && index < len && progIterations < 2*results->size*results->size*results->size; ++index, ++progIterations){
                 
                 execute(functionIndex);
             }
@@ -742,8 +742,8 @@ int main(int argc, char* argv[]){
         
         initialisePopulation();
         //initialiseExamplePopulation();
-        initialisePartialSolution();
-        updateProgLen(NULL);
+        //initialisePartialSolution();
+        //updateProgLen(NULL);
         float oldFitness = (1 BETTER_THAN 0)? INT_MAX: INT_MIN;
         
         //evaluate the initial population (generation 0)

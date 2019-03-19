@@ -147,28 +147,28 @@ void initialiseExamplePopulation(){
 
 void initialisePartialSolution(){
     
-    population[0].primitive = INDEX;
+    population[12].primitive = INC;
+	population[12].operands[0] = 0;
 	
-	population[1].primitive = LENGTH;
+	population[20].primitive = SMALLEST;
+	population[20].operands[0] = 2;
+	population[20].operands[1] = 0;
 	
-	population[2].primitive = INC;
-	population[2].operands[0] = 0;
+	population[25].primitive = SWAP;
+	population[25].operands[0] = 3;
+	population[25].operands[1] = 0;
 	
-	population[3].primitive = SMALLEST;
-	population[3].operands[0] = 2;
-	population[3].operands[1] = 0;
+	population[33].primitive = SUB;
+	population[33].operands[0] = 1;
+	population[33].operands[1] = 1;
 	
-	population[4].primitive = SWAP;
-	population[4].operands[0] = 3;
-	population[4].operands[1] = 0;
+	population[40].primitive = DEC;
+	population[40].operands[0] = 1;
 	
-	population[5].primitive = SUB;
-	population[5].operands[0] = 1;
-	population[5].operands[1] = 1;
-	
-	population[6].primitive = DEC;
-	population[6].operands[0] = 1;
-    
+	population[42].primitive = ITERATE;
+	population[42].operands[0] = 33;
+	population[42].operands[1] = 40;
+	population[42].operands[2] = 25;
     
 }
 
