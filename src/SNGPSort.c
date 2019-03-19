@@ -6,7 +6,7 @@
 
 #define RANDOM_SEED time(NULL)//2928
 
-#define NUM_TERMINALS 2
+#define NUM_TERMINALS 4
 #define NUM_FUNCTIONS 7
 #define NUM_PRIMITIVES NUM_TERMINALS+NUM_FUNCTIONS
 #define MAX_ARITY 3
@@ -60,6 +60,8 @@ typedef enum {
     LENGTH,
     ITERATE, 
     SWAP,
+    SWAP2,
+    SWAP3,
     SMALLEST,
     LARGEST,
     SUB,
@@ -78,6 +80,8 @@ TableEntry primitiveTable[NUM_PRIMITIVES] = {
     {LENGTH,   0, "LENGTH"},
     {ITERATE,  3, "ITERATE"},
     {SWAP,     2, "SWAP"},
+    {SWAP2,     2, "SWAP2"},
+    {SWAP3,     2, "SWAP3"},
     {SMALLEST, 2, "SMALLEST"},
     {LARGEST,  2, "LARGEST"},
     {SUB,      2, "SUB"},
@@ -335,7 +339,39 @@ int execute(int popIndex){
             return x;
             
         }break;
+        
+        case SWAP2:{
             
+            int x = execute(node->operands[0]);
+            int y = execute(node->operands[1]);
+            
+            //If x or y is not a valid index, return 0
+            if(x<0 || y<0 || x>=results->size || y>=results->size) return 0;
+            
+            int t = results->arr[x];
+            results->arr[x] = results->arr[y];
+            results->arr[y] = t;
+            
+            return x;
+            
+        }break;
+        
+        case SWAP3:{
+            
+            int x = execute(node->operands[0]);
+            int y = execute(node->operands[1]);
+            
+            //If x or y is not a valid index, return 0
+            if(x<0 || y<0 || x>=results->size || y>=results->size) return 0;
+            
+            int t = results->arr[x];
+            results->arr[x] = results->arr[y];
+            results->arr[y] = t;
+            
+            return x;
+            
+        }break;
+        
         case SMALLEST:{
             
             int x = execute(node->operands[0]);
