@@ -1,5 +1,9 @@
 \documentclass{beamer}
 
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+
+
+
 \title{COMP390: Evolving a Sorting Algorithm with SNGP}
 \author{Robin Lockyer}
 \institute{University of Liverpool}
@@ -16,26 +20,65 @@
 	\section{Introduction}
 	
 		\begin{frame}
+		
 			\frametitle{Project Description}
-			This is a text in the first frame. This is a text in the first frame. This is a text in the first frame.
+			
+			Aims:
+			
+			\begin{itemize}
+				
+				\item To replicate K. E. Kinnear's work \cite{kinnear_evolving_1993} in evolving a sorting algorithm using Genetic Programming
+				
+				\item To re-implement Kinnear's work using Single Node Genetic Programming, a variant of GP invented by Dr David Jackson \cite{jackson_new_2012}
+				
+				\item To compare the effectiveness of the two approaches to evolving a sorting algorithm
+				 
+			\end{itemize}
 			
 			
 		\end{frame}
 	
-		\subsection{Genetic Programming}
+		\begin{frame}
 		
-		
-		\subsection{Single Node Genetic Programming}
+			\frametitle{What Was Achieved?}
+			
+			\begin{itemize}
+				\item Successfully replicated Kinnear's work
+				\item Unable to evolve a sort using SNGP
+			\end{itemize}
+			
+		\end{frame}
 	
-			\begin{frame}
-				\frametitle{Sample frame title}
-				This is a text in the first frame. This is a text in the first frame. This is a text in the first frame.
-			\end{frame}
+	\section{Genetic Programming Overview}
+		
+		\begin{frame}
+		
+			\frametitle{What is genetic programming?}
+			
+			
+		
+		\end{frame}
+	
+	
+	\section{Single Node Genetic Programming Overview}
+
+		\begin{frame}
+			\frametitle{Sample frame title}
+			This is a text in the first frame. This is a text in the first frame. This is a text in the first frame.
+		\end{frame}
 	
 	\section{Reproducing Kinnear's Results}
 	
 	\section{Attempting SNGP}
 	
-	\section{conclusion}
+	\section{Conclusion}
+	
+	\section{Bibliography}
+	
+		\begin{frame}
+			\frametitle{Bibliography}
+			\bibliographystyle{acm}
+			\bibliography{library}
+		\end{frame}
 		
 \end{document}
