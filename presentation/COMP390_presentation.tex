@@ -73,7 +73,7 @@
 			
 			\begin{center}
 				
-				\includegraphics[scale=0.5]{resources/1_gp_example_tree}
+				\includegraphics[scale=0.2]{resources/1_gp_example_tree}
 				
 				This tree encodes the programme f( g( a, b, c ), f( h( a ), a ) ), where f, g, and h are functions and a, b, and c are terminals.
 				
@@ -85,29 +85,13 @@
 	
 		\begin{frame}
 			
-			\frametitle{How does GP Work? - 2}
-			
-			\begin{center}
-				
-				An initial population of random programmes is created
-				
-				\includegraphics[scale=0.4]{resources/2_gp_example_population}
-				
-			\end{center}
-			
-		\end{frame}
-	
-		\begin{frame}
-		
 			\frametitle{How Does GP Work? - 2}
 			
 			\begin{center}
 				
+				\includegraphics[scale=0.2]{resources/2_gp_example_population}
+				
 				An initial population of random programmes is created
-				
-				\includegraphics[scale=0.4]{resources/3_gp_example_fitness}
-				
-				Each member of the population is executed, evaluated, and given a fitness score
 				
 			\end{center}
 			
@@ -118,8 +102,22 @@
 			\frametitle{How Does GP Work? - 3}
 			
 			\begin{center}
+				
+				\includegraphics[scale=0.12]{resources/3_gp_example_fitness}
+				
+				Each member of the population is executed, evaluated, and given a fitness score
+				
+			\end{center}
 			
-				\includegraphics[scale=0.4]{resources/4_gp_example_selection}
+		\end{frame}
+	
+		\begin{frame}
+		
+			\frametitle{How Does GP Work? - 4}
+			
+			\begin{center}
+			
+				\includegraphics[scale=0.15]{resources/4_gp_example_selection}
 				
 				A new population is created by selecting some of the most fit members of the initial population and performing genetic operations on them to create new programmes
 				
@@ -129,7 +127,7 @@
 	
 		\begin{frame}
 			
-			\frametitle{How Does GP Work? - 4}
+			\frametitle{How Does GP Work? - 5}
 			
 			There are three main genetic operators:
 			
@@ -188,7 +186,7 @@
 	
 		\begin{frame}
 		
-			\frametitle{How Does GP Work? - 5}
+			\frametitle{How Does GP Work? - 6}
 			
 			This process is repeated until a programme with high enough fitness is generated
 		
@@ -223,7 +221,7 @@
 		
 			\frametitle{SNGP Population - 1}
 			
-			\center{\includegraphics[scale=0.7]{resources/8_sngp_graph}}
+			\center{\includegraphics[scale=0.2]{resources/8_sngp_graph}}
 					
 			\begin{itemize}
 				\pause
@@ -246,7 +244,7 @@
 				
 				\begin{column}{0.4\textwidth}
 					
-					\includegraphics[scale=0.7]{resources/9_sngp_graph_no_array}
+					\includegraphics[scale=0.14]{resources/9_sngp_graph_no_array}
 					
 				\end{column}
 			
@@ -280,7 +278,7 @@
 				
 				\blue{Successor Mutate}
 				
-				\includegraphics[scale=0.5]{resources/10_successor_mutate}
+				\includegraphics[scale=0.2]{resources/10_successor_mutate}
 				
 				A random node is chosen and one of its operands is randomly changed. This causes the programmes represented by both the chosen node and all of its predecessors to be altered.
 				
@@ -293,7 +291,7 @@
 			
 			\begin{center}
 			
-				\includegraphics[scale=0.5]{resources/11_sngp_fitness}
+				\includegraphics[scale=0.2]{resources/11_sngp_fitness}
 				
 				
 			\end{center}
@@ -309,7 +307,7 @@
 			
 			\begin{center}
 				
-				\includegraphics[scale=0.5]{resources/11_sngp_fitness}
+				\includegraphics[scale=0.2]{resources/11_sngp_fitness}
 				
 				
 			\end{center}
@@ -449,11 +447,50 @@
 					\end{column}
 				\end{columns}
 			
-			Where rdis(t) is the remaining number of inversions in a test array t after running a member of the population, idis(t) is the initial number of inversions in a test array t, and of and sf are constant weights used to adjust the resulting fitness.
+			Where $rdis(t)$ is the remaining number of inversions in a test array t after running a member of the population, $idis(t)$ is the initial number of inversions in a test array t, and $of$ and $sf$ are constant weights used to adjust the resulting fitness.
+		
+		\end{frame}
+	
+		\begin{frame}
+		
+			\frametitle{Modifications to Dr Jackson's Implementation}
+			
+			Other important modifications to Dr Jackson's Implementation and TinyGP include:
+			
+			\begin{itemize}
+				\pause
+				\item Used batch GP instead of steady state GP
+				\pause
+				\item Used fitness proportional selection over tournament selection
+				\pause
+				\item Modified the $createTree()$ function to take an additional integer argument that specified the maximum number of nodes in the generated tree.
+				\pause
+				\item Completed implementation of the mutate operator
+				\pause
+				\item Added ability to load files containing test data instead of randomly generating arrays at runtime
+			\end{itemize}
 		
 		\end{frame}
 	
 	\section{Attempting SNGP}
+	
+		\begin{frame}
+		
+			\frametitle{Attempting SNGP}
+			
+			My attempt to re-implement Kinnear's work using SNGP was not successful. I was unable to create an implementation that was able to consistently evolve a sorting algorithm.
+			
+			It is possible this is due errors in programming, however I believe this to be unlikely for the following reasons:
+			
+			\begin{itemize}
+				\item The SNGP implementation reused code from my successful GP implementation
+				\item When the initial population was seeded with a fully working programme it was given the correct fitness score and was correctly identified as a working solution
+				\item On each run the overall fitness of the population did increase overtime, until it hit a maximum it could not get past
+				\item When the initial population was seeded with a partially working solution SNGP was occasionally able to use it to create a fully working solution
+				\item 
+			\end{itemize}
+		
+		\end{frame}
 	
 	\section{Conclusion}
 	

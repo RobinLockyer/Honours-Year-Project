@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2019.3.21)  21 MAR 2019 11:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2019.3.21)  21 MAR 2019 14:26
 entering extended mode
 **./COMP390_presentation.tex
 (COMP390_presentation.tex
@@ -908,62 +908,62 @@ thkerncmss.
 ] [8
 
 ]
-<resources/1_gp_example_tree.png, id=267, 362.35374pt x 282.05376pt>
+<resources/1_gp_example_tree.png, id=268, 697.60625pt x 543.02875pt>
 File: resources/1_gp_example_tree.png Graphic file (type png)
 <use resources/1_gp_example_tree.png>
 Package pdftex.def Info: resources/1_gp_example_tree.png  used on input line 84
 .
-(pdftex.def)             Requested size: 181.17642pt x 141.02652pt.
+(pdftex.def)             Requested size: 139.51877pt x 108.60382pt.
  [9
 
  <./resources/1_gp_example_tree.png>]
-<resources/2_gp_example_population.png, id=295, 302.12875pt x 342.27875pt>
+<resources/2_gp_example_population.png, id=296, 709.65125pt x 804.00375pt>
 File: resources/2_gp_example_population.png Graphic file (type png)
 <use resources/2_gp_example_population.png>
 Package pdftex.def Info: resources/2_gp_example_population.png  used on input l
 ine 98.
-(pdftex.def)             Requested size: 120.84935pt x 136.90906pt.
+(pdftex.def)             Requested size: 141.92773pt x 160.7979pt.
 
 [10
 
  <./resources/2_gp_example_population.png>]
-<resources/3_gp_example_fitness.png, id=322, 312.16624pt x 362.35374pt>
+<resources/3_gp_example_fitness.png, id=323, 1090.0725pt x 1265.72874pt>
 File: resources/3_gp_example_fitness.png Graphic file (type png)
 <use resources/3_gp_example_fitness.png>
 Package pdftex.def Info: resources/3_gp_example_fitness.png  used on input line
- 114.
-(pdftex.def)             Requested size: 124.86427pt x 144.93892pt.
+ 112.
+(pdftex.def)             Requested size: 130.80305pt x 151.88089pt.
  [11
 
  <./resources/3_gp_example_fitness.png>]
-<resources/4_gp_example_selection.png, id=349, 763.85374pt x 362.35374pt>
+<resources/4_gp_example_selection.png, id=350, 1897.0875pt x 899.36pt>
 File: resources/4_gp_example_selection.png Graphic file (type png)
 <use resources/4_gp_example_selection.png>
 Package pdftex.def Info: resources/4_gp_example_selection.png  used on input li
-ne 128.
-(pdftex.def)             Requested size: 305.53607pt x 144.93892pt.
+ne 126.
+(pdftex.def)             Requested size: 284.55084pt x 134.89818pt.
  [12
 
  <./resources/4_gp_example_selection.png>]
-<resources/5_reproduction.png, id=376, 161.60374pt x 101.37875pt>
+<resources/5_reproduction.png, id=377, 161.60374pt x 101.37875pt>
 File: resources/5_reproduction.png Graphic file (type png)
 <use resources/5_reproduction.png>
-Package pdftex.def Info: resources/5_reproduction.png  used on input line 187.
+Package pdftex.def Info: resources/5_reproduction.png  used on input line 185.
 (pdftex.def)             Requested size: 56.56215pt x 35.48308pt.
-<resources/6_crossover.png, id=377, 382.42876pt x 101.37875pt>
+<resources/6_crossover.png, id=378, 382.42876pt x 101.37875pt>
 File: resources/6_crossover.png Graphic file (type png)
 <use resources/6_crossover.png>
-Package pdftex.def Info: resources/6_crossover.png  used on input line 187.
+Package pdftex.def Info: resources/6_crossover.png  used on input line 185.
 (pdftex.def)             Requested size: 133.85207pt x 35.48308pt.
 
-Overfull \hbox (10.938pt too wide) in paragraph at lines 187--187
+Overfull \hbox (10.938pt too wide) in paragraph at lines 185--185
 [][] 
  []
 
-<resources/7_mutation.png, id=378, 221.82875pt x 141.52875pt>
+<resources/7_mutation.png, id=379, 221.82875pt x 141.52875pt>
 File: resources/7_mutation.png Graphic file (type png)
 <use resources/7_mutation.png>
-Package pdftex.def Info: resources/7_mutation.png  used on input line 187.
+Package pdftex.def Info: resources/7_mutation.png  used on input line 185.
 (pdftex.def)             Requested size: 77.6412pt x 49.5358pt.
 [13
 
@@ -971,60 +971,60 @@ Package pdftex.def Info: resources/7_mutation.png  used on input line 187.
 mutation.png>]
 File: resources/5_reproduction.png Graphic file (type png)
 <use resources/5_reproduction.png>
-Package pdftex.def Info: resources/5_reproduction.png  used on input line 187.
+Package pdftex.def Info: resources/5_reproduction.png  used on input line 185.
 (pdftex.def)             Requested size: 56.56215pt x 35.48308pt.
 File: resources/6_crossover.png Graphic file (type png)
 <use resources/6_crossover.png>
-Package pdftex.def Info: resources/6_crossover.png  used on input line 187.
+Package pdftex.def Info: resources/6_crossover.png  used on input line 185.
 (pdftex.def)             Requested size: 133.85207pt x 35.48308pt.
 
-Overfull \hbox (10.938pt too wide) in paragraph at lines 187--187
+Overfull \hbox (10.938pt too wide) in paragraph at lines 185--185
 [][] 
  []
 
 File: resources/7_mutation.png Graphic file (type png)
 <use resources/7_mutation.png>
-Package pdftex.def Info: resources/7_mutation.png  used on input line 187.
+Package pdftex.def Info: resources/7_mutation.png  used on input line 185.
 (pdftex.def)             Requested size: 77.6412pt x 49.5358pt.
 [14
 
 ]
 File: resources/5_reproduction.png Graphic file (type png)
 <use resources/5_reproduction.png>
-Package pdftex.def Info: resources/5_reproduction.png  used on input line 187.
+Package pdftex.def Info: resources/5_reproduction.png  used on input line 185.
 (pdftex.def)             Requested size: 56.56215pt x 35.48308pt.
 File: resources/6_crossover.png Graphic file (type png)
 <use resources/6_crossover.png>
-Package pdftex.def Info: resources/6_crossover.png  used on input line 187.
+Package pdftex.def Info: resources/6_crossover.png  used on input line 185.
 (pdftex.def)             Requested size: 133.85207pt x 35.48308pt.
 
-Overfull \hbox (10.938pt too wide) in paragraph at lines 187--187
+Overfull \hbox (10.938pt too wide) in paragraph at lines 185--185
 [][] 
  []
 
 File: resources/7_mutation.png Graphic file (type png)
 <use resources/7_mutation.png>
-Package pdftex.def Info: resources/7_mutation.png  used on input line 187.
+Package pdftex.def Info: resources/7_mutation.png  used on input line 185.
 (pdftex.def)             Requested size: 77.6412pt x 49.5358pt.
 [15
 
 ]
 File: resources/5_reproduction.png Graphic file (type png)
 <use resources/5_reproduction.png>
-Package pdftex.def Info: resources/5_reproduction.png  used on input line 187.
+Package pdftex.def Info: resources/5_reproduction.png  used on input line 185.
 (pdftex.def)             Requested size: 56.56215pt x 35.48308pt.
 File: resources/6_crossover.png Graphic file (type png)
 <use resources/6_crossover.png>
-Package pdftex.def Info: resources/6_crossover.png  used on input line 187.
+Package pdftex.def Info: resources/6_crossover.png  used on input line 185.
 (pdftex.def)             Requested size: 133.85207pt x 35.48308pt.
 
-Overfull \hbox (10.938pt too wide) in paragraph at lines 187--187
+Overfull \hbox (10.938pt too wide) in paragraph at lines 185--185
 [][] 
  []
 
 File: resources/7_mutation.png Graphic file (type png)
 <use resources/7_mutation.png>
-Package pdftex.def Info: resources/7_mutation.png  used on input line 187.
+Package pdftex.def Info: resources/7_mutation.png  used on input line 185.
 (pdftex.def)             Requested size: 77.6412pt x 49.5358pt.
 [16
 
@@ -1039,80 +1039,80 @@ Package pdftex.def Info: resources/7_mutation.png  used on input line 187.
 ] [21
 
 ]
-<resources/8_sngp_graph.png, id=608, 282.05376pt x 184.69pt>
+<resources/8_sngp_graph.png, id=609, 958.58125pt x 594.22pt>
 File: resources/8_sngp_graph.png Graphic file (type png)
 <use resources/8_sngp_graph.png>
-Package pdftex.def Info: resources/8_sngp_graph.png  used on input line 240.
-(pdftex.def)             Requested size: 197.43626pt x 129.2821pt.
+Package pdftex.def Info: resources/8_sngp_graph.png  used on input line 238.
+(pdftex.def)             Requested size: 191.71284pt x 118.84189pt.
  [22
 
  <./resources/8_sngp_graph.png>]
 File: resources/8_sngp_graph.png Graphic file (type png)
 <use resources/8_sngp_graph.png>
-Package pdftex.def Info: resources/8_sngp_graph.png  used on input line 240.
-(pdftex.def)             Requested size: 197.43626pt x 129.2821pt.
+Package pdftex.def Info: resources/8_sngp_graph.png  used on input line 238.
+(pdftex.def)             Requested size: 191.71284pt x 118.84189pt.
  [23
 
 ]
 File: resources/8_sngp_graph.png Graphic file (type png)
 <use resources/8_sngp_graph.png>
-Package pdftex.def Info: resources/8_sngp_graph.png  used on input line 240.
-(pdftex.def)             Requested size: 197.43626pt x 129.2821pt.
+Package pdftex.def Info: resources/8_sngp_graph.png  used on input line 238.
+(pdftex.def)             Requested size: 191.71284pt x 118.84189pt.
  [24
 
 ]
 File: resources/8_sngp_graph.png Graphic file (type png)
 <use resources/8_sngp_graph.png>
-Package pdftex.def Info: resources/8_sngp_graph.png  used on input line 240.
-(pdftex.def)             Requested size: 197.43626pt x 129.2821pt.
+Package pdftex.def Info: resources/8_sngp_graph.png  used on input line 238.
+(pdftex.def)             Requested size: 191.71284pt x 118.84189pt.
 
 [25
 
 ]
 File: resources/8_sngp_graph.png Graphic file (type png)
 <use resources/8_sngp_graph.png>
-Package pdftex.def Info: resources/8_sngp_graph.png  used on input line 240.
-(pdftex.def)             Requested size: 197.43626pt x 129.2821pt.
+Package pdftex.def Info: resources/8_sngp_graph.png  used on input line 238.
+(pdftex.def)             Requested size: 191.71284pt x 118.84189pt.
  [26
 
 ]
-<resources/9_sngp_graph_no_array.png, id=736, 181.67876pt x 161.60374pt>
+<resources/9_sngp_graph_no_array.png, id=737, 958.58125pt x 594.22pt>
 File: resources/9_sngp_graph_no_array.png Graphic file (type png)
 <use resources/9_sngp_graph_no_array.png>
 Package pdftex.def Info: resources/9_sngp_graph_no_array.png  used on input lin
-e 272.
-(pdftex.def)             Requested size: 127.17424pt x 113.12184pt.
+e 270.
+(pdftex.def)             Requested size: 134.20045pt x 83.19023pt.
 
-Overfull \hbox (4.26018pt too wide) in paragraph at lines 272--272
+Overfull \hbox (11.28639pt too wide) in paragraph at lines 270--270
 [][]  
  []
 
 [27
 
  <./resources/9_sngp_graph_no_array.png>]
-<resources/10_successor_mutate.png, id=763, 422.57875pt x 161.60374pt>
+<resources/10_successor_mutate.png, id=764, 1213.53375pt x 462.72874pt>
 File: resources/10_successor_mutate.png Graphic file (type png)
 <use resources/10_successor_mutate.png>
 Package pdftex.def Info: resources/10_successor_mutate.png  used on input line 
-289.
-(pdftex.def)             Requested size: 211.28885pt x 80.80167pt.
+287.
+(pdftex.def)             Requested size: 242.70245pt x 92.5441pt.
  [28
 
  <./resources/10_successor_mutate.png>]
-<resources/11_sngp_fitness.png, id=790, 228.855pt x 211.79124pt>
+<resources/11_sngp_fitness.png, id=791, 751.80875pt x 693.59125pt>
 File: resources/11_sngp_fitness.png Graphic file (type png)
 <use resources/11_sngp_fitness.png>
-Package pdftex.def Info: resources/11_sngp_fitness.png  used on input line 305.
+Package pdftex.def Info: resources/11_sngp_fitness.png  used on input line 303.
 
-(pdftex.def)             Requested size: 114.42722pt x 105.89536pt.
+(pdftex.def)             Requested size: 150.35909pt x 138.71579pt.
  [29
 
  <./resources/11_sngp_fitness.png>]
 File: resources/11_sngp_fitness.png Graphic file (type png)
 <use resources/11_sngp_fitness.png>
-Package pdftex.def Info: resources/11_sngp_fitness.png  used on input line 325.
+Package pdftex.def Info: resources/11_sngp_fitness.png  used on input line 323.
 
-(pdftex.def)             Requested size: 114.42722pt x 105.89536pt.
+(pdftex.def)             Requested size: 150.35909pt x 138.71579pt.
  [30
 
 ] [31
@@ -1146,19 +1146,15 @@ Package pdftex.def Info: resources/11_sngp_fitness.png  used on input line 325.
 
 ] [45
 
-] [46
-
-] [47
-
 ]
 (COMP390_presentation.bbl
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/sc' in size <10.95> not available
 (Font)              Font shape `OT1/cmr/m/sc' tried instead on input line 4.
 
-) [48
+) [46
 
-] [49
+] [47
 
 
 ]
@@ -1171,19 +1167,19 @@ LaTeX Font Warning: Font shape `OT1/cmss/m/sc' in size <10.95> not available
 \tf@snm=\write8
 \openout8 = `COMP390_presentation.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 477.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 477.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 493.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 493.
  (COMP390_presentation.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 477.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 477.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 493.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 493.
 Package rerunfilecheck Info: File `COMP390_presentation.out' has not changed.
 (rerunfilecheck)             Checksum: EA8B66466C8736C4CE7ACF08F66E8D60;404.
  ) 
 Here is how much of TeX's memory you used:
- 17338 strings out of 493305
- 333014 string characters out of 3138865
- 396551 words of memory out of 3000000
- 20378 multiletter control sequences out of 15000+200000
+ 17343 strings out of 493305
+ 333153 string characters out of 3138865
+ 395551 words of memory out of 3000000
+ 20387 multiletter control sequences out of 15000+200000
  14649 words of font info for 53 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  56i,14n,55p,789b,564s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1198,9 +1194,9 @@ sfonts/cm/cmssi8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/c
 m/cmsy5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy6.p
 fb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msam10.pfb>
 
-Output written on COMP390_presentation.pdf (49 pages, 479483 bytes).
+Output written on COMP390_presentation.pdf (47 pages, 704973 bytes).
 PDF statistics:
- 1413 PDF objects out of 1440 (max. 8388607)
- 111 named destinations out of 1000 (max. 500000)
+ 1353 PDF objects out of 1440 (max. 8388607)
+ 107 named destinations out of 1000 (max. 500000)
  154 words of extra memory for PDF output out of 10000 (max. 10000000)
 

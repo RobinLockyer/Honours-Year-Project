@@ -2,6 +2,6 @@
 \beamer@sectionintoc {2}{Overview of Genetic Programming}{8}{0}{2}
 \beamer@sectionintoc {3}{Overview of Single Node Genetic Programming}{18}{0}{3}
 \beamer@sectionintoc {4}{Reproducing Kinnear's Results}{33}{0}{4}
-\beamer@sectionintoc {5}{Attempting SNGP}{48}{0}{5}
-\beamer@sectionintoc {6}{Conclusion}{48}{0}{6}
-\beamer@sectionintoc {7}{Bibliography}{48}{0}{7}
+\beamer@sectionintoc {5}{Attempting SNGP}{45}{0}{5}
+\beamer@sectionintoc {6}{Conclusion}{46}{0}{6}
+\beamer@sectionintoc {7}{Bibliography}{46}{0}{7}
