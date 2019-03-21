@@ -1,20 +1,15 @@
 \documentclass{beamer}
 
-<<<<<<< HEAD
-=======
 \setbeamertemplate{bibliography item}{\insertbiblabel}
 \setlength{\parskip}{\bigskipamount}
 
 \newcommand{\blue}[1]{\textcolor{blue}{#1}}
 \newcommand{\red}[1]{\textcolor{red}{#1}}
 
->>>>>>> 510f313e79f675776ad6e975e85c7829a8391c89
 \title{COMP390: Evolving a Sorting Algorithm with SNGP}
 \author{Robin Lockyer}
 \institute{University of Liverpool}
 \date{03/2019}
-
-
 
 \begin{document}
 	
@@ -22,20 +17,6 @@
 	
 	\frame{\tableofcontents}
 	
-<<<<<<< HEAD
-	\section{Introduction to Genetic Programming}
-	
-		\begin{frame}
-			\frametitle{Sample frame title}
-			This is a text in the first frame. This is a text in the first frame. This is a text in the first frame.
-		\end{frame}
-	
-	\section{Single Node Genetic Programming}
-	
-		\begin{frame}
-			\frametitle{Sample frame title}
-			This is a text in the first frame. This is a text in the first frame. This is a text in the first frame.
-=======
 	\section{Introduction}
 	
 		\begin{frame}
@@ -50,7 +31,7 @@
 				
 				\pause
 				
-				\item Re-implement Kinnear's work using Single Node Genetic Programming, a variant of GP invented by Dr David Jackson \cite{jackson_new_2012}
+				\item Re-implement Kinnear's work using Single Node Genetic Programming, a variant of GP invented by Dr David Jackson\cite{jackson_new_2012}
 				
 				\pause
 				
@@ -386,11 +367,89 @@
 	
 		\begin{frame}
 		
-			\frametitle{Implementation Details - 1}
+			\frametitle{Implementation Details}
 			
 			Implementation based on example code provided by Dr Jackson from his past experiments with GP, and also on an implementation of the TinyGP system found in the book "A Field Guide to Genetic Programming" \cite{poli_field_2008}.
 			
 			Some changes from Dr Jackson's code has to be made to follow Kinnear's method.
+		
+		\end{frame}
+	
+		\begin{frame}
+			
+			\frametitle{Implementing Primitives}
+			
+			The primitives used were the same nine described by Kinnear in \cite{kinnear_evolving_1993}, although I renamed some to make their function more clear.
+			
+			\begin{columns}[T]
+				
+				\begin{column}{0.5\textwidth}
+					
+					\begin{itemize}
+						\item INDEX
+						\item LENGTH
+						\item ITERATE(start, end, function)
+						\item SWAP(x, y)
+						\item SMALLEST(x, y)
+					\end{itemize}
+					
+				\end{column}
+			
+				\begin{column}{0.5\textwidth}
+					
+					\begin{itemize}
+					\item LARGEST(x, y)
+					\item SUBTRACT(x, y)
+					\item INCREMENT(x)
+					\item DECREMENT(x)
+					\end{itemize}
+					
+				\end{column}
+				
+			\end{columns}
+	
+		\end{frame}
+	
+		\begin{frame}
+		
+			\frametitle{Fitness Function}
+			
+			Kinnear's fitness function as described in \cite{kinnear_generality_1993} is as follows:
+			
+			
+				\begin{columns}[T]
+					
+					\begin{column}{0.5\textwidth}
+						
+						\begin{tiny}
+							
+						$$fitness(prog) = \frac{adjusted(prog)}{\sum_{p\in population}^{}adjusted(p)}$$
+						
+						$$adjusted(prog) = \frac{1}{1 + raw(prog)}$$
+						
+						$$raw(prog) = praw(prog) - \min_{p\in population} praw(p)$$
+						
+						\end{tiny}
+					
+					
+					\end{column}
+					
+					
+					\begin{column}{0.5\textwidth}
+						
+						\begin{tiny}
+						
+						$$praw(prog) = \left(\sum_{t = 1}^{Number Of Tests}res(t)\right) \cdot of + size(prog) \cdot sf$$
+						
+						$$res(t) = rdis(t) + pdis(t)$$
+						
+						$$pdis(t) = max(rdis(t) - idis(t), 0) \cdot 100$$
+						
+						\end{tiny}
+					\end{column}
+				\end{columns}
+			
+			Where rdis(t) is the remaining number of inversions in a test array t after running a member of the population, idis(t) is the initial number of inversions in a test array t, and of and sf are constant weights used to adjust the resulting fitness.
 		
 		\end{frame}
 	
@@ -404,7 +463,6 @@
 			\frametitle{Bibliography}
 			\bibliographystyle{acm}
 			\bibliography{library}
->>>>>>> 510f313e79f675776ad6e975e85c7829a8391c89
 		\end{frame}
 		
 \end{document}
