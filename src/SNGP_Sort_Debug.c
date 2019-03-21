@@ -56,31 +56,47 @@ void printTestData(){
     
 }
 
+void printNode(int popIndex){
+    
+    Node node = population[popIndex];
+    
+    printf(
+        "Index: %d primitive: %s Arity: %d\nFitness: %f OldFitness: %f ProgLen: %d\nOperands: ", 
+        popIndex,
+        primitiveTable[node.primitive].name,
+        primitiveTable[node.primitive].arity,
+        node.fitness,
+        node.oldFitness,
+        node.progLen
+    );
+    
+    for(int j = 0; j < primitiveTable[node.primitive].arity; j++ ){
+        printf("%d ",node.operands[j]);
+    }
+    
+    printf("\nPredecessors: ");
+    
+    /*for(int j = 0; j < POPULATION_SIZE; ++j){
+        
+        if(node.predecessors[j]!=0)printf("%d ",node.predecessors[j]);
+        
+    }*/
+    
+    for(int i = node.predecessors[0]; i != 0; i = node.predecessors[i]){
+        
+        
+        printf("%d ",i);
+        
+    }
+    
+}
+
 void printPopulation(){
     
     
     for(int popIndex = 0; popIndex < POPULATION_SIZE; popIndex++){
-        Node node = population[popIndex];
-        printf(
-            "Index: %d primitive: %s Arity: %d\nFitness: %f OldFitness: %f\nOperands: ", 
-            popIndex,
-            primitiveTable[node.primitive].name,
-            primitiveTable[node.primitive].arity,
-            node.fitness,
-            node.oldFitness
-        );
         
-        for(int j = 0; j < primitiveTable[node.primitive].arity; j++ ){
-            printf("%d ",node.operands[j]);
-        }
-        
-        printf("\nPredecessors: ");
-        
-        for(int j = 0; j < POPULATION_SIZE; ++j){
-            
-            if(node.predecessors[j]!=0)printf("%d ",node.predecessors[j]);
-            
-        }
+        printNode(popIndex);
         
         printf("\n\n");
     }
@@ -127,6 +143,33 @@ void initialiseExamplePopulation(){
 	population[9].operands[0] = 6;
 	population[9].operands[1] = 0;
 	
+}
+
+void initialisePartialSolution(){
+    
+    population[12].primitive = INC;
+	population[12].operands[0] = 0;
+	
+	population[20].primitive = SMALLEST;
+	population[20].operands[0] = 2;
+	population[20].operands[1] = 0;
+	
+	population[25].primitive = SWAP;
+	population[25].operands[0] = 3;
+	population[25].operands[1] = 0;
+	
+	population[33].primitive = SUB;
+	population[33].operands[0] = 1;
+	population[33].operands[1] = 1;
+	
+	population[40].primitive = DEC;
+	population[40].operands[0] = 1;
+	
+	population[42].primitive = ITERATE;
+	population[42].operands[0] = 33;
+	population[42].operands[1] = 40;
+	population[42].operands[2] = 25;
+    
 }
 
 void testExecution(){

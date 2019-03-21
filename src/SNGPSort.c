@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
+#include <time.h>
 
-#define RANDOM_SEED 1894
+
+#define RANDOM_SEED time(NULL)//2928
 
 #define NUM_TERMINALS 2
 #define NUM_FUNCTIONS 7
@@ -12,14 +15,17 @@
 #define evaluatePopulation(updateList,testSet) evaluatePopulationSNGP_B((updateList),(testSet))
 
 //The maximum number of times we apply the successor mutate operation
-#define MAX_OPS 5000
+#define MAX_OPS 25000
 #define NUM_GENERATIONS MAX_OPS+1
-#define POPULATION_SIZE 200
+#define POPULATION_SIZE 60
 #define NUM_TESTS 15
-#define MAX_RUNS 100
-#define NUM_TEST_SETS 3000
+#define MAX_RUNS 20
+#define NUM_TEST_SETS 30000
+#define BETTER_THAN >
 
-#define SF 5
+#define OUTPUT_INTERVAL 500
+
+#define SF 2
 #define OF 5
 
 typedef struct{
@@ -43,6 +49,7 @@ int progIterations = 0;
 #define MAX_PROG_ITERATIONS 2000
 
 int success = 0;
+int workingProgramme = -1;
 
 //For SNGP/A
 float totalNodeFitness = 0;
@@ -84,6 +91,7 @@ typedef struct {
     double oldFitness;
     int operands[MAX_ARITY];
     int predecessors[POPULATION_SIZE];
+    int progLen;
 } Node;
 
 Node population[POPULATION_SIZE];
@@ -163,6 +171,7 @@ void initialisePopulation(){
         
         node->fitness = -1;
         node->oldFitness = -1;
+        node->progLen = 1;
         
     }
     
@@ -175,6 +184,8 @@ void initialisePopulation(){
         node->primitive = primitive;
         node->fitness = -1;
         node->oldFitness = -1;
+        node->progLen = 1;
+        node->predecessors[0] = 0;
         
         for(int operandIndex = 0; operandIndex < MAX_ARITY; operandIndex++){
             
@@ -183,6 +194,7 @@ void initialisePopulation(){
                 int randomOperand = randRange(0,functionIndex-1);
                 
                 node->operands[operandIndex] = randomOperand;
+                node->progLen += population[randomOperand].progLen;
                 
                 addPredecessor(randomOperand, functionIndex);
                 
@@ -297,7 +309,7 @@ int execute(int popIndex){
             
             int oldIndex = index;
             
-            for(index = start; index <= end && index < len && progIterations < MAX_PROG_ITERATIONS; ++index, ++progIterations){
+            for(index = start; index <= end && index < len && progIterations < 2*results->size*results->size*results->size; ++index, ++progIterations){
                 
                 execute(functionIndex);
             }
@@ -455,7 +467,7 @@ int countInversions(Array* arr){
     
 }
 
-int testNode(int popIndex, int testSet, int testNum){
+float testNode(int popIndex, int testSet, int testNum){
     
     Array* test = tests[testSet][testNum];
     
@@ -475,39 +487,80 @@ int testNode(int popIndex, int testSet, int testNum){
     execute(popIndex);
     
     
-    int iDis = test->inversions;
+    int inversions = countInversions(results);
     
-    int rDis = countInversions(results);
+    float fitness;// = test->inversions - inversions;
     
+    if(inversions == 0) fitness = 1;
+    else if(inversions > test->inversions) fitness = -inversions;
+    else if(inversions == test->inversions) fitness = 0;
+    else fitness = 1.0 - (float)inversions/(float)test->inversions;
     
-    
-    int pDis = (rDis > iDis) ? (rDis - iDis)*100 : 0;
-    
-
-    
-    return rDis + pDis; 
-    
+    return fitness; 
 }
 
 float evaluateNode(int popIndex, int testSet){
     
-    int resSum = 0;
+    float nodeTotalFitness = 0;
         
     for(int testNum = 0; testNum < NUM_TESTS; testNum++){
         
-        resSum += testNode(popIndex, testSet, testNum);
+        nodeTotalFitness += testNode(popIndex, testSet, testNum);
         
     }
     
-    int newFitness = (resSum * OF) + (population[popIndex].progLen * SF)
-    
     population[popIndex].oldFitness = population[popIndex].fitness;
     
-    population[popIndex].fitness = newFitness;
+    population[popIndex].fitness = nodeTotalFitness / NUM_TESTS;
     
-    if(resSum == 0) success = 1;
+    if(population[popIndex].fitness >= 0.95){
+        
+        success = 1;
+    
+       workingProgramme = popIndex;
+    }
     
     return population[popIndex].fitness;
+    
+}
+
+void updateProgLen(int* updateList){
+    
+    if (updateList == NULL){
+        
+        for(int nextUpdateNode = 0; nextUpdateNode < POPULATION_SIZE; nextUpdateNode++){
+        
+            Node* node = &population[nextUpdateNode];
+            
+            node->progLen = 1;
+            
+            for(int arg = 0; arg < primitiveTable[node->primitive].arity; arg++){
+                
+                node->progLen += population[node->operands[arg]].progLen;
+                
+            }
+        
+        
+        }
+    
+        
+    }
+    else{
+        for(int nextUpdateNode = updateList[0]; nextUpdateNode != 0; nextUpdateNode = updateList[nextUpdateNode]){
+            
+            Node* node = &population[nextUpdateNode];
+            
+            node->progLen = 1;
+            
+            for(int arg = 0; arg < primitiveTable[node->primitive].arity; arg++){
+                
+                node->progLen += population[node->operands[arg]].progLen;
+                
+            }
+            
+            
+        }
+    }
     
 }
 
@@ -548,7 +601,7 @@ float evaluatePopulationSNGP_B(int* updateList, int testSet){
         for(int popIndex = 1; popIndex < POPULATION_SIZE; popIndex++){
             
             float nodeFitness = evaluateNode(popIndex, testSet);
-            if(nodeFitness > bestNodeFitness) bestNodeFitness = nodeFitness;
+            if(bestNodeFitness BETTER_THAN nodeFitness) bestNodeFitness = nodeFitness;
             
         }
     } else{
@@ -563,12 +616,12 @@ float evaluatePopulationSNGP_B(int* updateList, int testSet){
         
         for(int i = 1; i<POPULATION_SIZE; ++i){
             
-            if(bestNodeFitness < population[i].fitness) bestNodeFitness = population[i].fitness;
+            if(population[i].fitness BETTER_THAN bestNodeFitness) bestNodeFitness = population[i].fitness;
             
         }
     }
     
-    return totalNodeFitness/POPULATION_SIZE;
+    return bestNodeFitness;
 }
 
 void successorMutate(int popIndex, int randomOperandIndex, int newOperandValue){
@@ -582,7 +635,7 @@ void successorMutate(int popIndex, int randomOperandIndex, int newOperandValue){
     addPredecessor(newOperandValue, popIndex);
 }
 
-void addToUpdateList(int popIndex){
+int addToUpdateList(int popIndex){
     
     int nextValue = 0;
     
@@ -597,6 +650,14 @@ void addToUpdateList(int popIndex){
         updateList[popIndex] = updateList[nextValue];
         
         updateList[nextValue] = popIndex;
+        
+        //popIndex is not already in update list
+        return 0;
+        
+    } else{
+        
+        //popIndex is already in update list
+        return 1;
         
     }
     
@@ -614,8 +675,8 @@ void buildUpdateList(int popIndex){
     
     while(nextPredecessor != 0){
         
-        addToUpdateList(nextPredecessor);
-        buildUpdateList(nextPredecessor);
+        int inList = addToUpdateList(nextPredecessor);
+        if(!inList) buildUpdateList(nextPredecessor);
         nextPredecessor = predArray[nextPredecessor];
         
     }
@@ -665,13 +726,12 @@ int main(int argc, char* argv[]){
         printf("\nTest file loaded\n\n");
         
     }
-    
     /*
-    printf("Inversions %d", countInversions(tests[0][0]));
-    
-    printIntArray(mergeBuffer1,20);
-    
-    printIntArray(mergeBuffer2,20);*/
+    initialisePopulation();
+    initialiseExamplePopulation();
+    updateProgLen(NULL);
+    evaluatePopulation(NULL,0);
+    printPopulation();*/
     
     
     for(int run = 0; run<MAX_RUNS; ++run){
@@ -682,7 +742,9 @@ int main(int argc, char* argv[]){
         
         initialisePopulation();
         //initialiseExamplePopulation();
-        float oldFitness = -1;
+        //initialisePartialSolution();
+        //updateProgLen(NULL);
+        float oldFitness = (1 BETTER_THAN 0)? INT_MAX: INT_MIN;
         
         //evaluate the initial population (generation 0)
         float fitness = evaluatePopulation(NULL, 0);
@@ -692,7 +754,7 @@ int main(int argc, char* argv[]){
             
             if(success==1) break;
             
-            
+            if(generation % OUTPUT_INTERVAL ==0)printf("\nGeneration %d",generation);
             
             int randomNodeIndex = randRange(NUM_TERMINALS, NUM_PRIMITIVES-1);
             Node* randomNode = &population[randomNodeIndex];
@@ -706,11 +768,13 @@ int main(int argc, char* argv[]){
             
             buildUpdateList(randomNodeIndex);
             
+            updateProgLen(updateList);
+            
             oldFitness = fitness;
             
             fitness = evaluatePopulation(updateList, generation % NUM_TEST_SETS);
             
-            if(oldFitness >= fitness){
+            if(!(fitness BETTER_THAN oldFitness)){
                 
                 restoreFitnessValues(updateList);
                 
@@ -724,18 +788,20 @@ int main(int argc, char* argv[]){
                 
             }      
             
-            if(generation%100 == 0){
-                
-                printf("\n%d", generation);
-                
-                
-            }
+            
+            if(generation % OUTPUT_INTERVAL ==0)printf(" Fitness: %f\n", fitness);
             
         }
     }
     printPopulation();
     
-    
+    if(success == 1){
+        
+        printf("\n\nSuccess!\n\n");
+        
+        printNode(workingProgramme);
+        
+    }
     
     return 0;
 }

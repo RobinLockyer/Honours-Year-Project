@@ -1,2 +1,2 @@
 @echo off
-build\%1% data\length30Tests.dat
+build\%1% data\length30tests3.dat

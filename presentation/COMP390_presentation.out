@@ -1,2 +1,12 @@
+<<<<<<< HEAD
 \BOOKMARK [2][]{Outline0.1}{Introduction to Genetic Programming}{}% 1
 \BOOKMARK [2][]{Outline0.2}{Single Node Genetic Programming}{}% 2
+=======
+\BOOKMARK [2][]{Outline0.1}{Introduction}{}% 1
+\BOOKMARK [2][]{Outline0.2}{Overview of Genetic Programming}{}% 2
+\BOOKMARK [2][]{Outline0.3}{Overview of Single Node Genetic Programming}{}% 3
+\BOOKMARK [2][]{Outline0.4}{Reproducing Kinnear's Results}{}% 4
+\BOOKMARK [2][]{Outline0.5}{Attempting SNGP}{}% 5
+\BOOKMARK [2][]{Outline0.6}{Conclusion}{}% 6
+\BOOKMARK [2][]{Outline0.7}{Bibliography}{}% 7
+>>>>>>> 510f313e79f675776ad6e975e85c7829a8391c89
