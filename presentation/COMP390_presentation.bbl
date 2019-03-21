@@ -7,10 +7,28 @@
   K.~Krawiec, P.~Machado, and C.~Cotta, Eds., Lecture Notes in Computer
   Science, Springer Berlin Heidelberg, pp.~49--60.
 
+\bibitem{jackson_single_2012}
+{\sc Jackson, D.}
+\newblock Single node genetic programming on problems with side effects.
+\newblock In {\em Parallel Problem Solving from Nature - {PPSN} {XII}\/}
+  (2012), C.~A.~C. Coello, V.~Cutello, K.~Deb, S.~Forrest, G.~Nicosia, and
+  M.~Pavone, Eds., Lecture Notes in Computer Science, Springer Berlin
+  Heidelberg, pp.~327--336.
+
 \bibitem{kinnear_evolving_1993}
 {\sc Kinnear, K.~E.}
 \newblock Evolving a sort: Lessons in genetic programming.
 \newblock In {\em in Proceedings of the 1993 International Conference on Neural
   Networks\/} (1993), {IEEE} Press, pp.~881--888.
+
+\bibitem{kinnear_generality_1993}
+{\sc Kinnear, K.~E.}
+\newblock Generality and difficulty in genetic programming: Evolving a sort.
+\newblock In {\em {ICGA}\/} (1993).
+
+\bibitem{poli_field_2008}
+{\sc Poli, R., Langdon, W.~B., and {McPhee}, N.~F.}
+\newblock {\em A Field Guide to Genetic Programming}.
+\newblock Lulu Enterprises, {UK} Ltd.
 
 \end{thebibliography}

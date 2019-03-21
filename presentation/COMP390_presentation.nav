@@ -37,22 +37,34 @@
 \headcommand {\beamer@framepages {27}{27}}
 \headcommand {\slideentry {3}{0}{4}{28/28}{}{0}}
 \headcommand {\beamer@framepages {28}{28}}
-\headcommand {\beamer@sectionpages {18}{28}}
-\headcommand {\beamer@subsectionpages {18}{28}}
-\headcommand {\sectionentry {4}{Reproducing Kinnear's Results}{29}{Reproducing Kinnear's Results}{0}}
-\headcommand {\beamer@sectionpages {29}{28}}
-\headcommand {\beamer@subsectionpages {29}{28}}
-\headcommand {\sectionentry {5}{Attempting SNGP}{29}{Attempting SNGP}{0}}
-\headcommand {\beamer@sectionpages {29}{28}}
-\headcommand {\beamer@subsectionpages {29}{28}}
-\headcommand {\sectionentry {6}{Conclusion}{29}{Conclusion}{0}}
-\headcommand {\beamer@sectionpages {29}{28}}
-\headcommand {\beamer@subsectionpages {29}{28}}
-\headcommand {\sectionentry {7}{Bibliography}{29}{Bibliography}{0}}
-\headcommand {\slideentry {7}{0}{1}{29/29}{}{0}}
+\headcommand {\slideentry {3}{0}{5}{29/29}{}{0}}
 \headcommand {\beamer@framepages {29}{29}}
-\headcommand {\beamer@partpages {1}{29}}
-\headcommand {\beamer@subsectionpages {29}{29}}
-\headcommand {\beamer@sectionpages {29}{29}}
-\headcommand {\beamer@documentpages {29}}
-\headcommand {\gdef \inserttotalframenumber {16}}
+\headcommand {\slideentry {3}{0}{6}{30/30}{}{0}}
+\headcommand {\beamer@framepages {30}{30}}
+\headcommand {\slideentry {3}{0}{7}{31/32}{}{0}}
+\headcommand {\beamer@framepages {31}{32}}
+\headcommand {\beamer@sectionpages {18}{32}}
+\headcommand {\beamer@subsectionpages {18}{32}}
+\headcommand {\sectionentry {4}{Reproducing Kinnear's Results}{33}{Reproducing Kinnear's Results}{0}}
+\headcommand {\slideentry {4}{0}{1}{33/35}{}{0}}
+\headcommand {\beamer@framepages {33}{35}}
+\headcommand {\slideentry {4}{0}{2}{36/36}{}{0}}
+\headcommand {\beamer@framepages {36}{36}}
+\headcommand {\beamer@sectionpages {33}{36}}
+\headcommand {\beamer@subsectionpages {33}{36}}
+\headcommand {\sectionentry {5}{Attempting SNGP}{37}{Attempting SNGP}{0}}
+\headcommand {\beamer@sectionpages {37}{36}}
+\headcommand {\beamer@subsectionpages {37}{36}}
+\headcommand {\sectionentry {6}{Conclusion}{37}{Conclusion}{0}}
+\headcommand {\beamer@sectionpages {37}{36}}
+\headcommand {\beamer@subsectionpages {37}{36}}
+\headcommand {\sectionentry {7}{Bibliography}{37}{Bibliography}{0}}
+\headcommand {\slideentry {7}{0}{1}{37/37}{}{0}}
+\headcommand {\beamer@framepages {37}{37}}
+\headcommand {\slideentry {7}{0}{1}{37/38}{}{0}}
+\headcommand {\beamer@framepages {37}{38}}
+\headcommand {\beamer@partpages {1}{38}}
+\headcommand {\beamer@subsectionpages {37}{38}}
+\headcommand {\beamer@sectionpages {37}{38}}
+\headcommand {\beamer@documentpages {38}}
+\headcommand {\gdef \inserttotalframenumber {22}}

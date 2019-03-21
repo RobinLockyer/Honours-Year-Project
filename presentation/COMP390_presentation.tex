@@ -190,7 +190,7 @@
 	
 		\begin{frame}
 		
-			\frametitle{How Does GP Work - 5}
+			\frametitle{How Does GP Work? - 5}
 			
 			This process is repeated until a programme with high enough fitness is generated
 		
@@ -231,11 +231,11 @@
 				\pause
 				\item Graph nodes are stored in an array
 				\pause
-				\item Terminals are stored in lowest elements
+				\item Terminals are stored in the lowest elements
 				\pause
-				\item Remaining elements store random function
+				\item Remaining elements store a random function
 				\pause
-				\item Each functions operands are chosen from elements with a smaller index
+				\item Each function's operands are chosen from elements with a smaller index
 			\end{itemize}
 				
 		
@@ -290,7 +290,92 @@
 			
 		\end{frame}
 	
+		\begin{frame}
+			\frametitle{Calculating Fitness - 1}
+			
+			\begin{center}
+			
+				\includegraphics[scale=0.5]{resources/11_sngp_fitness}
+				
+				
+			\end{center}
+			
+			Each individual is executed, evaluated and given a fitness,and then the whole population is given a fitness as a whole. 
+			
+			If a change to the population does not improve this overall fitness, the change is reverted and a different node is selected for the genetic operator.
+
+		\end{frame}
+	
+		\begin{frame}
+			\frametitle{Calculating Fitness - 2}
+			
+			\begin{center}
+				
+				\includegraphics[scale=0.5]{resources/11_sngp_fitness}
+				
+				
+			\end{center}
+			
+			There are two methods of giving the population a fitness:
+			
+			\begin{itemize}
+				\item SNGP/A: The fitness of the population is the \blue{average} of each individual fitness. In the diagram above this fitness is 34.5.
+				\item SNGP/B: The fitness of the population is the fitness of \blue{best} individual. In the diagram above this fitness is 83.
+			\end{itemize}
+				
+	
+		\end{frame}
+	
+		\begin{frame}
+		
+			\frametitle{Benefits}
+					
+			\begin{itemize}
+				
+				\item When using pure functions the graph structure allows for dynamic programming by re-using the results from executing subtrees, making evaluation more efficient.
+				\item A single application of successor mutate can modify many individuals at once
+				\item When re-evaluating after successor mutate, results from the previous generation can be used to speed up the evaluation of the graph.
+				\item SNGP tends to find solutions more often than SNGP \cite{jackson_new_2012, jackson_single_2012}.
+				\item SNGP allows for a single programme to re-use code, resulting in smaller programmes \cite{jackson_new_2012}.
+				
+			\end{itemize}
+			
+			\pause
+			
+			However:
+			
+			When using functions with side effects SNGP cannot make use of dynamic programming as the result of executing subtrees changes depending on what was executed before.
+
+		
+		\end{frame}
+		
 	\section{Reproducing Kinnear's Results}
+	
+		\begin{frame}
+		
+			\frametitle{Reproducing Kinnear's Results}
+			
+			I was successful in reproducing Kinnear's results.
+			
+			\pause
+			
+			Following the method set out in \cite{kinnear_generality_1993} and \cite{kinnear_evolving_1993} immediately lead to evolving a sort.
+			
+			\pause
+			
+			With a population of 1000 Kinnear's method would consistently find a solution within 50 generations.
+			
+		\end{frame}
+	
+		\begin{frame}
+		
+			\frametitle{Implementation Details - 1}
+			
+			Implementation based on example code provided by Dr Jackson from his past experiments with GP, and also on an implementation of the TinyGP system found in the book "A Field Guide to Genetic Programming" \cite{poli_field_2008}.
+			
+			Some changes from Dr Jackson's code has to be made to follow Kinnear's method.
+		
+		\end{frame}
 	
 	\section{Attempting SNGP}
 	
@@ -298,7 +383,7 @@
 	
 	\section{Bibliography}
 	
-		\begin{frame}
+		\begin{frame}[allowframebreaks] 
 			\frametitle{Bibliography}
 			\bibliographystyle{acm}
 			\bibliography{library}
