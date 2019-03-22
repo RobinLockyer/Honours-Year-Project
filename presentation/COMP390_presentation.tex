@@ -1,5 +1,7 @@
 \documentclass{beamer}
 
+\usepackage{amsmath}
+
 \setbeamertemplate{bibliography item}{\insertbiblabel}
 \setlength{\parskip}{\bigskipamount}
 
@@ -39,18 +41,6 @@
 				 
 			\end{itemize}
 			
-			
-		\end{frame}
-	
-		\begin{frame}
-		
-			\frametitle{\center{What Was Achieved?}}
-			
-			Successfully replicated Kinnear's work
-			
-			\pause
-			
-			Unable to evolve a sort using SNGP
 			
 		\end{frame}
 	
@@ -480,19 +470,82 @@
 			
 			My attempt to re-implement Kinnear's work using SNGP was not successful. I was unable to create an implementation that was able to consistently evolve a sorting algorithm.
 			
-			It is possible this is due errors in programming, however I believe this to be unlikely for the following reasons:
+			I believe the main problem to be the fitness of the population reaching a local maxima at which point the successor mutate operation was unable to find a change that would improve the fitness, resulting in stagnation for the remaining generations. 
+			
+			This behaviour occurred no matter the parameters or variations of fitness and primitives.
+			
+			
+			
+		\end{frame}
+	
+		\begin{frame}	
+			It is possible the lack of success is due errors in programming, however I believe this to be unlikely for the following reasons:
 			
 			\begin{itemize}
 				\item The SNGP implementation reused code from my successful GP implementation
+				\pause
 				\item When the initial population was seeded with a fully working programme it was given the correct fitness score and was correctly identified as a working solution
-				\item On each run the overall fitness of the population did increase overtime, until it hit a maximum it could not get past
+				\pause
+				\item On each run the overall fitness of the population did increase overtime, until it hit a maxima
+				\pause
 				\item When the initial population was seeded with a partially working solution SNGP was occasionally able to use it to create a fully working solution
-				\item 
+				\pause
+				\item On very rare occasions SNGP was able to evolve a sort, typically when the initial population was unusually favourable
 			\end{itemize}
 		
 		\end{frame}
 	
-	\section{Conclusion}
+		\begin{frame}
+			
+			\frametitle{Implementation}
+			
+			This implementation was solely based on example code provided by Dr Jackson.
+			
+			Added an additional function to calculate size of programmes
+			
+			The set of primitives were the same as used in the GP implementation.
+			
+			Used same code as in GP implementation for primitive execution, counting inversions, and loading test data.
+			
+			
+			
+		\end{frame}
+	
+		\begin{frame}
+			
+			\frametitle{Experiments}
+			
+			Some of the parameters I experimented with include:
+			
+			\begin{itemize}
+				\item SNGP/A vs SNGP/B
+				\pause
+				\item Small population over large generations and vice versa
+				\pause
+				\item Experimented with variations of Kinnear's fitness function
+				\pause
+				\item Tried own fitness functions, e.g: 
+					\begin{small}
+						\[   fitness(x) =
+						\begin{cases} 
+							1 & \mbox{if } rdis(t) = 0 \\
+							-rdis(t) & \mbox{if } rdis(t) > idis(t) \wedge rdis(t) \neq 0 \\
+							0 & \mbox{if }  rdis(t) = idis(t) \wedge rdis(t) \neq 0 \\
+							1 - rdis(t)/idis(t) & \mbox{otherwise }
+						\end{cases}
+						\]
+					\end{small}
+				\pause
+				\item Altered function set to encourage beneficial behaviour
+			\end{itemize}
+			
+		\end{frame}
+	
+		\begin{frame}
+		
+			\center{\blue{\Large{What Could Have Been Done Differently?}}}
+		
+		\end{frame}
 	
 	\section{Bibliography}
 	
