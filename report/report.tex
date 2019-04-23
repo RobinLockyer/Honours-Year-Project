@@ -1,6 +1,10 @@
 \documentclass{article}
 
 \usepackage[affil-it]{authblk}
+\usepackage{graphicx}
+\usepackage{float}
+
+\graphicspath{{../resources/}}
 
 \title{Evolving a Sorting Algorithm with SNGP}
 \author{Robin Lockyer}
@@ -32,10 +36,45 @@
 		
 		SNGP is one such variation devised by Dr Jackson in \textit{A New, Node-Focused Model for Genetic Programming} \cite{jackson_new_2012}. This variation makes use of a form of dynamic programming to re-use results of previously evaluated programmes. It has been shown that SNGP tends to perform better than standard GP in terms of processing time, solution rate, and solution size \cite{jackson_new_2012}. SNGP has reduced efficiency when dealing with problems with side-effects because this prevents re-use of evaluations, although it still performs better than GP at some problems with side effects \cite{jackson_single_2012}. 
 		
-		A sorting algorithm reads and manipulates an array of integers as it executes, and so must make use of side effects. Regular genetic programming has been shown to be capable of evolving a working sorting algorithm \cite{kinnear_evolving_1993,kinnear_generality_1993}.
+		A sorting algorithm reads and manipulates an array of integers as it executes, and so must make use of side effects. Regular genetic programming has been shown to be capable of evolving a working sorting algorithm \cite{kinnear_evolving_1993,kinnear_generality_1993}. This makes evolving a sort a good problem to evaluate SNGP on as comparisons can be made with previous research.
 	
 	\section{Background}
 	
+		\subsection{Standard Genetic Programming}
+		
+			In standard GP, programmes are encoded as a tree of primitive functions and terminals.
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=0.5\textwidth]{1_gp_example_tree}
+				\caption{This tree encodes the programme f( g( a, b, c ), f( h( a ), a ) ), where f, g, and h are functions and a, b, and c are terminals.}
+			\end{figure}
+			
+			An initial population of random programmes is created
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=0.5\textwidth]{2_gp_example_population}
+				\caption{An example GP population}
+			\end{figure}
+		
+			Each member of the population is executed, evaluated, and given a fitness score
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=0.5\textwidth]{3_gp_example_fitness}
+				\caption{An example GP population with fitness scores}
+			\end{figure}
+		
+			A new population is created by selecting some of the most fit members of the initial population and performing genetic operations on them to create new programmes.
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=0.5\textwidth]{4_gp_example_selection}
+				\caption{An example GP population with fitness scores}
+			\end{figure}
+			
+		\subsection{Single Node Genetic Programming}
 		 
 		
 	
@@ -43,7 +82,13 @@
 	
 	\section{Design}
 	
+		\subsection{GP Implementation}
+		
+		\subsection{SNGP Implementation}
+	
 	\section{Realisation}
+	
+	\section{Results}
 	
 	\section{Evaluation}
 	
