@@ -3,6 +3,7 @@
 \usepackage[affil-it]{authblk}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage[ruled,vlined]{algorithm2e}
 
 \graphicspath{{../resources/}}
 
@@ -84,6 +85,59 @@
 	\section{Design}
 	
 		\subsection{GP Implementation}
+		
+		The GP implementation was based example code given by Dr Jackson and also on an implementation of the TinyGP system found in the book \textit{A Field Guide to Genetic
+		Programming} \cite{poli_field_2008}. It was written in C as the example code given to me was also in C. The exact parameters are the same as described in Koza's work \cite{kinnear_generality_1993}.
+		
+		Each programme is represented by a string of primitive functions and terminals, using prefix notation. All primitives have a fixed arity 
+		
+		The each member of the population is initialised by using the grow method. A maximum tree depth is specified and a random primitive is selected as the root. Random primitives are selected as the children for primitives that have been previously selected. The primitives can be either functions or terminals, unless selecting a function would cause the tree to exceed the maximum depth. The initial maximum depth is chosen to be 6 to match Koza's work. The pseudocode for the algorithm is shown in
+		
+		\begin{algorithm}
+			\KwIn{maxTreeDepth}
+		\end{algorithm}
+	
+		Three genetic operators are used: crossover, reproduction, and mutation. 
+		
+		\begin{algorithm}[H]
+			
+			$initialisePopulation()$
+			
+			$evaluatePopulation(0)$
+			
+			\For{$generation \leftarrow 1$ \KwTo $NUM\_GENERATIONS$}{
+				
+				\For{$j \leftarrow$  \KwTo $POPULATION\_SIZE$}{
+					
+					\If{$randInt(1,10) <= 8$}{
+					
+						$newPopulation[j] \leftarrow crossover(selectProg(),selectProg())$
+						
+					}
+					\Else{$newPopulation[j] \leftarrow reproduce(selectProg())$ }
+					
+				}
+			
+				\ForEach{$programme \in newPopulation$}{
+					
+					\If{$randInt(1,10) = 1$}{
+						
+						$mutate(programme)$
+						
+					}
+			
+				}
+			
+				$population \leftarrow newPopulation$
+			
+				$evaluatePopulation(generation)$
+		
+			}
+		
+			\KwOut{$best(population)$}
+				
+			\caption{Genetic Programming Algorithm}
+		\end{algorithm}
 		
 		\subsection{SNGP Implementation}
 	
