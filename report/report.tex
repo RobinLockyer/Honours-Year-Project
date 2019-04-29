@@ -7,6 +7,9 @@
 
 \graphicspath{{../resources/}}
 
+\SetKwProg{function}{Function}{}{}
+\newcommand{\assign}[2]{$#1 \leftarrow$ #2}
+
 \title{Evolving a Sorting Algorithm with SNGP}
 \author{Robin Lockyer}
 \date{April 2019}
@@ -89,7 +92,7 @@
 		The GP implementation was based example code given by Dr Jackson and also on an implementation of the TinyGP system found in the book \textit{A Field Guide to Genetic
 		Programming} \cite{poli_field_2008}. It was written in C as the example code given to me was also in C. The exact parameters are the same as described in Koza's work \cite{kinnear_generality_1993}.
 		
-		Each programme is represented by a string of primitive functions and terminals, using prefix notation. All primitives have a fixed arity 
+		Each programme is stored as a string of primitive functions and terminals. The string is in prefix notation, and as all primitives have fixed arity no bracketing is needed. Executing a programme is done by a recursive interpreter 
 		
 		The each member of the population is initialised by using the grow method. A maximum tree depth is specified and a random primitive is selected as the root. Random primitives are selected as the children for primitives that have been previously selected. The primitives can be either functions or terminals, unless selecting a function would cause the tree to exceed the maximum depth. The initial maximum depth is chosen to be 6 to match Koza's work. The pseudocode for the algorithm is shown in
 		
@@ -140,6 +143,82 @@
 		\end{algorithm}
 		
 		\subsection{SNGP Implementation}
+		
+		\subsection{Fitness Function}
+		
+			While many different fitness functions were used, they all counted the number of inversions of a test array before and after execution of a programme. 
+			
+			\begin{algorithm}
+				
+				
+				
+				\SetKw{countInversions}{countInversions}
+				
+				\function{\countInversions{$arr$}:}{
+				
+					\If{$length(arr) <= 1$}{
+						
+						\KwOut{$0$}
+				
+					}
+				
+					\Else{
+					
+						\assign{sizeA}{$\left\lfloor length(arr) / 2 \right\rfloor$}
+						
+						\assign{sizeB}{length(arr) - sizeA}
+						
+						\assign{A}{[First sizeA elements of arr]}
+						
+						\assign{B}{[Last sizeB elements of arr]}
+						
+						\assign{inversions}{countInversions(A) + countInversions(B)}
+						
+						\assign{C}{Empty Array}
+						
+						\While{$length(A) > 0 and length(B) > 0$}{
+						
+							\If{$B[1] < A[1]$}{
+								
+								Append B[1] to C
+								
+								\assign{inversions}{inversions + length(A)}
+								
+								Remove first element of B
+						
+							}
+							\Else{
+							
+								Append A[1] to C
+								
+								Remove first element of A
+							
+							}
+						}
+						
+						\If{$length(A) = 0$}{
+						
+							Append remaining elements of B to C
+						
+						}
+						\If{$length(B) = 0$}{
+							Append remaining elements of A to C
+						}
+					
+						\assign{arr}{C}
+						
+						\KwOut{inversions}
+				
+					}
+			
+				}
+				
+				\caption{Algorithm that sorts array and counts number of inversions}
+				
+				
+			\end{algorithm}
+		
+		\subsection{Test Data}
 	
 	\section{Realisation}
 	
