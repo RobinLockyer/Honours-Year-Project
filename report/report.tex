@@ -3,21 +3,24 @@
 \usepackage[affil-it]{authblk}
 \usepackage{graphicx}
 \usepackage{float}
-\usepackage[ruled,vlined]{algorithm2e}
+\usepackage[ruled]{algorithm2e}
+\usepackage{titlepic}
 
 \graphicspath{{../resources/}}
 
 \SetKwProg{function}{Function}{}{}
 \newcommand{\assign}[2]{$#1 \leftarrow$ #2}
 
-\title{Evolving a Sorting Algorithm with SNGP}
-\author{Robin Lockyer}
-\date{April 2019}
-\affil{University of Liverpool}
+\title{COMP390 Evolving a Sorting Algorithm with SNGP}
+\author{Robin Lockyer\\{\small Student ID: 201148882 \\ Primary Supervisor: Dr. David Jackson \\ Secondary Supervisor: Dr. Valentina Tamma}}
+\date{2018/2019}
+\titlepic{\includegraphics[width=0.5\textwidth]{UOL_Logo.png}}
 
 \begin{document}
 	
 	\maketitle	
+	
+	\newpage
 	
 	\begin{abstract}
 		
@@ -28,9 +31,9 @@
 		This project aims to compare the effectiveness of the two methods in evolving a sorting algorithm.
 		
 	\end{abstract}
-
+	\newpage
 	\tableofcontents
-	
+	\newpage
 	\section{Introduction}
 	
 		This project is was done for my project supervisor Dr David Jackson. The aim of this project is to attempt to evolve a sorting algorithm using node genetic programming (SNGP) and, if successful, compare the effectiveness of evolving sorting algorithms using standard genetic programming (GP) to evolving sorts with SNGP.
@@ -112,7 +115,7 @@
 				
 				\For{$j \leftarrow$  \KwTo $POPULATION\_SIZE$}{
 					
-					\If{$randInt(1,10) <= 8$}{
+					\uIf{$randInt(1,10) <= 8$}{
 					
 						$newPopulation[j] \leftarrow crossover(selectProg(),selectProg())$
 						
@@ -140,25 +143,25 @@
 			\KwOut{$best(population)$}
 				
 			\caption{Genetic Programming Algorithm}
+			
+			\label{alg:GP}
 		\end{algorithm}
 		
 		\subsection{SNGP Implementation}
 		
-		\subsection{Fitness Function}
+		\subsection{Fitness Functions}
 		
-			While many different fitness functions were used, they all counted the number of inversions in a test array before and after executing a programme. 
+			While many different fitness functions were used, they all counted the number of inversions in a test array before and after executing a programme. To efficiently count inversions I used a modified merge sort algorithms, detailed in algorithm \ref{alg:countInv}. The algorithm is $O(n\log{}n)$, and merging is done using two preallocated buffers to avoid unnecessary memory allocations while the GP algorithm is running.
 			
 			\begin{algorithm}
 				
-				
-				
 				\SetKw{countInversions}{countInversions}
 				
-				\function{\countInversions{$arr$}:}{
+				\function{\countInversions{$(arr)$}:}{
 				
-					\If{$length(arr) <= 1$}{
+					\uIf{$length(arr) <= 1$}{
 						
-						\KwOut{$0$}
+						\assign{inversions}{$0$}
 				
 					}
 				
@@ -178,7 +181,7 @@
 						
 						\While{$length(A) > 0 and length(B) > 0$}{
 						
-							\If{$B[1] < A[1]$}{
+							\uIf{$B[1] < A[1]$}{
 								
 								Append B[1] to C
 								
@@ -196,29 +199,38 @@
 							}
 						}
 						
-						\If{$length(A) = 0$}{
+						\uIf{$length(A) = 0$}{
 						
 							Append remaining elements of B to C
 						
 						}
-						\If{$length(B) = 0$}{
+						\ElseIf{$length(B) = 0$}{
 							Append remaining elements of A to C
 						}
 					
 						\assign{arr}{C}
-						
-						\KwOut{inversions}
 				
 					}
+				
+					\KwOut{inversions}
 			
 				}
 				
 				\caption{Algorithm that sorts array and counts number of inversions}
 				
+				\
+				
+				\label{alg:countInv}
 				
 			\end{algorithm}
 		
 		\subsection{Test Data}
+		
+			Each programme generated during a GP run is executed on a set of test arrays. This data comes from pre-generated file containing a series of random arrays loaded into the programme at the beginning of execution. This has the advantage of allowing for reproduction of results, easier testing of the programme, and prevents random number generation from increasing the execution time.
+			
+			The arrays are organised into fixed size groupings. Each programme in the same GP generation is executed on the same group of arrays. This was done so that each programme was subjected to the same conditions in each generation, while still preventing over fitting to a fixed set of data. This method also allows each group to be customized to meet certain requirements (e.g. contains a sorted array, a reversed array, or a very short array), but this was found to be unnecessary.
+			
+			The file is a standard text file where the first two values on each line are the length and number of inversions of the array, followed by the array itself. Each value is separated by a space. A blank line indicates the end of the current group of arrays.
 	
 	\section{Realisation}
 	

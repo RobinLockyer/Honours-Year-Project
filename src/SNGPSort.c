@@ -756,25 +756,27 @@ int main(int argc, char* argv[]){
             
             if(generation % OUTPUT_INTERVAL ==0)printf("\nGeneration %d",generation);
             
-            int randomNodeIndex = randRange(NUM_TERMINALS, NUM_PRIMITIVES-1);
-            Node* randomNode = &population[randomNodeIndex];
-            int randomOperandIndex = randRange(0, primitiveTable[randomNode->primitive].arity-1);
-            int oldOperandValue = randomNode->operands[randomOperandIndex];
-            int randomOperandValue = randRange(0,randomNodeIndex-1);
             
-            successorMutate(randomNodeIndex, randomOperandIndex, randomOperandValue);
             
-            updateList[0] = 0;
+            while(!(fitness BETTER_THAN oldFitness)){
+                
+                int randomNodeIndex = randRange(NUM_TERMINALS, NUM_PRIMITIVES-1);
+                Node* randomNode = &population[randomNodeIndex];
+                int randomOperandIndex = randRange(0, primitiveTable[randomNode->primitive].arity-1);
+                int oldOperandValue = randomNode->operands[randomOperandIndex];
+                int randomOperandValue = randRange(0,randomNodeIndex-1);
+                
+                successorMutate(randomNodeIndex, randomOperandIndex, randomOperandValue);
+                
+                updateList[0] = 0;
+                
+                buildUpdateList(randomNodeIndex);
+                
+                updateProgLen(updateList);
+                
+                oldFitness = fitness;
             
-            buildUpdateList(randomNodeIndex);
-            
-            updateProgLen(updateList);
-            
-            oldFitness = fitness;
-            
-            fitness = evaluatePopulation(updateList, generation % NUM_TEST_SETS);
-            
-            if(!(fitness BETTER_THAN oldFitness)){
+                fitness = evaluatePopulation(updateList, generation % NUM_TEST_SETS);
                 
                 restoreFitnessValues(updateList);
                 
