@@ -2,6 +2,7 @@
 \contentsline {section}{\numberline {2}Background}{4}
 \contentsline {subsection}{\numberline {2.1}Standard Genetic Programming}{4}
 \contentsline {subsection}{\numberline {2.2}Single Node Genetic Programming}{6}
+\contentsline {subsection}{\numberline {2.3}Prior Work on Evolving a Sort}{6}
 \contentsline {section}{\numberline {3}Data Required}{6}
 \contentsline {section}{\numberline {4}Design}{6}
 \contentsline {subsection}{\numberline {4.1}GP Implementation}{6}
@@ -14,4 +15,4 @@
 \contentsline {section}{\numberline {8}Learning Points}{9}
 \contentsline {section}{\numberline {9}Professional Issues}{9}
 \contentsline {section}{\numberline {10}Bibliography}{9}
-\contentsline {section}{\numberline {11}Appendices}{9}
+\contentsline {section}{\numberline {11}Appendices}{10}

@@ -48,43 +48,26 @@
 	\section{Background}
 	
 		\subsection{Standard Genetic Programming}
-		
-			In standard GP, programmes are encoded as a tree of primitive functions and terminals.
 			
-			\begin{figure}[H]
+			Genetic programming allows the user to automate finding solutions to problems without the need to know much about the solutions themselves. This is done by a stochastic process where successive generations of programmes are altered to create the next generation, with the goal of each generation being an improvement on the last until a desired result is found.
+			
+			In standard the standard form of GP, described in \textit{A Field Guide to Genetic programming} \cite{poli_field_2008}, programmes are encoded as a tree of primitive functions and terminals. Each function has a number of child nodes equal to it's arity, and each individual child represents a single operand of the parent function. Nodes with no children represent terminal functions or constants which require no input. Figure \ref{fig:ex_prog_tree} shows an example of a programme encoded as a tree.
+			
+			\begin{figure}
 				\centering
 				\includegraphics[width=0.5\textwidth]{1_gp_example_tree}
 				\label{fig:ex_prog_tree}
 				\caption{This tree encodes the programme f( g( a, b, c ), f( h( a ), a ) ), where f, g, and h are functions and a, b, and c are terminals.}
 			\end{figure}
 			
-			An initial population of random programmes is created
-			
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=0.5\textwidth]{2_gp_example_population}
-				\caption{An example GP population}
-			\end{figure}
+			An initial population of random programme trees is generated according to certain parameters that can vary depending on implementation. Each member of the population is executed in turn. The results of these executions are evaluated and each member of the population is given a fitness score so that better programmes have higher scores.
 		
-			Each member of the population is executed, evaluated, and given a fitness score
+			Members of the population are selected
 			
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=0.5\textwidth]{3_gp_example_fitness}
-				\caption{An example GP population with fitness scores}
-			\end{figure}
-		
-			A new population is created by selecting some of the most fit members of the initial population and performing genetic operations on them to create new programmes.
-			
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=0.5\textwidth]{4_gp_example_selection}
-				\caption{An example GP population with fitness scores}
-			\end{figure}
 			
 		\subsection{Single Node Genetic Programming}
 		 
-		
+		\subsection{Prior Work on Evolving a Sort}
 	
 	\section{Data Required}
 	
