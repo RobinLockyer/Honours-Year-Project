@@ -1,18 +1,18 @@
-\contentsline {section}{\numberline {1}Introduction}{4}
-\contentsline {section}{\numberline {2}Background}{4}
-\contentsline {subsection}{\numberline {2.1}Standard Genetic Programming}{4}
-\contentsline {subsection}{\numberline {2.2}Single Node Genetic Programming}{6}
-\contentsline {subsection}{\numberline {2.3}Prior Work on Evolving a Sort}{6}
-\contentsline {section}{\numberline {3}Data Required}{6}
-\contentsline {section}{\numberline {4}Design}{6}
-\contentsline {subsection}{\numberline {4.1}GP Implementation}{6}
-\contentsline {subsection}{\numberline {4.2}SNGP Implementation}{7}
-\contentsline {subsection}{\numberline {4.3}Fitness Functions}{7}
-\contentsline {subsection}{\numberline {4.4}Test Data}{8}
-\contentsline {section}{\numberline {5}Realisation}{9}
-\contentsline {section}{\numberline {6}Results}{9}
-\contentsline {section}{\numberline {7}Evaluation}{9}
-\contentsline {section}{\numberline {8}Learning Points}{9}
-\contentsline {section}{\numberline {9}Professional Issues}{9}
-\contentsline {section}{\numberline {10}Bibliography}{9}
-\contentsline {section}{\numberline {11}Appendices}{10}
+\contentsline {section}{\numberline {1}Introduction}{4}% 
+\contentsline {section}{\numberline {2}Background}{4}% 
+\contentsline {subsection}{\numberline {2.1}Standard Genetic Programming}{4}% 
+\contentsline {subsection}{\numberline {2.2}Single Node Genetic Programming}{6}% 
+\contentsline {subsection}{\numberline {2.3}Prior Work on Evolving a Sort}{6}% 
+\contentsline {section}{\numberline {3}Data Required}{6}% 
+\contentsline {section}{\numberline {4}Design}{6}% 
+\contentsline {subsection}{\numberline {4.1}GP Implementation}{6}% 
+\contentsline {subsection}{\numberline {4.2}SNGP Implementation}{7}% 
+\contentsline {subsection}{\numberline {4.3}Fitness Functions}{7}% 
+\contentsline {subsection}{\numberline {4.4}Test Data}{9}% 
+\contentsline {section}{\numberline {5}Realisation}{9}% 
+\contentsline {section}{\numberline {6}Results}{9}% 
+\contentsline {section}{\numberline {7}Evaluation}{9}% 
+\contentsline {section}{\numberline {8}Learning Points}{9}% 
+\contentsline {section}{\numberline {9}Professional Issues}{9}% 
+\contentsline {section}{\numberline {10}Bibliography}{9}% 
+\contentsline {section}{\numberline {11}Appendices}{10}% 

@@ -62,7 +62,45 @@
 			
 			An initial population of random programme trees is generated according to certain parameters that can vary depending on implementation. Each member of the population is executed in turn. The results of these executions are evaluated and each member of the population is given a fitness score so that better programmes have higher scores.
 		
-			Members of the population are selected
+			Members of the population are then selected to produce offspring programs based on their fitness. Simply selecting the best individuals to reproduce can lead to low diversity in the resulting population, so a probabilistic is often used to prevent a single programme's offspring from dominating subsequent generations.
+			Common methods for doing this include fitness proportionate selection, where the probability of selection is proportional to the fitness of the individual relative to the fitness of the whole population, and tournament selection, where a small subset of programmes are chosen with equal probability and the fittest of the subset is selected for reproduction.
+			
+			Genetic operators are then applied to the chosen programmes to create a new generation. The three most common operators are:
+			
+			\begin{itemize}
+				\item \textbf{Reproduction:} 
+				
+				\begin{figure}[h]
+					\centering
+					\includegraphics[width=0.3\textwidth]{5_reproduction}
+					\label{fig:reproduction}
+					\caption{}
+				\end{figure}
+				
+				The selected programme is copied into the new generation without modification
+				
+				\item \textbf{Crossover:} 
+				
+				\begin{figure}[h]
+					\centering
+					\includegraphics[height=0.2\textwidth]{6_crossover}
+					\label{fig:crossover}
+					\caption{}
+				\end{figure}
+				
+				A random node is selected in each of the two chosen programmes. The subtrees rooted at the selected nodes are swapped.
+				
+				\item \textbf{Mutation:} 
+				
+				\begin{figure}[h]
+					\centering
+					\includegraphics[width=0.4\textwidth]{7_mutation}
+					\label{fig:mutation}
+					\caption{}
+				\end{figure}
+				
+				A random node is selected in the chosen programme. A new, random subtree is generated to replace the subtree rooted at the selected node.
+			\end{itemize}
 			
 			
 		\subsection{Single Node Genetic Programming}
