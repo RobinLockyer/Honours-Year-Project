@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000 64-bit) (preloaded format=pdflatex 2019.3.18)  4 MAY 2019 13:42
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000 64-bit) (preloaded format=pdflatex 2019.3.18)  5 MAY 2019 20:05
 entering extended mode
 **./report.tex
 (report.tex
@@ -255,50 +255,53 @@ File: ../resources/5_reproduction.png Graphic file (type png)
 Package pdftex.def Info: ../resources/5_reproduction.png  used on input line 75
 .
 (pdftex.def)             Requested size: 103.50105pt x 64.92857pt.
-<../resources/6_crossover.png, id=27, 382.42876pt x 101.37875pt>
+
+[5 <../resources/1_gp_example_tree.png> <../resources/5_reproduction.png>]
+<../resources/6_crossover.png, id=33, 382.42876pt x 101.37875pt>
 File: ../resources/6_crossover.png Graphic file (type png)
 <use ../resources/6_crossover.png>
 Package pdftex.def Info: ../resources/6_crossover.png  used on input line 86.
 (pdftex.def)             Requested size: 260.28735pt x 68.99895pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[5 <../resources/1_gp_example_tree.png> <../resources/5_reproduction.png>]
 <../resources/7_mutation.png, id=34, 221.82875pt x 141.52875pt>
 File: ../resources/7_mutation.png Graphic file (type png)
 <use ../resources/7_mutation.png>
 Package pdftex.def Info: ../resources/7_mutation.png  used on input line 98.
 (pdftex.def)             Requested size: 137.9979pt x 88.04277pt.
+<../resources/8_sngp_graph.png, id=35, 958.58125pt x 594.22pt>
+File: ../resources/8_sngp_graph.png Graphic file (type png)
+<use ../resources/8_sngp_graph.png>
+Package pdftex.def Info: ../resources/8_sngp_graph.png  used on input line 116.
 
-[6 <../resources/6_crossover.png> <../resources/7_mutation.png>] [7] [8]
-(report.bbl [9]) [10] (report.aux) ) 
+(pdftex.def)             Requested size: 172.5pt x 106.92778pt.
+
+[6 <../resources/6_crossover.png> <../resources/7_mutation.png>] [7 <../resourc
+es/8_sngp_graph.png>] [8] [9] (report.bbl) [10] (report.aux) ) 
 Here is how much of TeX's memory you used:
- 2637 strings out of 492945
- 41259 string characters out of 3126252
- 117926 words of memory out of 3000000
- 6502 multiletter control sequences out of 15000+200000
+ 2643 strings out of 492945
+ 41426 string characters out of 3126252
+ 117936 words of memory out of 3000000
+ 6507 multiletter control sequences out of 15000+200000
  7403 words of font info for 26 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,18n,26p,665b,400s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Users/Robin/AppData/Local/Programs/MiKT
-eX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Robin/AppData/Local/
-Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Robin/A
-ppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/U
-sers/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmc
-sc10.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/a
-msfonts/cm/cmmi10.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/t
-ype1/public/amsfonts/cm/cmr10.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX
- 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Robin/AppData/Local/Pro
-grams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Robin/AppDa
-ta/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/
-Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.p
-fb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfont
-s/cm/cmti10.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/p
-ublic/amsfonts/cm/cmti9.pfb>
-Output written on report.pdf (10 pages, 260735 bytes).
+<C:/Users/Robin/A
+ppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/
+Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
+bx12.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/a
+msfonts/cm/cmbx9.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/ty
+pe1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTe
+X 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Robin/AppData/Local/P
+rograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Robin/App
+Data/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Use
+rs/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17
+.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfo
+nts/cm/cmr9.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/p
+ublic/amsfonts/cm/cmsy10.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/
+fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/Robin/AppData/Local/Program
+s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti9.pfb>
+Output written on report.pdf (10 pages, 300796 bytes).
 PDF statistics:
- 93 PDF objects out of 1000 (max. 8388607)
+ 95 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 26 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 31 words of extra memory for PDF output out of 10000 (max. 10000000)
 

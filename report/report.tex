@@ -65,7 +65,7 @@
 			Members of the population are then selected to produce offspring programs based on their fitness. Simply selecting the best individuals to reproduce can lead to low diversity in the resulting population, so a probabilistic is often used to prevent a single programme's offspring from dominating subsequent generations.
 			Common methods for doing this include fitness proportionate selection, where the probability of selection is proportional to the fitness of the individual relative to the fitness of the whole population, and tournament selection, where a small subset of programmes are chosen with equal probability and the fittest of the subset is selected for reproduction.
 			
-			Genetic operators are then applied to the chosen programmes to create a new generation. The three most common operators are:
+			Genetic operators are then applied to the chosen programmes to create a new generation. The operator selected to create each member is chosen with a pre selected probability. The three most commonly used operators, which are also the three operators Koza used to successfully evolve a sort \cite{kinnear_evolving_1993}, are:
 			
 			\begin{itemize}
 				\item \textbf{Reproduction:} 
@@ -74,10 +74,10 @@
 					\centering
 					\includegraphics[width=0.3\textwidth]{5_reproduction}
 					\label{fig:reproduction}
-					\caption{}
+					\caption{Example of reproduction operator}
 				\end{figure}
 				
-				The selected programme is copied into the new generation without modification
+				The selected programme is copied into the new generation without modification. Reproduction tends to have a low selection probability to ensure the following generation si sufficiently different.
 				
 				\item \textbf{Crossover:} 
 				
@@ -85,10 +85,11 @@
 					\centering
 					\includegraphics[height=0.2\textwidth]{6_crossover}
 					\label{fig:crossover}
-					\caption{}
+					\caption{Example of crossover operation. The highlighted nodes are the crossover points}
 				\end{figure}
 				
-				A random node is selected in each of the two chosen programmes. The subtrees rooted at the selected nodes are swapped.
+				A random node is selected as the crossover point in each of the two chosen programmes and the subtrees rooted at the selected nodes are swapped.
+
 				
 				\item \textbf{Mutation:} 
 				
@@ -96,14 +97,26 @@
 					\centering
 					\includegraphics[width=0.4\textwidth]{7_mutation}
 					\label{fig:mutation}
-					\caption{}
+					\caption{Example of mutation operator. The highlighted node is replaced by the highlighted subtree.}
 				\end{figure}
 				
 				A random node is selected in the chosen programme. A new, random subtree is generated to replace the subtree rooted at the selected node.
 			\end{itemize}
 			
+			The process of creating new generation is continued until a certain condition is reached, usually after a certain number of generations or a programme exceeds a fitness specified by the user.
 			
 		\subsection{Single Node Genetic Programming}
+		
+			Single Node Genetic Programming is a variant of GP that uses a form of dynamic programming to speed up the evaluation of GP programmes.
+			
+			The population is organised a single directed acyclic graph. This allows the nodes to be organised into topological ordering such that any given node only uses nodes later in the ordering as operands. The nodes are stored in an array in this order, with all the terminals occupying the lowest values, as shown in \ref{fig:sngp_graph}
+			
+			\begin{figure}
+				\centering
+				\includegraphics[width=0.5\textwidth]{8_sngp_graph}
+				\label{fig:sngp_graph}
+				\caption{This SNGP graph is stored in topological order in an array. Terminals a,b, and c occupy the lowest positions of the array.}
+			\end{figure}
 		 
 		\subsection{Prior Work on Evolving a Sort}
 	
