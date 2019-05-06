@@ -200,7 +200,8 @@
 			\item \textbf{ITERATE(start, end, function):}  Sets index to the value of start and increments index by one until index equals end or index equals length -1. Each iteration will execute function a single time. This primitive will return the minimum of end and LENGTH. To prevent excessive execution time, programmes are capped at 10000 total iterations.
 			\item \textbf{SWAP(x,y):}  Swaps the elements of the array at positions x and y. Returns x.
 			\item \textbf{SMALLEST(x,y):} Compares the values of the array at x and y. Returns the index of the smaller.
-			\item \textbf{LARGEST(x,y):} Compares the values of the array at x and y. Returns the index of the larger. 
+			\item \textbf{LARGEST(x,y):} Compares the values of the array at x and y. Returns the index of the larger. 
+
 			\item \textbf{SUBTRACT(x,y):} Returns the value of x – y.
 			\item \textbf{INCREMENT(x):} Returns the value of x+1.
 			\item \textbf{DECREMENT(x):} Returns the value of x-1.
@@ -315,6 +316,27 @@
 		\end{algorithm}
 		
 		\subsection{SNGP Implementation}
+		
+			Each node in the SNGP population stores its current fitness, fitness from th previous generation, an array of operands, an array of predecessors, and the number of nodes in the programme tree. This is stored in the data structure shown in figure \ref{struct:sngp_node}. An arity table is also stored in the same was as in GP.
+			
+			\begin{figure}[h]
+				\centering
+				\begin{tabular}{|l l|}
+					\hline
+					\multicolumn{2}{|c|}{Node}\\
+					\hline
+					Primitive & primitive \\
+					double & fitness\\
+					double & oldFitness\\
+					int[] & operands\\
+					iny[] & predecessors\\
+					int & proglen\\
+					\hline
+				\end{tabular}
+				\caption{Data structure to store information about each node in the SNGP population}
+				
+				\label{struct:sngp_node}
+			\end{figure}
 		
 		\subsection{Fitness Functions}
 		
