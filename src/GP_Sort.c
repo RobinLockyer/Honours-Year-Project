@@ -483,7 +483,7 @@ int fitnessProportionalSelection(){
         else randNum -= population[popIndex].fitness;
     }
     
-    //If this line of code is reached it is due to floatg point precision
+    //If this line of code is reached it is due to errors in floating point precision
     return POPULATION_SIZE-1;
     
 }

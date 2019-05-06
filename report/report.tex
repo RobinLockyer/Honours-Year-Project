@@ -5,7 +5,10 @@
 \usepackage{float}
 \usepackage[ruled]{algorithm2e}
 \usepackage{titlepic}
+\usepackage{multicol}
+\usepackage{chngcntr}
 
+\counterwithin{figure}{section}
 \graphicspath{{../resources/}}
 
 \SetKwProg{function}{Function}{}{}
@@ -47,7 +50,7 @@
 	
 	\section{Background}
 	
-		\subsection{Standard Genetic Programming}
+		\subsection{Standard Genetic Programming}\label{Section:GP}
 			
 			Genetic programming allows the user to automate finding solutions to problems without the need to know much about the solutions themselves. This is done by a stochastic process where successive generations of programmes are altered to create the next generation, with the goal of each generation being an improvement on the last until a desired result is found.
 			
@@ -56,8 +59,8 @@
 			\begin{figure}
 				\centering
 				\includegraphics[width=0.5\textwidth]{1_gp_example_tree}
-				\label{fig:ex_prog_tree}
 				\caption{This tree encodes the programme f( g( a, b, c ), f( h( a ), a ) ), where f, g, and h are functions and a, b, and c are terminals.}
+				\label{fig:ex_prog_tree}
 			\end{figure}
 			
 			An initial population of random programme trees is generated according to certain parameters that can vary depending on implementation. Each member of the population is executed in turn. The results of these executions are evaluated and each member of the population is given a fitness score so that better programmes have higher scores.
@@ -73,8 +76,8 @@
 				\begin{figure}[h]
 					\centering
 					\includegraphics[width=0.3\textwidth]{5_reproduction}
-					\label{fig:reproduction}
 					\caption{Example of reproduction operator}
+					\label{fig:reproduction}
 				\end{figure}
 				
 				The selected programme is copied into the new generation without modification. Reproduction tends to have a low selection probability to ensure the following generation si sufficiently different.
@@ -84,8 +87,8 @@
 				\begin{figure}[h]
 					\centering
 					\includegraphics[height=0.2\textwidth]{6_crossover}
-					\label{fig:crossover}
 					\caption{Example of crossover operation. The highlighted nodes are the crossover points}
+					\label{fig:crossover}
 				\end{figure}
 				
 				A random node is selected as the crossover point in each of the two chosen programmes and the subtrees rooted at the selected nodes are swapped.
@@ -96,8 +99,8 @@
 				\begin{figure}[h]
 					\centering
 					\includegraphics[width=0.4\textwidth]{7_mutation}
-					\label{fig:mutation}
 					\caption{Example of mutation operator. The highlighted node is replaced by the highlighted subtree.}
+					\label{fig:mutation}
 				\end{figure}
 				
 				A random node is selected in the chosen programme. A new, random subtree is generated to replace the subtree rooted at the selected node.
@@ -105,39 +108,169 @@
 			
 			The process of creating new generation is continued until a certain condition is reached, usually after a certain number of generations or a programme exceeds a fitness specified by the user.
 			
+			Genetic programming has been previously been shown to evolve a sorting algorithm by Kenneth E Kinnear \cite{kinnear_generality_1993,kinnear_evolving_1993}. hIS work was not focused on evolving an optimal sort, but instead attempting to see if GP was capable of evolving any kind of sort at all. Kinnear considered sorting to be an interesting problem to solve using GP as there are many possible ways to implement a sorting algorithm, and the domain of the problem is infinite.
+			
 		\subsection{Single Node Genetic Programming}
 		
 			Single Node Genetic Programming is a variant of GP that uses a form of dynamic programming to speed up the evaluation of GP programmes.
 			
-			The population is organised a single directed acyclic graph. This allows the nodes to be organised into topological ordering such that any given node only uses nodes later in the ordering as operands. The nodes are stored in an array in this order, with all the terminals occupying the lowest values, as shown in \ref{fig:sngp_graph}
+			The population is organised a single directed acyclic graph. This allows the nodes to be organised into a topological ordering such that any given node only uses nodes later in the ordering as operands. The nodes are stored in an array in this order, with all the terminals occupying the lowest values, as shown in Figure \ref{fig:sngp_graph}.
 			
-			\begin{figure}
+			\begin{figure}[h]
 				\centering
 				\includegraphics[width=0.5\textwidth]{8_sngp_graph}
-				\label{fig:sngp_graph}
 				\caption{This SNGP graph is stored in topological order in an array. Terminals a,b, and c occupy the lowest positions of the array.}
+				\label{fig:sngp_graph}
 			\end{figure}
+		
+			Every subtree within the graph represents a single programme. For example the graph in Figure \ref{fig:sngp_graph} contains the following programmes:
+			
+			\begin{multicols}{2}
+			\begin{itemize}
+				\item a
+				\item b
+				\item c
+				\item g( b, c )
+				\item g( a, b )
+				\item h( g( b, c ), c )
+				\item f( g( a, b ), g( b, c ) )
+				\item f( g( b, c ), h( g( b, c ), c ) )
+			\end{itemize}
+			\end{multicols}
+		
+			This allows many different programmes to be represented in a single graph as each node is itself a programme, while in regular GP there are many nodes per programme. The structure also allows for sharing of subtrees between programmes so that if there exists a programme with a particularly high fitness, other programmes can make use of the same subtrees to improve their fitness.
+			
+			Evaluation of the population starts from the subtree rooted at the lowest element of the array and works upwards. The results of each evaluation are saved and can be re-used whenever the subtree needs to be executed as part of a larger programme, making the evaluation of an SNGP population very efficient.
+			
+			SNGP uses only one genetic operator called \textit{successor mutate}. This operator picks a random function node in the graph and changes an operand with another random node with a lower index in the population array. Instead of the whole population being re-evaluated only the the modified node and programmes that make use of that node need to be evaluated. These nodes can be determined by keeping track of the parents of each node and using this information backtrack up the graph from the modified node. When backtracking to determine which nodes to update it is important to visit nodes in array order to ensure that subtrees are updated before their results are re-used.
+			
+			\begin{figure}[h]
+				\centering
+				\includegraphics[width=0.5\textwidth]{10_successor_mutate}
+				\caption{A successor mutate operation is applied to the highlighted node on the left graph, resulting in the right graph. Highlighted nodes on the left graph should be re-evaluated}
+				\label{fig:successor_mut}
+			\end{figure}
+			
+			Successor mutate allows for the modification of many programmes with a single genetic operator, and the modification itself is very efficient. Evaluation of the new population tend to be more efficient than in GP as SNGP can make use of the prior evaluation from the unchanged subtrees from the previous generation.
+			
+			After application of the successor mutate operator the population as a whole is given a fitness value. If the application has improved the fitness value then the change is kept, otherwise the change is reverted. There are variation of SNGP that differ in how to assign a fitness to the population:
+			
+			\begin{itemize}
+				\item \textbf{SNGP/A:} The population fitness is the average fitness of the whole population.
+				
+				\item \textbf{SNGP/B:} The population fitness is the fitness of the best individual within the population.
+			\end{itemize} 
 		 
-		\subsection{Prior Work on Evolving a Sort}
+		 	Like GP, this process is repeated for a certain number of generations or a programme exceeds a fitness specified by the user.
+		 	
+		 	SNGP has been shown to produce a working solutions after fewer generations than GP, as well as producing many more working solutions in the same number of generations \cite{jackson_new_2012}. The programmes produced tend to be smaller than those in GP, most likely due to the maximum size of any programme being capped by the size of the population, and the re-use of subtrees within a single programme.
+		 	
+		 	SNGP cannot make use of dynamic programming when dealing with primitives with side effects. The result of a subtree may differ depending on what is executed beforehand, so the subtree must be executed again for each other programme that makes use of it. However, even with this disadvantage SNGP/B still requires fewer evaluations to find a solution than GP in some cases, although this is dependant on the specific problem being solved \cite{jackson_single_2012}.
 	
-	\section{Data Required}
-	
-	\section{Design}
+	\section{Design and Realisation}
 	
 		\subsection{GP Implementation}
 		
 		The GP implementation was based example code given by Dr Jackson and also on an implementation of the TinyGP system found in the book \textit{A Field Guide to Genetic
-		Programming} \cite{poli_field_2008}. It was written in C as the example code given to me was also in C. The exact parameters are the same as described in Koza's work \cite{kinnear_generality_1993}.
+		Programming} \cite{poli_field_2008}. It was written in C as the example code given to me was also in C. The parameters are the same as described in Koza's work \cite{kinnear_generality_1993}.
 		
-		Each programme is stored as a string of primitive functions and terminals. The string is in prefix notation, and as all primitives have fixed arity no bracketing is needed. Executing a programme is done by a recursive interpreter 
+		Each programme is stored as a string of primitive functions and terminals. The string is in prefix notation, and as all primitives have fixed arity no bracketing is needed. Programmes also store their fitness and their size. The information is stored as a struct, detailed in Figure \ref{struct:gp_prog}.
 		
-		The each member of the population is initialised by using the grow method. A maximum tree depth is specified and a random primitive is selected as the root. Random primitives are selected as the children for primitives that have been previously selected. The primitives can be either functions or terminals, unless selecting a function would cause the tree to exceed the maximum depth. The initial maximum depth is chosen to be 6 to match Koza's work. The pseudocode for the algorithm is shown in
+		\begin{figure}[h]
+			\centering
+			\begin{tabular}{|l l|}
+				\hline
+				\multicolumn{2}{|c|}{Prog}\\
+				\hline
+				Primitive[] & code \\
+				double & fitness\\
+				int & proglen\\
+				\hline
+			\end{tabular}
+			\caption{Data structure to store a programme. The \textit{code} array stores a string representing the prefix notation of the programme tree, \textit{fitness} stores the programmes fitness, and \textit{proglen} the number of nodes in the programme tree.}
+			
+			\label{struct:gp_prog}
+		\end{figure}
+	
+		The primitives used for this implementation are the same nine Kinnear used:
+		\begin{multicols}{2}
+		\begin{itemize}
+			\item \textbf{INDEX:} A terminal that gives the current index of the ITERATE function.
+			\item \textbf{LENGTH:} A terminal that gives the length of the current array.
+			\item \textbf{ITERATE(start, end, function):}  Sets index to the value of start and increments index by one until index equals end or index equals length -1. Each iteration will execute function a single time. This primitive will return the minimum of end and LENGTH. To prevent excessive execution time, programmes are capped at 10000 total iterations.
+			\item \textbf{SWAP(x,y):}  Swaps the elements of the array at positions x and y. Returns x.
+			\item \textbf{SMALLEST(x,y):} Compares the values of the array at x and y. Returns the index of the smaller.
+			\item \textbf{LARGEST(x,y):} Compares the values of the array at x and y. Returns the index of the larger. 
+			\item \textbf{SUBTRACT(x,y):} Returns the value of x – y.
+			\item \textbf{INCREMENT(x):} Returns the value of x+1.
+			\item \textbf{DECREMENT(x):} Returns the value of x-1.
+		
+		\end{itemize}
+		\end{multicols}
+	
+		The primitives are defined in an enumeration, and a table is kept to store the names and arities of the primitives. An additional \textit{DUMMY} primitive is also included to occupy the 0 value of the enumeration and make all actual primitives have arity > 0. This is useful when debugging and in certain algorithms for identifying when a primitive has not been assigned. These data structures are shown in Figure \ref{struct:arity}.
+		
+		\begin{figure}[h]
+			\centering
+			
+			enum Primitive = $\left \{p1,p2,…,pn-1,pn \right\}$
+			
+			\smallskip
+			
+			\begin{tabular}{|l l|}
+				\hline
+				\multicolumn{2}{|c|}{TableEntry}\\
+				\hline
+				Primitive & primitive \\
+				int & arity\\
+				char[] & name\\
+				\hline
+			\end{tabular}
+		
+			\bigskip
+		
+			TableEntry[] arityTable = $\left\{\left \{ p1,0,"PrimitiveName"\right\},…,\left\{ pn,k,"PrimitiveName"\right\}\right\}$
+		
+			\caption{Data structures used to store information about primitives}
+			
+			\label{struct:arity}
+		\end{figure}
+		
+		The each member of the population is initialised by using the grow method. A maximum tree depth is specified and a random primitive is selected as the root. Random primitives are selected as the children for primitives that have been previously selected. The primitives can be either functions or terminals, unless selecting a function would cause the tree to exceed the maximum depth. The initial maximum depth is chosen to be 6 to match Koza's work. The pseudocode for the algorithm is shown in algorithm \ref{alg:createTree}
 		
 		\begin{algorithm}
-			\KwIn{maxTreeDepth}
+			\SetKw{createTree}createTree}
+			
+			
+			\function{\createTree{$(maxDepth)$}:}{
+				
+
+			
+				\uIf{$maxTreeDepth = 1$}{
+				
+					\KwOut{$randomTerminal()$}
+			
+				}
+				\Else{elseif-block}{
+				
+					\assign{root}{$randomPrimitive()$}
+					
+					\For{\assign{i}{1} to $arityTable[root].arity$}{
+					
+						\assign{root.operand[i]}{\createTree{$(maxDepth-1)$}}
+				
+					}
+				
+					\KwOut{root}
+				
+				}
+			}
+			
+			\label{alg:createTree}
+			\caption{Algorithm to initialise a programme as a random tree with a given depth}
 		\end{algorithm}
 	
-		Three genetic operators are used: crossover, reproduction, and mutation. 
+		Three genetic operators used are the three mentioned in section \ref{Section:GP}. Crossover is used to generate 80\% of the next generation, and 20\% is generated by reproduction. There is also a 10\% change that mutation will be applied to each member of the new population. The pseudocode for this is shown in algorithm \ref{alg:GP}.
 		
 		\begin{algorithm}[H]
 			
@@ -252,7 +385,7 @@
 				
 				\caption{Algorithm that sorts array and counts number of inversions}
 				
-				\
+				
 				
 				\label{alg:countInv}
 				
@@ -265,18 +398,16 @@
 			The arrays are organised into fixed size groupings. Each programme in the same GP generation is executed on the same group of arrays. This was done so that each programme was subjected to the same conditions in each generation, while still preventing over fitting to a fixed set of data. This method also allows each group to be customized to meet certain requirements (e.g. contains a sorted array, a reversed array, or a very short array), but this was found to be unnecessary.
 			
 			The file is a standard text file where the first two values on each line are the length and number of inversions of the array, followed by the array itself. Each value is separated by a space. A blank line indicates the end of the current group of arrays.
-	
-	\section{Realisation}
+			
+			The arrays are stored as the following struct:
 	
 	\section{Results}
-	
-	
 	
 	\section{Evaluation}
 	
 	\section{Learning Points}
 	
-	\section{Professional Issues}
+	\section{Professional Issues and Data Required}
 	
 	\section{Bibliography}
 	
