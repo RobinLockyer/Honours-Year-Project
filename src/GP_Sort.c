@@ -22,7 +22,7 @@
 
 #define MAX_MUTATE_DEPTH_INCREASE 1.15
 
-#define OUT_FILE "results\\gp_success_trace.csv"
+#define OUT_FILE "results\\gp_success_trace_2.csv"
 FILE* successTrace = NULL;
 
 int numWorkingProgs = 0;
