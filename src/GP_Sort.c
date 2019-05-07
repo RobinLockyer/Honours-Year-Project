@@ -22,7 +22,10 @@
 
 #define MAX_MUTATE_DEPTH_INCREASE 1.15
 
-int success = 0;
+#define OUT_FILE "gp_success_trace.csv"
+FILE* successTrace = NULL;
+
+int numWorkingProgs = 0;
 int workingProgramme = -1;
 
 typedef enum {
@@ -393,7 +396,7 @@ int praw(int testSet, int popIndex){
     }
     
     if(resSum == 0){
-        success = 1;
+        numWorkingProgs += 1;
         workingProgramme = popIndex;
     }
     
@@ -402,6 +405,8 @@ int praw(int testSet, int popIndex){
 }
 
 void evaluatePopulation(int testSet){
+    
+    numWorkingProgs = 0;
     
     int prawTable[POPULATION_SIZE];
     int raw[POPULATION_SIZE];
@@ -436,6 +441,8 @@ void evaluatePopulation(int testSet){
         population[popIndex].fitness = adj[popIndex]/adjSum;
         
     }
+    
+    fprintf(successTrace,"%d,",numWorkingProgs);
     
 }
 
@@ -635,10 +642,11 @@ int main(int argc, char* argv[]){
         
     }
     
+    successTrace = fopen(OUT_FILE,"w");
     
     for(int run = 0; run<MAX_RUNS; ++run){
         
-        if(success==1) break;
+        //if(numWorkingProgs>0) break;        
         
         printf("\n\nRun %d\n\n",run);
         
@@ -647,10 +655,9 @@ int main(int argc, char* argv[]){
         //evaluate the initial population (generation 0)
         evaluatePopulation(0);
         
-        
         for(int generation = 1; generation < NUM_GENERATIONS; ++generation){
             
-            if(success==1) break;
+            //if(numWorkingProgs>0) break;
             
             
             for(int popIndex = 0; popIndex < POPULATION_SIZE; popIndex++){
@@ -685,14 +692,18 @@ int main(int argc, char* argv[]){
             
             
         }
+        
+        fprintf(successTrace,"\n");
     }
     
     //printPopulation();
 
-	if (success == 1){
+	if(numWorkingProgs>0){
         printf("\n\nSuccess!\n\n");
         printNode(workingProgramme);
     }
+    
+    fclose(successTrace);
     
     return 0;
     
