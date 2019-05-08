@@ -359,6 +359,8 @@ int countInversions(Array* arr){
     
 }
 
+//returns the result of each test by calculating the remaining disorder rdis after
+//the test and adding a penalty disorder pDis.
 int res(int popIndex, int testSet, int testNum){
     
     Array* test = tests[testSet][testNum];
@@ -387,6 +389,7 @@ int res(int popIndex, int testSet, int testNum){
     
 }
 
+//Calculates the provisional raw fitness of a programme
 int praw(int testSet, int popIndex){
     
     int resSum = 0;
@@ -404,6 +407,7 @@ int praw(int testSet, int popIndex){
     
 }
 
+//Calculates the fitness for each member of the population
 void evaluatePopulation(int testSet){
     
     numWorkingProgs = 0;
@@ -418,6 +422,7 @@ void evaluatePopulation(int testSet){
     int minpraw = prawTable[0];
     
     
+    //Calculate the provisional raw fitness and minimum raw fitness 
     for(int popIndex = 1; popIndex < POPULATION_SIZE; ++popIndex){
         
         prawTable[popIndex] = praw(testSet, popIndex);
@@ -426,6 +431,7 @@ void evaluatePopulation(int testSet){
         
     }
     
+    //Calculate the adjusted fitness for each member of the population
     for(int popIndex = 0; popIndex < POPULATION_SIZE; ++popIndex){
         
         int raw = prawTable[popIndex] - minpraw;
@@ -436,6 +442,8 @@ void evaluatePopulation(int testSet){
         
     }
     
+    //Set the fitness for each member of the population as the normalised adjusted
+    //fitness
     for(int popIndex = 0; popIndex < POPULATION_SIZE; ++popIndex){
         
         population[popIndex].fitness = adj[popIndex]/adjSum;
@@ -535,6 +543,8 @@ int subTreeDepth(char* start){
     
 }
 
+//Creates a new programme at newProg by copying baseProg and replaceing the subtree rooted at oldSubtree
+//with a copy of newSubtree
 void replaceSubtree(char* baseProg, int baseLen, int oldSubtree, char* newSubtree, char* newProg){
     
     memcpy(newProg, baseProg, oldSubtree);

@@ -4,12 +4,12 @@
 \contentsline {subsection}{\numberline {2.2}Single Node Genetic Programming}{6}% 
 \contentsline {section}{\numberline {3}Design and Realisation}{9}% 
 \contentsline {subsection}{\numberline {3.1}GP Implementation}{9}% 
-\contentsline {subsection}{\numberline {3.2}SNGP Implementation}{11}% 
-\contentsline {subsection}{\numberline {3.3}Fitness Functions}{11}% 
-\contentsline {subsection}{\numberline {3.4}Test Data}{12}% 
-\contentsline {section}{\numberline {4}Results}{14}% 
-\contentsline {section}{\numberline {5}Evaluation}{14}% 
-\contentsline {section}{\numberline {6}Learning Points}{14}% 
-\contentsline {section}{\numberline {7}Professional Issues and Data Required}{14}% 
-\contentsline {section}{\numberline {8}Bibliography}{14}% 
-\contentsline {section}{\numberline {9}Appendices}{14}% 
+\contentsline {subsection}{\numberline {3.2}SNGP Implementation}{12}% 
+\contentsline {subsection}{\numberline {3.3}Fitness Functions}{12}% 
+\contentsline {subsection}{\numberline {3.4}Test Data}{13}% 
+\contentsline {section}{\numberline {4}Results}{15}% 
+\contentsline {section}{\numberline {5}Evaluation}{16}% 
+\contentsline {section}{\numberline {6}Learning Points}{16}% 
+\contentsline {section}{\numberline {7}Professional Issues and Data Required}{16}% 
+\contentsline {section}{\numberline {8}Bibliography}{16}% 
+\contentsline {section}{\numberline {9}Appendices}{16}% 

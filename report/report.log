@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000 64-bit) (preloaded format=pdflatex 2019.3.18)  7 MAY 2019 21:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000 64-bit) (preloaded format=pdflatex 2019.3.18)  8 MAY 2019 22:25
 entering extended mode
 **./report.tex
 (report.tex
@@ -351,38 +351,76 @@ Overfull \hbox (3.71342pt too wide) in paragraph at lines 274--275
 sec-tion 2.1[]. Crossover
  []
 
-[10] [11] [12] (report.bbl [13]) [14] (report.aux) ) 
+[10]
+Overfull \hbox (62.16754pt too wide) in paragraph at lines 342--343
+\OML/cmm/m/it/10 replaceSubtree\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 parentProg\OT1
+/cmr/m/n/10 1\OML/cmm/m/it/10 ; crossoverPoint\OT1/cmr/m/n/10 1\OML/cmm/m/it/10
+ ; parentProg\OT1/cmr/m/n/10 2\OML/cmm/m/it/10 :prog\OT1/cmr/m/n/10 [\OML/cmm/m
+/it/10 crossoverPoint\OT1/cmr/m/n/10 2])$  
+ []
+
+
+Overfull \hbox (62.16754pt too wide) in paragraph at lines 344--345
+\OML/cmm/m/it/10 replaceSubtree\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 parentProg\OT1
+/cmr/m/n/10 2\OML/cmm/m/it/10 ; crossoverPoint\OT1/cmr/m/n/10 2\OML/cmm/m/it/10
+ ; parentProg\OT1/cmr/m/n/10 1\OML/cmm/m/it/10 :prog\OT1/cmr/m/n/10 [\OML/cmm/m
+/it/10 crossoverPoint\OT1/cmr/m/n/10 1])$  
+ []
+
+[11]
+<../resources/predecessor_array.png, id=61, 723.70375pt x 143.53625pt>
+File: ../resources/predecessor_array.png Graphic file (type png)
+<use ../resources/predecessor_array.png>
+Package pdftex.def Info: ../resources/predecessor_array.png  used on input line
+ 401.
+(pdftex.def)             Requested size: 172.5pt x 34.21286pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[12 <../resources/predecessor_array.png>] [13] [14]
+
+LaTeX Warning: Reference `graph:gp_success' on page 15 undefined on input line 
+590.
+
+(report.bbl [15]) [16] (report.aux)
+
+LaTeX Warning: There were undefined references.
+
+ ) 
 Here is how much of TeX's memory you used:
- 2784 strings out of 492945
- 43891 string characters out of 3126252
- 123793 words of memory out of 3000000
- 6640 multiletter control sequences out of 15000+200000
+ 2799 strings out of 492945
+ 44220 string characters out of 3126252
+ 126832 words of memory out of 3000000
+ 6654 multiletter control sequences out of 15000+200000
  7403 words of font info for 26 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,18n,26p,709b,400s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Users/Robin/AppData/Loc
-al/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Robi
-n/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><
-C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
-/cmbx9.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public
-/amsfonts/cm/cmcsc10.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/font
-s/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Robin/AppData/Local/Programs/Mi
-KTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Robin/AppData/Loca
-l/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/Robin/
-AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/
-Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
-r12.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/am
-sfonts/cm/cmr17.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/typ
-e1/public/amsfonts/cm/cmr7.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.
-9/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/Robin/AppData/Local/Program
-s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Robin/AppData/
-Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/Ro
-bin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb
+ 41i,18n,26p,716b,400s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts
+/cm/cmbx10.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pu
+blic/amsfonts/cm/cmbx12.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/f
+onts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/Robin/AppData/Local/Programs/
+MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/Robin/AppData/L
+ocal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Ro
+bin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb
 ><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/
-cm/cmti9.pfb>
-Output written on report.pdf (14 pages, 392237 bytes).
+cm/cmmi7.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publ
+ic/amsfonts/cm/cmr10.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/font
+s/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Robin/AppData/Local/Programs/MiK
+TeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Robin/AppData/Local/
+Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Robin/App
+Data/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/User
+s/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10
+.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfo
+nts/cm/cmsy7.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/
+public/amsfonts/cm/cmti10.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9
+/fonts/type1/public/amsfonts/cm/cmti9.pfb>
+Output written on report.pdf (16 pages, 403637 bytes).
 PDF statistics:
- 126 PDF objects out of 1000 (max. 8388607)
+ 134 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 36 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 
