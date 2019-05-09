@@ -15,17 +15,17 @@
 #define evaluatePopulation(updateList,testSet) evaluatePopulationSNGP_B((updateList),(testSet))
 
 //The maximum number of times we apply the successor mutate operation
-#define MAX_OPS 25000
+#define MAX_OPS 50
 #define NUM_GENERATIONS MAX_OPS+1
-#define POPULATION_SIZE 60
+#define POPULATION_SIZE 1000
 #define NUM_TESTS 15
 #define MAX_RUNS 20
 #define NUM_TEST_SETS 30000
-#define BETTER_THAN >
+#define BETTER_THAN >=
 
-#define OUTPUT_INTERVAL 500
+#define OUTPUT_INTERVAL 5
 
-#define SF 2
+#define SF 5
 #define OF 5
 
 typedef struct{
@@ -309,7 +309,7 @@ int execute(int popIndex){
             
             int oldIndex = index;
             
-            for(index = start; index <= end && index < len && progIterations < 2*results->size*results->size*results->size; ++index, ++progIterations){
+            for(index = start; index <= end && index < len && progIterations < 2*results->size*results->size; ++index, ++progIterations){
                 
                 execute(functionIndex);
             }
@@ -487,37 +487,34 @@ float testNode(int popIndex, int testSet, int testNum){
     execute(popIndex);
     
     
-    int inversions = countInversions(results);
+    int iDis = test->inversions;
     
-    float fitness;// = test->inversions - inversions;
+    int rDis = countInversions(results);
     
-    if(inversions == 0) fitness = 1;
-    else if(inversions > test->inversions) fitness = -inversions;
-    else if(inversions == test->inversions) fitness = 0;
-    else fitness = 1.0 - (float)inversions/(float)test->inversions;
+    int pDis = (rDis > iDis) ? (rDis - iDis)*100 : 0;
     
-    return fitness; 
+    return (rDis + pDis);
 }
 
 float evaluateNode(int popIndex, int testSet){
     
-    float nodeTotalFitness = 0;
+    float resSum = 0;
         
     for(int testNum = 0; testNum < NUM_TESTS; testNum++){
         
-        nodeTotalFitness += testNode(popIndex, testSet, testNum);
+        resSum += testNode(popIndex, testSet, testNum);
         
     }
     
+    float newFitness = (resSum * OF) + (population[popIndex].progLen * SF);
+    
     population[popIndex].oldFitness = population[popIndex].fitness;
     
-    population[popIndex].fitness = nodeTotalFitness / NUM_TESTS;
+    population[popIndex].fitness = newFitness;
     
-    if(population[popIndex].fitness >= 0.95){
-        
+    if(resSum == 0){
         success = 1;
-    
-       workingProgramme = popIndex;
+        workingProgramme = popIndex;
     }
     
     return population[popIndex].fitness;
@@ -564,6 +561,44 @@ void updateProgLen(int* updateList){
     
 }
 
+void normaliseFitness(){
+    
+    int prawTable[POPULATION_SIZE];
+    int raw[POPULATION_SIZE];
+    float adj[POPULATION_SIZE];
+    float adjSum = 0;
+    
+    prawTable[0] = population[0].fitness;
+    
+    int minpraw = prawTable[0];
+    
+    
+    for(int popIndex = 1; popIndex < POPULATION_SIZE; ++popIndex){
+        
+        prawTable[popIndex] = population[popIndex].fitness;
+        
+        if(prawTable[popIndex] < minpraw) minpraw = prawTable[popIndex];
+        
+    }
+    
+    for(int popIndex = 0; popIndex < POPULATION_SIZE; ++popIndex){
+        
+        int raw = prawTable[popIndex] - minpraw;
+        
+        adj[popIndex] = 1.0/(1.0+raw);
+        
+        adjSum += adj[popIndex];
+        
+    }
+    
+    for(int popIndex = 0; popIndex < POPULATION_SIZE; ++popIndex){
+        
+        population[popIndex].fitness = adj[popIndex]/adjSum;
+        
+    }
+    
+}
+
 float evaluatePopulationSNGP_A(int* updateList, int testSet){
     
     if(updateList == NULL){
@@ -601,6 +636,14 @@ float evaluatePopulationSNGP_B(int* updateList, int testSet){
         for(int popIndex = 1; popIndex < POPULATION_SIZE; popIndex++){
             
             float nodeFitness = evaluateNode(popIndex, testSet);
+       
+            
+        }
+        
+        normaliseFitness();
+        for(int popIndex = 1; popIndex < POPULATION_SIZE; popIndex++){
+            
+            float nodeFitness = population[popIndex].fitness;
             if(bestNodeFitness BETTER_THAN nodeFitness) bestNodeFitness = nodeFitness;
             
         }
@@ -611,6 +654,8 @@ float evaluatePopulationSNGP_B(int* updateList, int testSet){
             evaluateNode(nextUpdateNode, testSet);
             
         }
+        
+        normaliseFitness();
         
         bestNodeFitness = population[0].fitness;
         
@@ -742,7 +787,6 @@ int main(int argc, char* argv[]){
         
         initialisePopulation();
         //initialiseExamplePopulation();
-        //initialisePartialSolution();
         //updateProgLen(NULL);
         float oldFitness = (1 BETTER_THAN 0)? INT_MAX: INT_MIN;
         
@@ -756,27 +800,25 @@ int main(int argc, char* argv[]){
             
             if(generation % OUTPUT_INTERVAL ==0)printf("\nGeneration %d",generation);
             
+            int randomNodeIndex = randRange(NUM_TERMINALS, NUM_PRIMITIVES-1);
+            Node* randomNode = &population[randomNodeIndex];
+            int randomOperandIndex = randRange(0, primitiveTable[randomNode->primitive].arity-1);
+            int oldOperandValue = randomNode->operands[randomOperandIndex];
+            int randomOperandValue = randRange(0,randomNodeIndex-1);
             
+            successorMutate(randomNodeIndex, randomOperandIndex, randomOperandValue);
             
-            while(!(fitness BETTER_THAN oldFitness)){
-                
-                int randomNodeIndex = randRange(NUM_TERMINALS, NUM_PRIMITIVES-1);
-                Node* randomNode = &population[randomNodeIndex];
-                int randomOperandIndex = randRange(0, primitiveTable[randomNode->primitive].arity-1);
-                int oldOperandValue = randomNode->operands[randomOperandIndex];
-                int randomOperandValue = randRange(0,randomNodeIndex-1);
-                
-                successorMutate(randomNodeIndex, randomOperandIndex, randomOperandValue);
-                
-                updateList[0] = 0;
-                
-                buildUpdateList(randomNodeIndex);
-                
-                updateProgLen(updateList);
-                
-                oldFitness = fitness;
+            updateList[0] = 0;
             
-                fitness = evaluatePopulation(updateList, generation % NUM_TEST_SETS);
+            buildUpdateList(randomNodeIndex);
+            
+            updateProgLen(updateList);
+            
+            oldFitness = fitness;
+            
+            fitness = evaluatePopulation(updateList, generation % NUM_TEST_SETS);
+            
+            if(!(fitness BETTER_THAN oldFitness)){
                 
                 restoreFitnessValues(updateList);
                 
