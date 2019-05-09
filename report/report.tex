@@ -408,7 +408,7 @@
     
     	This structure is used again to determine which nodes should be updated after performing a successor mutate operation.
     	
-    	\begin{algorithm}[h]
+    	\begin{algorithm}[H]
     		
     		\SetKw{buildUpdateList}{buildUpdateList}
     		\SetKw{addToUpdateList}{addToUpdateList}
@@ -462,14 +462,79 @@
     		\label{alg:updateList}
     		
     	\end{algorithm}
-        
+        \bigskip
         The pseudocode for the overall SNGP algorithm is:
         
-        \begin{algorithm}
+        \begin{algorithm}[h]
         	
+        	$initialisePopulation()$
+        	\assign{fitness}{$evaluatePopulation()$}
         	
+        	\assign{oldFitness}{$infinity$}
         	
+        	\For{$generation \leftarrow 1$ \KwTo $NUM\_GENERATIONS$}{
+        	
+        		\assign{randomNodeIndex}{$randInt(1,POPULATION_SIZE)$}
+        		
+        		$successorMutate(randomNodeIndex)$
+        		
+        		$buildUpdatelist(randomNodeIndex)$
+        		
+        		\assign{oldFitness}{$fitness$}
+        		
+        		\assign{fitness}{$evaluatePopulation()$}
+        		
+        		\If{$fitness<=oldFitness$}{
+        		
+        			$undoSuccessorMutate()$
+        			\assign{fitness}{$oldFitness$}        			
+        		}
+    
+			}
+        	
+        	\KwOut{bestProgramme()}
+        	
+        	\caption{SNGP Algorithm}
+        	\label{alg:sngp}
         \end{algorithm}
+    
+    	The two methods of calculating the populations overall fitness are SNGP/A and SNGP/B, which are described in the following algorithms:
+    	
+    	\begin{algorithm}[h]
+    		
+    		\KwIn{population}
+    		
+    		\assign{totalfitness}{$0$}
+    		
+    		\ForEach{$programme \in population$}{
+    		
+    			\assign{totalFitness}{$totalFitness + evaluate(programme)$}
+    	
+    		}
+    	
+    		\KwOut{totalFitness/size(population)}
+    		
+    		\caption{Calculate the SNGP/A fitness}
+    		\label{SNGP/A}
+    	\end{algorithm}
+    
+    	\begin{algorithm}[h]
+    		
+    		\KwIn{population}
+    		
+    		\assign{bestfitness}{$0$}
+    		
+    		\ForEach{$programme \in population$}{
+    			
+    			\assign{totalFitness}{$max(bestFitness,evaluate(programme))$}
+    			
+    		}
+    		
+    		\KwOut{bestFitness}
+    		
+    		\caption{Calculate the SNGP/A fitness}
+    		\label{SNGP/B}
+    	\end{algorithm}
 	
 	\subsection{Fitness Functions}
 	

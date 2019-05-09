@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000 64-bit) (preloaded format=pdflatex 2019.3.18)  9 MAY 2019 00:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000 64-bit) (preloaded format=pdflatex 2019.3.18)  9 MAY 2019 02:55
 entering extended mode
 **./report.tex
 (report.tex
@@ -374,32 +374,28 @@ File: ../resources/predecessor_array.png Graphic file (type png)
 Package pdftex.def Info: ../resources/predecessor_array.png  used on input line
  403.
 (pdftex.def)             Requested size: 172.5pt x 34.21286pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[12 <../resources/predecessor_array.png>]
+ [12 <../resources/predecessor_array.png>] [13]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[13] [14]
+[14] [15]
 
-LaTeX Warning: Reference `graph:gp_success' on page 15 undefined on input line 
-599.
+LaTeX Warning: Reference `graph:gp_success' on page 16 undefined on input line 
+664.
 
-[15] (report.bbl) [16] (report.aux)
+(report.bbl [16]) [17] (report.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 2799 strings out of 492945
- 44220 string characters out of 3126252
- 124832 words of memory out of 3000000
- 6654 multiletter control sequences out of 15000+200000
+ 2802 strings out of 492945
+ 44246 string characters out of 3126252
+ 123860 words of memory out of 3000000
+ 6657 multiletter control sequences out of 15000+200000
  7403 words of font info for 26 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,18n,26p,716b,400s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,18n,26p,716b,404s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts
 /cm/cmbx10.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pu
 blic/amsfonts/cm/cmbx12.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/f
@@ -419,9 +415,9 @@ s/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10
 nts/cm/cmsy7.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/
 public/amsfonts/cm/cmti10.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9
 /fonts/type1/public/amsfonts/cm/cmti9.pfb>
-Output written on report.pdf (16 pages, 403806 bytes).
+Output written on report.pdf (17 pages, 406228 bytes).
 PDF statistics:
- 134 PDF objects out of 1000 (max. 8388607)
+ 137 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  41 words of extra memory for PDF output out of 10000 (max. 10000000)
 
