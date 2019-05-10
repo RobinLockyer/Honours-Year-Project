@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000 64-bit) (preloaded format=pdflatex 2019.3.18)  9 MAY 2019 02:55
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000 64-bit) (preloaded format=pdflatex 2019.3.18)  10 MAY 2019 00:07
 entering extended mode
 **./report.tex
 (report.tex
@@ -184,36 +184,100 @@ sty"
 Package: chngcntr 2018/04/09 v1.1a change counter resetting
 Package chngcntr Info: \counterwithout already defined.
 (chngcntr)             Quitting chngcntr on input line 21.
+)
+("C:\Users\Robin\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsmath.st
+y"
+Package: amsmath 2018/12/01 v2.17b AMS math features
+\@mathmargin=\skip66
+
+For additional information on amsmath, use the `?' option.
+
+("C:\Users\Robin\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amstext.st
+y"
+Package: amstext 2000/06/29 v2.01 AMS text
+
+("C:\Users\Robin\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsgen.sty
+"
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks17
+\ex@=\dimen120
+))
+("C:\Users\Robin\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsbsy.sty
+"
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen121
+)
+("C:\Users\Robin\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsopn.sty
+"
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count106
+LaTeX Info: Redefining \frac on input line 223.
+\uproot@=\count107
+\leftroot@=\count108
+LaTeX Info: Redefining \overline on input line 385.
+\classnum@=\count109
+\DOTSCASE@=\count110
+LaTeX Info: Redefining \ldots on input line 482.
+LaTeX Info: Redefining \dots on input line 485.
+LaTeX Info: Redefining \cdots on input line 606.
+\Mathstrutbox@=\box63
+\strutbox@=\box64
+\big@size=\dimen122
+LaTeX Font Info:    Redeclaring font encoding OML on input line 729.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 730.
+\macc@depth=\count111
+\c@MaxMatrixCols=\count112
+\dotsspace@=\muskip10
+\c@parentequation=\count113
+\dspbrk@lvl=\count114
+\tag@help=\toks18
+\row@=\count115
+\column@=\count116
+\maxfields@=\count117
+\andhelp@=\toks19
+\eqnshift@=\dimen123
+\alignsep@=\dimen124
+\tagshift@=\dimen125
+\tagwidth@=\dimen126
+\totwidth@=\dimen127
+\lineht@=\dimen128
+\@envbody=\toks20
+\multlinegap=\skip67
+\multlinetaggap=\skip68
+\mathdisplay@stack=\toks21
+LaTeX Info: Redefining \[ on input line 2844.
+LaTeX Info: Redefining \] on input line 2845.
 ) (report.aux)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
 
 ("C:\Users\Robin\AppData\Local\Programs\MiKTeX 2.9\tex/context/base/mkii\supp-p
 df.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count106
-\scratchdimen=\dimen120
-\scratchbox=\box63
-\nofMPsegments=\count107
-\nofMParguments=\count108
-\everyMPshowfont=\toks17
-\MPscratchCnt=\count109
-\MPscratchDim=\dimen121
-\MPnumerator=\count110
-\makeMPintoPDFobject=\count111
-\everyMPtoPDFconversion=\toks18
+\scratchcounter=\count118
+\scratchdimen=\dimen129
+\scratchbox=\box65
+\nofMPsegments=\count119
+\nofMParguments=\count120
+\everyMPshowfont=\toks22
+\MPscratchCnt=\count121
+\MPscratchDim=\dimen130
+\MPnumerator=\count122
+\makeMPintoPDFobject=\count123
+\everyMPtoPDFconversion=\toks23
 )
 ("C:\Users\Robin\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\epstopdf-
 base.sty"
@@ -276,17 +340,12 @@ G,.JBIG2,.JB2,.eps]
 <../resources/UOL_Logo.png, id=1, 229.293pt x 52.2315pt>
 File: ../resources/UOL_Logo.png Graphic file (type png)
 <use ../resources/UOL_Logo.png>
-Package pdftex.def Info: ../resources/UOL_Logo.png  used on input line 24.
+Package pdftex.def Info: ../resources/UOL_Logo.png  used on input line 25.
 (pdftex.def)             Requested size: 172.5pt x 39.29625pt.
  [1
 
 {C:/Users/Robin/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <../resource
-s/UOL_Logo.png>] [2] (report.toc
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 3.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 3.
-)
+s/UOL_Logo.png>] [2] (report.toc)
 \tf@toc=\write3
 \openout3 = `report.toc'.
 
@@ -295,20 +354,20 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 File: ../resources/1_gp_example_tree.png Graphic file (type png)
 <use ../resources/1_gp_example_tree.png>
 Package pdftex.def Info: ../resources/1_gp_example_tree.png  used on input line
- 61.
+ 62.
 (pdftex.def)             Requested size: 172.5pt x 134.27367pt.
  [4]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 74.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 75.
 
 ("C:\Users\Robin\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\omscmr.fd"
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 74.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 75.
 <../resources/5_reproduction.png, id=26, 161.60374pt x 101.37875pt>
 File: ../resources/5_reproduction.png Graphic file (type png)
 <use ../resources/5_reproduction.png>
-Package pdftex.def Info: ../resources/5_reproduction.png  used on input line 78
+Package pdftex.def Info: ../resources/5_reproduction.png  used on input line 79
 .
 (pdftex.def)             Requested size: 103.50105pt x 64.92857pt.
 
@@ -316,19 +375,19 @@ Package pdftex.def Info: ../resources/5_reproduction.png  used on input line 78
 <../resources/6_crossover.png, id=33, 382.42876pt x 101.37875pt>
 File: ../resources/6_crossover.png Graphic file (type png)
 <use ../resources/6_crossover.png>
-Package pdftex.def Info: ../resources/6_crossover.png  used on input line 89.
+Package pdftex.def Info: ../resources/6_crossover.png  used on input line 90.
 (pdftex.def)             Requested size: 260.28735pt x 68.99895pt.
 <../resources/7_mutation.png, id=34, 221.82875pt x 141.52875pt>
 File: ../resources/7_mutation.png Graphic file (type png)
 <use ../resources/7_mutation.png>
-Package pdftex.def Info: ../resources/7_mutation.png  used on input line 101.
+Package pdftex.def Info: ../resources/7_mutation.png  used on input line 102.
 (pdftex.def)             Requested size: 137.9979pt x 88.04277pt.
 
 [6 <../resources/6_crossover.png> <../resources/7_mutation.png>]
 <../resources/8_sngp_graph.png, id=40, 958.58125pt x 594.22pt>
 File: ../resources/8_sngp_graph.png Graphic file (type png)
 <use ../resources/8_sngp_graph.png>
-Package pdftex.def Info: ../resources/8_sngp_graph.png  used on input line 121.
+Package pdftex.def Info: ../resources/8_sngp_graph.png  used on input line 122.
 
 (pdftex.def)             Requested size: 172.5pt x 106.92778pt.
  [7 <../resources/8_sngp_graph.png>]
@@ -336,23 +395,23 @@ Package pdftex.def Info: ../resources/8_sngp_graph.png  used on input line 121.
 File: ../resources/10_successor_mutate.png Graphic file (type png)
 <use ../resources/10_successor_mutate.png>
 Package pdftex.def Info: ../resources/10_successor_mutate.png  used on input li
-ne 149.
+ne 150.
 (pdftex.def)             Requested size: 172.5pt x 65.77007pt.
  [8 <../resources/10_successor_mutate.png>] [9]
 
-LaTeX Warning: Command \textellipsis invalid in math mode on input line 217.
+LaTeX Warning: Command \textellipsis invalid in math mode on input line 218.
 
 
-LaTeX Warning: Command \textellipsis invalid in math mode on input line 233.
+LaTeX Warning: Command \textellipsis invalid in math mode on input line 234.
 
 
-Overfull \hbox (3.71342pt too wide) in paragraph at lines 274--275
+Overfull \hbox (3.71342pt too wide) in paragraph at lines 275--276
 []\OT1/cmr/m/n/10 Three ge-netic op-er-a-tors used are the three men-tioned in 
 sec-tion 2.1[]. Crossover
  []
 
 [10]
-Overfull \hbox (62.16754pt too wide) in paragraph at lines 342--343
+Overfull \hbox (62.16754pt too wide) in paragraph at lines 343--344
 \OML/cmm/m/it/10 replaceSubtree\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 parentProg\OT1
 /cmr/m/n/10 1\OML/cmm/m/it/10 ; crossoverPoint\OT1/cmr/m/n/10 1\OML/cmm/m/it/10
  ; parentProg\OT1/cmr/m/n/10 2\OML/cmm/m/it/10 :prog\OT1/cmr/m/n/10 [\OML/cmm/m
@@ -360,7 +419,7 @@ Overfull \hbox (62.16754pt too wide) in paragraph at lines 342--343
  []
 
 
-Overfull \hbox (62.16754pt too wide) in paragraph at lines 344--345
+Overfull \hbox (62.16754pt too wide) in paragraph at lines 345--346
 \OML/cmm/m/it/10 replaceSubtree\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 parentProg\OT1
 /cmr/m/n/10 2\OML/cmm/m/it/10 ; crossoverPoint\OT1/cmr/m/n/10 2\OML/cmm/m/it/10
  ; parentProg\OT1/cmr/m/n/10 1\OML/cmm/m/it/10 :prog\OT1/cmr/m/n/10 [\OML/cmm/m
@@ -372,30 +431,26 @@ Overfull \hbox (62.16754pt too wide) in paragraph at lines 344--345
 File: ../resources/predecessor_array.png Graphic file (type png)
 <use ../resources/predecessor_array.png>
 Package pdftex.def Info: ../resources/predecessor_array.png  used on input line
- 403.
+ 404.
 (pdftex.def)             Requested size: 172.5pt x 34.21286pt.
- [12 <../resources/predecessor_array.png>] [13]
+ [12 <../resources/predecessor_array.png>] [13] [14] [15] [16]
 
-LaTeX Warning: `h' float specifier changed to `ht'.
+LaTeX Warning: Reference `graph:gp_success' on page 17 undefined on input line 
+681.
 
-[14] [15]
-
-LaTeX Warning: Reference `graph:gp_success' on page 16 undefined on input line 
-664.
-
-(report.bbl [16]) [17] (report.aux)
+[17] (report.bbl) [18] (report.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 2802 strings out of 492945
- 44246 string characters out of 3126252
- 123860 words of memory out of 3000000
- 6657 multiletter control sequences out of 15000+200000
- 7403 words of font info for 26 fonts, out of 3000000 for 9000
+ 3414 strings out of 492945
+ 51411 string characters out of 3126252
+ 134460 words of memory out of 3000000
+ 7251 multiletter control sequences out of 15000+200000
+ 8555 words of font info for 30 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,18n,26p,716b,404s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,19n,26p,716b,414s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts
 /cm/cmbx10.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pu
 blic/amsfonts/cm/cmbx12.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/f
@@ -415,9 +470,9 @@ s/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10
 nts/cm/cmsy7.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/
 public/amsfonts/cm/cmti10.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9
 /fonts/type1/public/amsfonts/cm/cmti9.pfb>
-Output written on report.pdf (17 pages, 406228 bytes).
+Output written on report.pdf (18 pages, 410082 bytes).
 PDF statistics:
- 137 PDF objects out of 1000 (max. 8388607)
+ 140 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  41 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -7,6 +7,7 @@
 \usepackage{titlepic}
 \usepackage{multicol}
 \usepackage{chngcntr}
+\usepackage{amsmath}
 
 \counterwithin{figure}{section}
 \graphicspath{{../resources/}}
@@ -536,11 +537,11 @@
     		\label{SNGP/B}
     	\end{algorithm}
 	
-	\subsection{Fitness Functions}
+	\subsection{Fitness Function}
 	
         While many different fitness functions were used, they all counted the number of inversions in a test array before and after executing a programme. To efficiently count inversions I used a modified merge sort algorithms, detailed in algorithm \ref{alg:countInv}. The algorithm is $O(n\log{}n)$, and merging is done using two preallocated buffers to avoid unnecessary memory allocations while the GP algorithm is running.
         
-        \begin{algorithm}
+        \begin{algorithm}[H]
             
             \SetKw{countInversions}{countInversions}
             
@@ -613,7 +614,7 @@
         
         The fitness function I used as a starting point for both my GP and SNGP implementations was the same Kinnear used in \cite{kinnear_evolving_1993,kinnear_generality_1993}. The function is defined as the following:
         
-        \begin{figure}[h]
+        \begin{figure}[H]
             $$fitness(prog) = \frac{adjusted(prog)}{\sum_{p\in population}^{}adjusted(p)}$$
             
             $$adjusted(prog) = \frac{1}{1 + raw(prog)}$$
@@ -631,7 +632,23 @@
             \label{kinnear_fitness}		
         
         \end{figure}
-        Where $rdis(t)$ is the remaining number of inversions in a test array t after running a member of the population, $idis(t)$ is the initial number of inversions in a test array t, and $of$ and $sf$ are constant weights used to adjust the resulting fitness.
+        Where $rdis(t)$ is the remaining number of inversions in a test array t after running a member of the population, $idis(t)$ is the initial number of inversions in a test array $t$, and the order factor $of$ and size factor $sf$ are constant weights used to adjust the resulting fitness.
+        
+        For SNGP, I also used other fitness function I created myself. The first of these is
+        
+        \begin{figure}[H]
+        	$   fitness(x) =
+        	\begin{cases} 
+	        	1 & \mbox{if } rdis(t) = 0 \\
+	        	-rdis(t) & \mbox{if } rdis(t) > idis(t) \land rdis(t) \neq 0 \\
+	        	0 & \mbox{if }  rdis(t) = idis(t) \land rdis(t) \neq 0 \\
+	        	1 - rdis(t)/idis(t) & \mbox{otherwise }
+        	\end{cases}
+        	$
+        	
+        	\caption{Fitness Function 1}
+        	\label{ftns_func1}
+        \end{figure}
 
     \subsection{Test Data}
         
@@ -667,6 +684,20 @@
     \section{Learning Points}
 
     \section{Professional Issues and Data Required}
+    
+    	This project follows the four sections of the British Computer Society Code of Conduct:
+    	
+    	\begin{itemize}
+    		\item \textbf{Public Interest:} This section concerns third parties and the general public. This project does not contain any public components, or interact with any third parties or members of the public. Any documents or code used in the course of this project were freely available to me through the University of Liverpool and cited properly in the bibliography. As such this project does not affect  the public health, privacy, or security of others, and it does not breach the right of third parties, discriminate against anybody in any way.
+    		
+    		\item \textbf{Professional Competence and Integrity:} This section is about not claiming a level of competence that is not possessed. This project was specifically created by Dr Jackson for someone with the level of competence a third year computer science student should have. As such I believe that this project was well within my level of confidence when I requested to have this project assigned to me, and as I have successfully completed the project I still believe this to be the case.
+    		
+    		\item \textbf{Duty to Relevant Authority:} This section focuses on the responsibilities I am held to by a relevant authority. In this case the relevant authority is the University of Liverpool. I have not disclosed any confidential information, misrepresented any of my work, or caused a conflict of interest. I have carried out my responsibilities and accept professional responsibility for my work.
+    		
+    		\item \textbf{Duty to the Profession:} This section relates to the reputation of the computer science profession. By following the previous section I believe I have avoided any action that could bring the profession into disrepute. I have also not committed any crime or become bankrupt for the duration of this project, so I have no need to notify the BCS.
+    	\end{itemize}
+    
+    	In regard to the data required for this project, I believe there is no need for proof of consent or ethical source of data as there was no human participation or human data used in this project.
 
     \section{Bibliography}
 
