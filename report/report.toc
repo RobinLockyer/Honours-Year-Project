@@ -8,8 +8,7 @@
 \contentsline {subsection}{\numberline {3.3}Fitness Function}{14}% 
 \contentsline {subsection}{\numberline {3.4}Test Data}{16}% 
 \contentsline {section}{\numberline {4}Results}{17}% 
-\contentsline {section}{\numberline {5}Evaluation}{22}% 
-\contentsline {section}{\numberline {6}Learning Points}{22}% 
-\contentsline {section}{\numberline {7}Professional Issues and Data Required}{22}% 
-\contentsline {section}{\numberline {8}Bibliography}{23}% 
-\contentsline {section}{\numberline {9}Appendices}{23}% 
+\contentsline {section}{\numberline {5}Evaluation and Learning Points}{22}% 
+\contentsline {section}{\numberline {6}Professional Issues and Data Required}{23}% 
+\contentsline {section}{\numberline {7}Bibliography}{24}% 
+\contentsline {section}{\numberline {8}Appendices}{24}% 
