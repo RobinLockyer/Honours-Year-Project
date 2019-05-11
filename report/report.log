@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000 64-bit) (preloaded format=pdflatex 2019.3.18)  10 MAY 2019 00:07
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000 64-bit) (preloaded format=pdflatex 2019.3.18)  11 MAY 2019 02:18
 entering extended mode
 **./report.tex
 (report.tex
@@ -434,45 +434,123 @@ Package pdftex.def Info: ../resources/predecessor_array.png  used on input line
  404.
 (pdftex.def)             Requested size: 172.5pt x 34.21286pt.
  [12 <../resources/predecessor_array.png>] [13] [14] [15] [16]
+<../resources/g_gp_success.png, id=83, 426.84468pt x 231.11343pt>
+File: ../resources/g_gp_success.png Graphic file (type png)
+<use ../resources/g_gp_success.png>
+Package pdftex.def Info: ../resources/g_gp_success.png  used on input line 687.
 
-LaTeX Warning: Reference `graph:gp_success' on page 17 undefined on input line 
-681.
+(pdftex.def)             Requested size: 172.5pt x 93.39941pt.
+ [17 <../resources/g_gp_success.png>]
+<../resources/g_sngpA_kinnear.png, id=87, 423.08063pt x 224.33812pt>
+File: ../resources/g_sngpA_kinnear.png Graphic file (type png)
+<use ../resources/g_sngpA_kinnear.png>
+Package pdftex.def Info: ../resources/g_sngpA_kinnear.png  used on input line 7
+09.
+(pdftex.def)             Requested size: 172.5pt x 91.46574pt.
+<../resources/g_sngpb_kinnear.png, id=88, 425.33907pt x 221.32687pt>
+File: ../resources/g_sngpb_kinnear.png Graphic file (type png)
+<use ../resources/g_sngpb_kinnear.png>
+Package pdftex.def Info: ../resources/g_sngpb_kinnear.png  used on input line 7
+16.
+(pdftex.def)             Requested size: 172.5pt x 89.76183pt.
+<../resources/g_sngpb_kinnear_p500_o100.png, id=89, 428.35031pt x 224.33812pt>
+File: ../resources/g_sngpb_kinnear_p500_o100.png Graphic file (type png)
+<use ../resources/g_sngpb_kinnear_p500_o100.png>
+Package pdftex.def Info: ../resources/g_sngpb_kinnear_p500_o100.png  used on in
+put line 723.
+(pdftex.def)             Requested size: 172.5pt x 90.34297pt.
+ [18 <../resources/g_sngpA_kinnear.png> <../resources/g_sngpb_kinnear.png>]
+<../resources/g_sngpb_kinnear_p1500_o30.png, id=93, 425.33907pt x 220.57407pt>
+File: ../resources/g_sngpb_kinnear_p1500_o30.png Graphic file (type png)
+<use ../resources/g_sngpb_kinnear_p1500_o30.png>
+Package pdftex.def Info: ../resources/g_sngpb_kinnear_p1500_o30.png  used on in
+put line 730.
+(pdftex.def)             Requested size: 172.5pt x 89.45653pt.
+<../resources/g_sngpb_kinnear_SF0.png, id=94, 426.84468pt x 221.32687pt>
+File: ../resources/g_sngpb_kinnear_SF0.png Graphic file (type png)
+<use ../resources/g_sngpb_kinnear_SF0.png>
+Package pdftex.def Info: ../resources/g_sngpb_kinnear_SF0.png  used on input li
+ne 737.
+(pdftex.def)             Requested size: 172.5pt x 89.44438pt.
+<../resources/g_sngpb_kinnear_sf2.png, id=95, 425.33907pt x 222.07968pt>
+File: ../resources/g_sngpb_kinnear_sf2.png Graphic file (type png)
+<use ../resources/g_sngpb_kinnear_sf2.png>
+Package pdftex.def Info: ../resources/g_sngpb_kinnear_sf2.png  used on input li
+ne 744.
+(pdftex.def)             Requested size: 172.5pt x 90.06715pt.
+ [19 <../resources/g_sngpb_kinnear_p500_o100.png> <../resources/g_sngpb_kinnear
+_p1500_o30.png> <../resources/g_sngpb_kinnear_SF0.png>]
+<../resources/g_sngpb_kinnear_sf8.png, id=100, 423.83344pt x 223.58531pt>
+File: ../resources/g_sngpb_kinnear_sf8.png Graphic file (type png)
+<use ../resources/g_sngpb_kinnear_sf8.png>
+Package pdftex.def Info: ../resources/g_sngpb_kinnear_sf8.png  used on input li
+ne 751.
+(pdftex.def)             Requested size: 172.5pt x 90.99846pt.
+<../resources/g_sngpb_kinnear_strict.png, id=101, 423.08063pt x 222.8325pt>
+File: ../resources/g_sngpb_kinnear_strict.png Graphic file (type png)
+<use ../resources/g_sngpb_kinnear_strict.png>
+Package pdftex.def Info: ../resources/g_sngpb_kinnear_strict.png  used on input
+ line 758.
+(pdftex.def)             Requested size: 172.5pt x 90.85188pt.
+<../resources/g_sngpb_ff.png, id=102, 420.82219pt x 224.33812pt>
+File: ../resources/g_sngpb_ff.png Graphic file (type png)
+<use ../resources/g_sngpb_ff.png>
+Package pdftex.def Info: ../resources/g_sngpb_ff.png  used on input line 765.
+(pdftex.def)             Requested size: 172.5pt x 91.95868pt.
 
-[17] (report.bbl) [18] (report.aux)
-
-LaTeX Warning: There were undefined references.
-
- ) 
+[20 <../resources/g_sngpb_kinnear_sf2.png> <../resources/g_sngpb_kinnear_sf8.pn
+g> <../resources/g_sngpb_kinnear_strict.png>]
+<../resources/g_sngpb_ff_p1500_o30.png, id=106, 425.33907pt x 222.8325pt>
+File: ../resources/g_sngpb_ff_p1500_o30.png Graphic file (type png)
+<use ../resources/g_sngpb_ff_p1500_o30.png>
+Package pdftex.def Info: ../resources/g_sngpb_ff_p1500_o30.png  used on input l
+ine 772.
+(pdftex.def)             Requested size: 172.5pt x 90.37247pt.
+<../resources/g_sngpb_ff1_p500_o100.png, id=107, 425.33907pt x 225.09094pt>
+File: ../resources/g_sngpb_ff1_p500_o100.png Graphic file (type png)
+<use ../resources/g_sngpb_ff1_p500_o100.png>
+Package pdftex.def Info: ../resources/g_sngpb_ff1_p500_o100.png  used on input 
+line 779.
+(pdftex.def)             Requested size: 172.5pt x 91.2884pt.
+<../resources/g_sngpb_ff_strict.png, id=108, 424.58624pt x 221.32687pt>
+File: ../resources/g_sngpb_ff_strict.png Graphic file (type png)
+<use ../resources/g_sngpb_ff_strict.png>
+Package pdftex.def Info: ../resources/g_sngpb_ff_strict.png  used on input line
+ 786.
+(pdftex.def)             Requested size: 172.5pt x 89.92056pt.
+ [21 <../resources/g_sngpb_ff.png> <../resources/g_sngpb_ff_p1500_o30.png> <../
+resources/g_sngpb_ff1_p500_o100.png>] [22 <../resources/g_sngpb_ff_strict.png>]
+ (report.bbl) [23] (report.aux) ) 
 Here is how much of TeX's memory you used:
- 3414 strings out of 492945
- 51411 string characters out of 3126252
- 134460 words of memory out of 3000000
- 7251 multiletter control sequences out of 15000+200000
+ 3491 strings out of 492945
+ 54027 string characters out of 3126252
+ 134607 words of memory out of 3000000
+ 7315 multiletter control sequences out of 15000+200000
  8555 words of font info for 30 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,19n,26p,716b,414s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts
-/cm/cmbx10.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pu
-blic/amsfonts/cm/cmbx12.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/f
-onts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/Robin/AppData/Local/Programs/
-MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/Robin/AppData/L
-ocal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Ro
-bin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb
+ 41i,19n,26p,741b,414s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Users/Robin/AppData/Local/Programs/MiKTeX 
+2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Robin/AppData/Local/Pro
+grams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Robin/AppD
+ata/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/User
+s/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmcsc1
+0.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsf
+onts/cm/cmex10.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type
+1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2
+.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/Robin/AppData/Local/Progr
+ams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Robin/AppData
+/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/R
+obin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb
 ><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/
-cm/cmmi7.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publ
-ic/amsfonts/cm/cmr10.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/font
-s/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Robin/AppData/Local/Programs/MiK
-TeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Robin/AppData/Local/
-Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Robin/App
-Data/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/User
-s/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10
-.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfo
-nts/cm/cmsy7.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/
-public/amsfonts/cm/cmti10.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9
-/fonts/type1/public/amsfonts/cm/cmti9.pfb>
-Output written on report.pdf (18 pages, 410082 bytes).
+cm/cmr7.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publi
+c/amsfonts/cm/cmr9.pfb><C:/Users/Robin/AppData/Local/Programs/MiKTeX 2.9/fonts/
+type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Robin/AppData/Local/Programs/MiKT
+eX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/Robin/AppData/Local/P
+rograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/Robin/Ap
+pData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti9.pfb>
+Output written on report.pdf (23 pages, 484781 bytes).
 PDF statistics:
- 140 PDF objects out of 1000 (max. 8388607)
+ 169 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 106 words of extra memory for PDF output out of 10000 (max. 10000000)
 

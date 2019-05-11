@@ -12,7 +12,7 @@
 #define MAX_ARITY 3
 
 //Macro to define which version of SNGP is used
-#define evaluatePopulation(updateList,testSet) evaluatePopulationSNGP_B((updateList),(testSet))
+#define evaluatePopulation(updateList,testSet) evaluatePopulationSNGP_A((updateList),(testSet))
 
 //The maximum number of times we apply the successor mutate operation
 #define MAX_OPS 50
@@ -24,6 +24,9 @@
 #define BETTER_THAN >=
 
 #define OUTPUT_INTERVAL 5
+
+#define OUT_FILE "results\\sngpA_fitness_trace_ff1.csv"
+FILE* fitnessTrace = NULL;
 
 #define SF 5
 #define OF 5
@@ -487,35 +490,33 @@ float testNode(int popIndex, int testSet, int testNum){
     execute(popIndex);
     
     
-    int iDis = test->inversions;
+    int inversions = countInversions(results);
     
-    int rDis = countInversions(results);
+    float fitness;// = test->inversions - inversions;
     
-    int pDis = (rDis > iDis) ? (rDis - iDis)*100 : 0;
+    if(inversions == test->inversions && inversions!=0) fitness = 0;
+    else if(test->inversions!=0) fitness = 1 - inversions/(float)test->inversions;
+    else if(inversions == 0) fitness = 1;
+    else fitness = -inversions;
     
-    return (rDis + pDis);
+    return fitness; 
 }
 
 float evaluateNode(int popIndex, int testSet){
     
-    float resSum = 0;
+    float nodeTotalFitness = 0;
         
     for(int testNum = 0; testNum < NUM_TESTS; testNum++){
         
-        resSum += testNode(popIndex, testSet, testNum);
+        nodeTotalFitness += testNode(popIndex, testSet, testNum);
         
     }
     
-    float newFitness = (resSum * OF) + (population[popIndex].progLen * SF);
-    
     population[popIndex].oldFitness = population[popIndex].fitness;
     
-    population[popIndex].fitness = newFitness;
+    population[popIndex].fitness = nodeTotalFitness / NUM_TESTS;
     
-    if(resSum == 0){
-        success = 1;
-        workingProgramme = popIndex;
-    }
+    if(population[popIndex].fitness > 0.8) success = 1;
     
     return population[popIndex].fitness;
     
@@ -636,14 +637,6 @@ float evaluatePopulationSNGP_B(int* updateList, int testSet){
         for(int popIndex = 1; popIndex < POPULATION_SIZE; popIndex++){
             
             float nodeFitness = evaluateNode(popIndex, testSet);
-       
-            
-        }
-        
-        normaliseFitness();
-        for(int popIndex = 1; popIndex < POPULATION_SIZE; popIndex++){
-            
-            float nodeFitness = population[popIndex].fitness;
             if(bestNodeFitness BETTER_THAN nodeFitness) bestNodeFitness = nodeFitness;
             
         }
@@ -654,8 +647,6 @@ float evaluatePopulationSNGP_B(int* updateList, int testSet){
             evaluateNode(nextUpdateNode, testSet);
             
         }
-        
-        normaliseFitness();
         
         bestNodeFitness = population[0].fitness;
         
@@ -778,6 +769,7 @@ int main(int argc, char* argv[]){
     evaluatePopulation(NULL,0);
     printPopulation();*/
     
+    fitnessTrace = fopen(OUT_FILE,"w");
     
     for(int run = 0; run<MAX_RUNS; ++run){
         
@@ -786,7 +778,7 @@ int main(int argc, char* argv[]){
         printf("\n\nRun %d\n\n",run);
         
         initialisePopulation();
-        //initialiseExamplePopulation();
+        //initialisePartialSolution();
         //updateProgLen(NULL);
         float oldFitness = (1 BETTER_THAN 0)? INT_MAX: INT_MIN;
         
@@ -832,18 +824,26 @@ int main(int argc, char* argv[]){
                 
             }      
             
-            
+            fprintf(fitnessTrace,"%f,",fitness);
             if(generation % OUTPUT_INTERVAL ==0)printf(" Fitness: %f\n", fitness);
             
         }
+        
+        fprintf(fitnessTrace,"\n");
     }
     printPopulation();
+    
+    fclose(fitnessTrace);
     
     if(success == 1){
         
         printf("\n\nSuccess!\n\n");
         
         printNode(workingProgramme);
+        
+    }else{
+        
+        printf("\n\nNo working programme\n\n");
         
     }
     
